@@ -4,9 +4,15 @@
 #include "ray.h"
 #include "vec3.h"
 
+struct HitRecord {
+	double t;
+	Point3 p;
+	Color c;
+};
+
 class Object {
 public:
-	virtual double hit(Ray r) = 0;
+	virtual bool hit(Ray r, HitRecord &hit, double &mint) = 0;
 	virtual Color getColor(Point3 p) = 0;
 };
 

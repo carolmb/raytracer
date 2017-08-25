@@ -9,18 +9,33 @@ public:
 	Point3 center;
 	double radius;
 	Sphere() : center(Point3(0, 0, -1)), radius(0.5) {}
+	Sphere(Point3 c, double r) : center(c), radius(r) {}
 
-	double hit(Ray r) {
-		Vec3 oc = r.origin() - center;
-		double a = r.dir().len2();
-		double b = 2.0 * oc.dot(r.dir());
+	bool hit(Ray ray, HitRecord &hit, double &mint) {
+		Vec3 oc = ray.origin() - center;
+		double a = ray.dir().len2();
+		double b = 2.0 * oc.dot(ray.dir());
 		double c = oc.len2() - (radius*radius);
 		double delta = b*b - 4*a*c;
 		if(delta > 0) {
-			return (-b - std::sqrt(delta)) / (2*a);
-		} else {
-			return -1;
-		}
+			double r1 = (-b - std::sqrt(delta)) / (2*a);
+			if(r1 > 0 && r1 < mint) {
+				mint = r1;
+				hit.t = r1;
+				hit.p = ray.at(r1);
+				hit.c = getColor(hit.p);
+				return true;
+			}
+			double r2 = (-b + std::sqrt(delta)) / (2*a);
+			if(r2 > 0 && r2 < mint) {
+				mint = r2;
+				hit.t = r2;
+				hit.p = ray.at(r2);
+				hit.c = getColor(hit.p);
+				return true;
+			}
+		} 
+		return false;
 	}
 
 	Color getColor(Point3 p) {
