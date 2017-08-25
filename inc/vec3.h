@@ -24,6 +24,7 @@ public:
 	double dot(Vec3 other) { return x*other.x + y*other.y + z*other.z; }
 	double len2() { return x*x + y*y + z*z; }
 	double len() { return std::sqrt(len2()); }
+	Vec3 norm() { return Vec3(x/len(), y/len(), z/len()); }
 
 	Vec3 interpole(Vec3 other, double t) { 
 		number r = x*(1-t) + other.x*t;

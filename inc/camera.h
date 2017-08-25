@@ -2,10 +2,21 @@
 #define __CAMERA__
 
 #include "vec3.h"
+#include "ray.h"
 
-class camera {
+class Camera {
+public:
 	Point3 origin;
-	Ray ray;
+	Point3 lowerLeftCorner; // lower left corner
+	Vec3 horizontal;
+	Vec3 vertical;
+	
+	Camera() : origin(), 
+		lowerLeftCorner(Vec3(-2, -1, -1)), horizontal(Vec3(4, 0, 0)), vertical(Vec3(0, 2, 0)) {}
+
+	Ray getRay(double u, double v) {
+		return Ray(origin, lowerLeftCorner + horizontal*u + vertical*v - origin);
+	}
 
 };
 
