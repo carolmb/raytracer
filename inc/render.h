@@ -23,12 +23,6 @@ public:
 		return pxls;
 	}
 
-	static Color backgroundColor(Ray r) {
-		Vec3 unitDir = r.dir().norm();
-		double t = 0.5*(unitDir.y + 1);
-		return Color(0.5, 0.7, 1).interpole(Color(1, 1, 1), t);
-	}
-
 	static Color* defaultRender(int rows, int cols, Scene scene) {
 		Color* pxls = new Color[rows*cols];
 
@@ -38,11 +32,12 @@ public:
 				double u = j/(double)cols;
 				Ray r = scene.cam.getRay(u, v);
 				Color c;
-				double t = scene.sphere.hit(r);
+				
+				double t = scene.obj->hit(r);
 				if(t > 0) {
-					c = scene.sphere.getColor(r.at(t));
+					c = scene.obj->getColor(r.at(t));
 				} else {
-					c = backgroundColor(r);
+					c = scene.backgroundColor(r);
 				}
 				pxls[i*cols + j] = c;
 			}
