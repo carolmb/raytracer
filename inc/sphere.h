@@ -2,9 +2,9 @@
 #define __SPHERE__
 
 #include <cmath>
-#include "ray.h"
+#include "object.h"
 
-class Sphere {
+class Sphere : public Object {
 public:
 	Point3 center;
 	double radius;
@@ -27,6 +27,8 @@ public:
 		Vec3 normal = (p - center).norm();
 		return (normal + 1)*0.5;
 	}
+
+	~Sphere() {}
 };
 
 
