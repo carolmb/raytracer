@@ -2,15 +2,14 @@
 #define __SCENE__
 
 #include "camera.h"
-#include "vec3.h"
+#include "sphere.h"
 
 class Scene {
+public: 
 	Camera cam;
-	Point3 origin;
-	Vec3 h;
-	Vec3 v;
+	Sphere sphere;
 
-
+	Scene() : cam(), sphere() {}
 };
 
 #endif

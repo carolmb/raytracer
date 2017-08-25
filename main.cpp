@@ -3,10 +3,10 @@
 #include "inc/render.h"
 
 int main() {
-	Color* pxls = Render::gradient4(200, 400, 
-		Color(1, 1, 1), Color(0, 0, 0), Color(0, 0, 0), Color(1, 1, 1));
-	Img img(200, 400, "test.ppm", "ppm", pxls);
-	img.saveBin(150); 
+	Scene scene;
+	Color* pxls = Render::defaultRender(100, 200, scene);
+	Img img(100, 200, "test.ppm", "ppm", pxls);
+	img.saveBin(); 
 	std::cout << "Completed" << std::endl;
 	return 0;
 }

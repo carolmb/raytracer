@@ -4,16 +4,16 @@
 #include "vec3.h"
 
 class Ray {
-	Point3 origin;
-	Vec3 dir;
+	Point3 o;
+	Vec3 d;
 
 public:
-	Ray() : origin(), dir() {}
-	Ray(Point3 o, Vec3 d) : origin(o), dir(d) {}
+	Ray() : o(), d() {}
+	Ray(Point3 o, Vec3 d) : o(o), d(d) {}
 
-	Point3 getOrigin() { return origin; }
-	Vec3 getDir() { return dir; }
-	Point3 getPointAt(double t) { return origin + dir*t; } 
+	Point3 origin() { return o; }
+	Vec3 dir() { return d; }
+	Point3 at(double t) { return o + d*t; } 
 };
 
 
