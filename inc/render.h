@@ -38,8 +38,9 @@ public:
 				double u = j/(double)cols;
 				Ray r = scene.cam.getRay(u, v);
 				Color c;
-				if(scene.sphere.hit(r)) {
-					c = Color(1, 0, 0);
+				double t = scene.sphere.hit(r);
+				if(t > 0) {
+					c = scene.sphere.getColor(r.at(t));
 				} else {
 					c = backgroundColor(r);
 				}
