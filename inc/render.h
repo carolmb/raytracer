@@ -30,16 +30,7 @@ public:
 			double v = 1 - i/(double)rows;
 			for(int j = 0; j < cols; j++) {
 				double u = j/(double)cols;
-				Ray r = scene.cam.getRay(u, v);
-				Color c;
-				
-				double t = scene.obj->hit(r);
-				if(t > 0) {
-					c = scene.obj->getColor(r.at(t));
-				} else {
-					c = scene.backgroundColor(r);
-				}
-				pxls[i*cols + j] = c;
+				pxls[i*cols + j] = scene.getPixelColor(u, v);
 			}
 		}
 		return pxls;		
