@@ -5,6 +5,8 @@
 #include "ray.h"
 #include "camera.h"
 
+#include <stdlib.h>
+
 class Render {
 public:
 	static Color* gradient4(int rows, int cols, Color c1, Color c2, Color c3, Color c4) {
@@ -23,18 +25,23 @@ public:
 		return pxls;
 	}
 
-	static Color* defaultRender(int rows, int cols, Scene scene) {
+	static Color* defaultRender(int rows, int cols, Scene scene, int samples) {
 		Color* pxls = new Color[rows*cols];
 
 		for(int i = rows - 1; i >= 0; i--) {
-			double v = 1 - i/(double)rows;
 			for(int j = 0; j < cols; j++) {
-				double u = j/(double)cols;
-				pxls[i*cols + j] = scene.getPixelColor(u, v);
+				Color c;
+				for(int k = 0; k < samples; k++) {
+					double v = 1 - ((double)i + drand48())/(double)rows;
+					double u = ((double)j + drand48())/(double)cols;
+					c = c + scene.getPixelColor(u, v);
+				}
+				pxls[i*cols + j] = c/(double)samples;
 			}
 		}
 		return pxls;		
 	}
+
 
 };
 

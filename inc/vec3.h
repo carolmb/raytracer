@@ -15,11 +15,14 @@ public:
 
 	Vec3 operator+(Vec3 other) { return Vec3(x + other.x, y + other.y, z + other.z); }
 	Vec3 operator-(Vec3 other) { return Vec3(x - other.x, y - other.y, z - other.z); }
+	void operator+=(Vec3 other) { x += other.x; y += other.y, z += other.z; }
 	
 	Vec3 operator-() { return Vec3(-x, -y, -z); }
 	Vec3 operator+(double a) { return Vec3(x + a, y + a, z + a); }
 	Vec3 operator*(double a) { return Vec3(x*a, y*a, z*a); }
 	Vec3 operator/(double a) { return Vec3(x/a, y/a, z/a); }
+
+
 
 	double dot(Vec3 other) { return x*other.x + y*other.y + z*other.z; }
 	double len2() { return x*x + y*y + z*z; }
