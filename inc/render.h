@@ -11,18 +11,19 @@ class Render {
 protected:
 	int cols;
 	int rows;
+	int samples;
 public: 
-	Render(int cols, int rows) : cols(cols), rows(rows) {}
+	Render(int cols, int rows, int samples) : cols(cols), rows(rows), samples(samples) {}
 	int getCols() { return cols; }
 	int getRows() { return rows; }
-	virtual Color* render(Scene scene, int samples) {}
+	virtual Color* render(Scene scene) {}
 };
 
 class DefaultRender : public Render {
 public:
-	DefaultRender(int cols, int rows) : Render(cols, rows) {}
+	DefaultRender(int cols, int rows, int samples) : Render(cols, rows, samples) {}
 	
-	Color* render(Scene scene, int samples) {
+	Color* render(Scene scene) {
 		Color* pxls = new Color[rows*cols];
 
 		for(int i = rows - 1; i >= 0; i--) {
@@ -31,36 +32,7 @@ public:
 				for(int k = 0; k < samples; k++) {
 					double v = 1 - ((double)i + drand48())/(double)rows;
 					double u = ((double)j + drand48())/(double)cols;
-					c = c + scene.getPixelColor(u, v);
-				}
-				pxls[i*cols + j] = c/(double)samples;
-			}
-		}
-		return pxls;		
-	}
-};
-
-class DepthRender : public Render {
-public:
-	Color bgColor;
-	Color fgColor;
-	double maxDepth;
-
-	DepthRender(int cols, int rows, Color fg, Color bg, double d) : 
-		fgColor(fg), 
-		bgColor(bg), 
-		maxDepth(d),
-		Render(cols, rows) {}
-
-	Color* render(Scene scene, int samples) {
-		Color* pxls = new Color[rows*cols];
-		for(int i = rows - 1; i >= 0; i--) {
-			for(int j = 0; j < cols; j++) {
-				Color c;
-				for(int k = 0; k < samples; k++) {
-					double v = 1 - ((double)i + drand48())/(double)rows;
-					double u = ((double)j + drand48())/(double)cols;
-					c = c + scene.getPixelColorWithDepth(u, v, maxDepth, fgColor, bgColor);
+					c = c + scene.getPixelColor(u, v, 10);
 				}
 				pxls[i*cols + j] = c/(double)samples;
 			}

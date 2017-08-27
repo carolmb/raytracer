@@ -154,7 +154,7 @@ public:
 		if(!parseHeader(content, p)) return NULL;
 		if(!parseScene(content, p)) return NULL;
 
-		p->r = new DepthRender(p->cols, p->rows, Color(0, 0, 0), Color(1, 1, 1), 4.0);
+		p->r = new DefaultRender(p->cols, p->rows, 4);
 		return p;
 	}
 
