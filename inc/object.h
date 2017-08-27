@@ -12,6 +12,7 @@ struct HitRecord {
 
 class Object {
 public:
+	int x;
 	virtual bool hit(Ray r, HitRecord &hit, double &mint) = 0;
 	virtual Color getColor(Point3 p) = 0;
 };

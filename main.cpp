@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
 		Package* package = Input::readInput(inputFile);
 		if(package != NULL) {
 			std::cout << "Valid values." << std::endl;
-			Color* pxls = package->render->render(package->scene, 4);
+			Color* pxls = package->r->render(package->scene, 4);
 			Img img(package->cols, package->rows, package->outputfile, package->type, pxls);
 			img.save();
 		}

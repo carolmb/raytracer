@@ -8,34 +8,20 @@
 
 #include <vector>
 #include <cfloat>
+#include <memory>
 
 class Scene {
 public: 
 	Camera cam;
-	std::vector<Object*> objs;
+	std::vector<std::shared_ptr<Object> > objs;
 	Color bgtl;
 	Color bgtr;
 	Color bgbl;
 	Color bgbr;
 
-	Scene(Camera cam, std::vector<Object*> objs, Color bgtl, Color bgtr, Color bgbl, Color bgbr) : 
-		cam(cam), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr) {}
-
-	Scene() : cam(), 
-		bgtl(Color(0.5, 0.7, 1)), 
-		bgtr(Color(0.5, 0.7, 1)), 
-		bgbl(Color(1, 1, 1)), 
-		bgbr(Color(1, 1, 1)) {
-			Object *s1 = new Sphere(Point3(0.3, 0, -1), 0.4);
-			Object *s2 = new Sphere(Point3(0, -100.5, -3), 99.f);
-			Object *s3 = new Sphere(Point3(0, 1, -2), 0.6);
-			Object *s4 = new Sphere(Point3(-0.4, 0, -3), 0.7);
-			
-			objs.push_back(s1);
-			objs.push_back(s2);
-			objs.push_back(s3);
-			objs.push_back(s4);
-	}
+	Scene() {}
+	Scene(Camera cam, std::vector<std::shared_ptr<Object> > o, Color bgtl, Color bgtr, Color bgbl, Color bgbr) : 
+		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr) {}
 
 	Color backgroundColor(Ray r) {
 		Vec3 unitDir = r.dir().norm();
