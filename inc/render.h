@@ -54,7 +54,6 @@ public:
 
 	Color* render(Scene scene, int samples) {
 		Color* pxls = new Color[rows*cols];
-
 		for(int i = rows - 1; i >= 0; i--) {
 			for(int j = 0; j < cols; j++) {
 				Color c;

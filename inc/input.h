@@ -14,44 +14,11 @@ struct Package {
 	std::string outputfile;
 	std::string type;
 	Scene scene;
-	Render *render;
+	Render *r;
 };
 
 class Input {
-
-	static void readVec3(std::istringstream &file, Vec3 &a) {
-	 	double r, g, b;
-	 	file >> r >> g >> b;
-		a.x = r; a.y = g; a.z = b;	
-	}
-
-	static bool readSphere(std::istringstream &reader, Object *o) {
-		std::string field;
-		reader >> field;
-		if(field.compare("C") != 0) return false;
-		reader >> field;
-		if(field.compare("=") != 0) return false;
-		Vec3 c;
-		readVec3(reader, c);
-		
-		if(field.compare("R") != 0) return false;
-		reader >> field;
-		if(field.compare("=") != 0) return false;
-		double r;
-		reader >> r;
-		o = new Sphere(c, r);
-	}
-
-	static bool readObj(std::istringstream &file, Object *o) {
-		std::string field;
-		file >> field;
-		if(field.compare("SPHERE") == 0) {
-			return readSphere(file, o);
-		}
-		return false;
-	}
-
-
+	// preprocess input
 	static std::string clearComments(std::string &input) {
 		int found = input.find_first_of("#");
 		if (found != std::string::npos) {
@@ -80,92 +47,105 @@ class Input {
 		}
 		return cleanInput;
 	}
+	//---------------------------------------------------------------------------
+	// auxiliar functions
+	static bool checkFieldName(std::istringstream &reader, std::string field) {
+		std::string f;
+		reader >> f;
+		if(field.compare(f) != 0) return false;
+		reader >> f;
+		if(f.compare("=") != 0) return false;
+		return true;
+	}	
 
+	static void readVec3(std::istringstream &reader, Vec3 &a) {
+	 	double r, g, b;
+	 	reader >> r >> g >> b;
+		a.x = r; a.y = g; a.z = b;	
+	}
+
+	static bool readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {
+		if(!checkFieldName(reader, "C")) return false;
+		Vec3 c; readVec3(reader, c);
+
+		if(!checkFieldName(reader, "R")) return false;
+		double r; reader >> r;
+		
+		o = std::shared_ptr<Sphere> (new Sphere(c, r));
+		return true;
+	}
+
+	static bool readObj(std::istringstream &reader, std::shared_ptr<Object> &o) {
+		std::string field; reader >> field;
+		if(field.compare("SPHERE") == 0) {
+			return readSphere(reader, o);
+		}
+		// TODO other objs
+		return false;
+	}
+	//---------------------------------------------------------------------------
+	// parses
 	static bool parseHeader(std::istringstream &reader, Package *p) {
 		std::string field;
 
-		reader >> field;
-		if(field.compare("FILENAME") != 0) return false; 
-		reader >> field;
-		if(field.compare("=") != 0) return false; 
+		if(!checkFieldName(reader, "FILENAME")) return false;
 		reader >> p->outputfile;
 
-		reader >> field;
-		if(field.compare("FILETYPE") != 0) return false;
-		reader >> field;
-		if(field.compare("=") != 0) return false; 
+		if(!checkFieldName(reader, "FILETYPE")) return false;
 		reader >> p->type;
-
-		reader >> field;
-		if(field.compare("WIDTH") != 0) return false;
-		reader >> field;
-		if(field.compare("=") != 0) return false; 
+		
+		if(!checkFieldName(reader, "WIDTH")) return false;
 		reader >> p->cols;
 
-		reader >> field;
-		if(field.compare("HEIGHT") != 0) return false;
-		reader >> field;
-		if(field.compare("=") != 0) return false; 
+		if(!checkFieldName(reader, "HEIGHT")) return false;
 		reader >> p->rows;
+
 		return true;
 	}
 
 	static bool parseScene(std::istringstream &reader, Package *p) {
-		std::string field;
-
 		// Background Colors
 		std::string colorFields[] = {"TL", "TR", "BL", "BR"};
 		Color colors[4];
 		for(int i = 0; i < 4; i++) {
-			reader >> field;
-			if(field.compare(colorFields[i]) != 0) return false; 
-			reader >> field;
-			if(field.compare("=") != 0) return false; 
+			if(!checkFieldName(reader, colorFields[i])) return false;
 			readVec3(reader, colors[i]);
 		}		
 
 		// Camera
 		Camera cam;
 		{
-			reader >> field;
-			if(field.compare("CAMERA") != 0) return false;
-			reader >> field;
-			if(field.compare("=") != 0) return false; 
-			reader >> field;
+			if(!checkFieldName(reader, "CAMERA")) return false;
+			std::string field; reader >> field;
 			if(field.compare("PERSPECTIVE") == 0) {
 				std::string camFields[] = {"LLC", "H", "V"};
 				Vec3 camValues[3];
 				for(int i = 0; i < 3; i++) {
-					reader >> field;
-					if(field.compare(camFields[i]) != 0) return false;
-					reader >> field;
-					if(field.compare("=") != 0) return false; 
+					if(!checkFieldName(reader, camFields[i])) return false; 
 					readVec3(reader, camValues[i]);
 				}
 				cam = Camera(camValues[0], camValues[1], camValues[2]);
-			} else {
-				std::cout << "bla" << std::endl;
-				return false;
-			}
+			} else { return false; }
 		}
-
-		std::vector<Object*> objs; 
-		reader >> field;
-		while(field.compare("OBJ") == 0) {
-			reader >> field;
-			if(field.compare("=") != 0) return false;
-			Object *obj;
-			readObj(reader, obj);
-			objs.push_back(obj);
+		
+		// objs in scene
+		std::vector<std::shared_ptr<Object> > objs; 
+		while(checkFieldName(reader, "OBJ")) {
+			std::shared_ptr<Object> obj;
+			if(readObj(reader, obj)) {
+				objs.push_back(obj);
+			} else return false;
 		}
-
 		p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3]);
+		return true;
+	}
+
+	static bool parseRender(std::istringstream &reader, Package *p) {
 		return true;
 	}
 
 public:
 	static Package* readInput(std::string filename) {
-		std::cout << filename << std::endl;
 		std::ifstream reader(filename.c_str(), std::ifstream::in);
 		std::string contentInput = readInput(reader);
 		
@@ -174,10 +154,7 @@ public:
 		if(!parseHeader(content, p)) return NULL;
 		if(!parseScene(content, p)) return NULL;
 
-		p->scene = Scene();
-		std::cout << p->rows << " " << p->cols << std::endl;
-		p->render = new DepthRender(p->cols, p->rows, Color(0, 0, 0), Color(1, 1, 1), 4.0);
-		
+		p->r = new DepthRender(p->cols, p->rows, Color(0, 0, 0), Color(1, 1, 1), 4.0);
 		return p;
 	}
 
