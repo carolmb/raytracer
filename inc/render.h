@@ -4,6 +4,7 @@
 #include "scene.h"
 #include "ray.h"
 #include "camera.h"
+#include "shader.h"
 
 #include <stdlib.h>
 
@@ -12,8 +13,10 @@ protected:
 	int cols;
 	int rows;
 	int samples;
+	Shader *shader;
+		
 public: 
-	Render(int cols, int rows, int samples) : cols(cols), rows(rows), samples(samples) {}
+	Render(int cols, int rows, int samples, Shader *s) : cols(cols), rows(rows), samples(samples), shader(s) {}
 	int getCols() { return cols; }
 	int getRows() { return rows; }
 	virtual Color* render(Scene scene) {}
@@ -21,7 +24,7 @@ public:
 
 class DefaultRender : public Render {
 public:
-	DefaultRender(int cols, int rows, int samples) : Render(cols, rows, samples) {}
+	DefaultRender(int cols, int rows, int samples, Shader *s) : Render(cols, rows, samples, s) {}
 	
 	Color* render(Scene scene) {
 		Color* pxls = new Color[rows*cols];
@@ -32,8 +35,11 @@ public:
 				for(int k = 0; k < samples; k++) {
 					double v = 1 - ((double)i + drand48())/(double)rows;
 					double u = ((double)j + drand48())/(double)cols;
-					c = c + scene.getPixelColor(u, v, 10);
+					c = c + shader->getColor(scene, scene.cam.getRay(u, v));
 				}
+
+				std::cout << (i*cols + j)*100/(cols*rows) << " %\r ";
+				
 				pxls[i*cols + j] = c/(double)samples;
 			}
 		}

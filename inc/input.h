@@ -7,6 +7,9 @@
 
 #include "scene.h"
 #include "render.h"
+#include "shader.h"
+#include "diffusenolight.h"
+
 
 struct Package {
 	int cols;
@@ -65,13 +68,17 @@ class Input {
 	}
 
 	static bool readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {
-		if(!checkFieldName(reader, "C")) return false;
+		if(!checkFieldName(reader, "CENTER")) return false;
 		Vec3 c; readVec3(reader, c);
 
-		if(!checkFieldName(reader, "R")) return false;
+		if(!checkFieldName(reader, "RADIUS")) return false;
 		double r; reader >> r;
 		
-		o = std::shared_ptr<Sphere> (new Sphere(c, r));
+		if(!checkFieldName(reader, "MATTE")) return false;
+		Vec3 matt; readVec3(reader, matt);
+
+		//std::cout << matt.x << " " << matt.y << " " << matt.z << std::endl;
+		o = std::shared_ptr<Sphere> (new Sphere(c, r, matt));
 		return true;
 	}
 
@@ -154,7 +161,10 @@ public:
 		if(!parseHeader(content, p)) return NULL;
 		if(!parseScene(content, p)) return NULL;
 
-		p->r = new DefaultRender(p->cols, p->rows, 4);
+		//Shader *shader = new DepthShader(4.0, Color(0, 0, 0), Color(1, 1, 1));
+		Shader *shader = new DiffuseShader(Vec3(2, -10, -2));
+
+		p->r = new DefaultRender(p->cols, p->rows, 4, shader);
 		return p;
 	}
 

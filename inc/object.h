@@ -9,13 +9,15 @@ struct HitRecord {
 	double t;
 	Point3 p;
 	Color c;
+	Vec3 n; // normal
 };
 
 class Object {
 public:
-	Material mat = Material(Vec3(1, 1, 1));
+	Material mat = Material(Vec3(0, 0, 0));
 	virtual bool hit(Ray r, HitRecord &hit, double &mint) = 0;
-	virtual Color getColor(Point3 p) = 0;
+	virtual Color getColor() = 0;
+	Object(Color matt) { mat = Material(matt); }
 };
 
 

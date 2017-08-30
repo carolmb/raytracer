@@ -33,6 +33,7 @@ public:
 		return final;
 	}
 
+/*
 	Color getPixelColor(double u, double v, int count) {
 		Ray r = cam.getRay(u, v);
 		Color c;
@@ -45,65 +46,13 @@ public:
 			if(objs[k]->hit(r, tempRecord, mint)) { hitAnything = true; record = tempRecord; }
 		}
 		if(hitAnything) {
-			Vec3 target = record.p + record.c + randomPoint();
-			Ray newRay(record.p, target - record.p);
-			c = getPixelColor(newRay, count - 1)*0.5;
+			c = 
 		} else {
 			c = backgroundColor(r);
 		}
 		return c;
 	}
-
-	Vec3 randomPoint() {
-		Vec3 p;
-		do {
-			p = Vec3(drand48(), drand48(), drand48())*2.0 - Vec3(1, 1, 1);
-		} while(p.len2() >= 1.0);
-		return p;
-	}
-
-	Color getPixelColor(Ray r, int count) {
-		if(count == 0) return Vec3(0, 0, 0);
-		double mint = DBL_MAX;
-		bool hitAnything = false;
-		HitRecord record;
-		for(int k = 0; k < objs.size(); k++) {
-			HitRecord tempRecord;
-			if(objs[k]->hit(r, tempRecord, mint)) { hitAnything = true; record = tempRecord; }
-		}
-		Color c;
-		if(hitAnything) {
-			Vec3 target = record.p + record.c + randomPoint();
-			Ray newRay(record.p, target - record.p);
-			c = getPixelColor(newRay, count - 1)*0.5;
-		} else {
-			c = backgroundColor(r);
-		}
-		return c;
-	}
-
-
-	Color getPixelColorWithDepth(double u, double v, double maxDepth, Color fg, Color bg) {
-		Ray r = cam.getRay(u, v);
-		Color c;
-		
-		double mint = DBL_MAX;
-		bool hitAnything = false;
-		HitRecord record;
-		for(int k = 0; k < objs.size(); k++) {
-			HitRecord tempRecord;
-			if(objs[k]->hit(r, tempRecord, mint)) { hitAnything = true; record = tempRecord; }
-		}
-		double t = (record.p - cam.getOrigin()).len()/maxDepth;
-		if(hitAnything && t < 1) {
-			c = fg.interpole(bg, t);
-		} else {
-			c = backgroundColor(r);
-		}
-		return c;
-	}
-
-
+*/
 };
 
 #endif

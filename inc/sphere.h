@@ -8,8 +8,8 @@ class Sphere : public Object {
 public:
 	Point3 center;
 	double radius;
-	Sphere() : center(Point3(0, 0, -1)), radius(0.5) {}
-	Sphere(Point3 c, double r) : center(c), radius(r) {}
+	Sphere() : center(Point3(0, 0, -1)), radius(0.5), Object(Vec3(1, 0, 1)) {}
+	Sphere(Point3 c, double r, Vec3 m) : center(c), radius(r), Object(m) {}
 
 	bool hit(Ray ray, HitRecord &hit, double &mint) {
 		Vec3 oc = ray.origin() - center;
@@ -23,7 +23,8 @@ public:
 				mint = r1;
 				hit.t = r1;
 				hit.p = ray.at(r1);
-				hit.c = getColor(hit.p);
+				hit.n = (hit.p - center).norm();
+				hit.c = getColor();
 				return true;
 			}
 			double r2 = (-b + std::sqrt(delta)) / (2*a);
@@ -31,16 +32,16 @@ public:
 				mint = r2;
 				hit.t = r2;
 				hit.p = ray.at(r2);
-				hit.c = getColor(hit.p);
+				hit.n = (hit.p - center).norm();
+				hit.c = getColor();
 				return true;
 			}
 		} 
 		return false;
 	}
 
-	Color getColor(Point3 p) {
-		Vec3 normal = (p - center).norm();
-		return (normal + 1)*0.5;
+	Color getColor() {
+		return mat.k;
 	}
 
 	~Sphere() {}
