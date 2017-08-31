@@ -8,7 +8,7 @@
 struct HitRecord {
 	double t;
 	Point3 p;
-	Color c;
+	Material m;
 	Vec3 n; // normal
 };
 
@@ -16,7 +16,7 @@ class Object {
 public:
 	Material mat = Material(Vec3(0, 0, 0));
 	virtual bool hit(Ray r, HitRecord &hit, double &mint) = 0;
-	virtual Color getColor() = 0;
+	virtual Material getMaterial() = 0;
 	Object(Color matt) { mat = Material(matt); }
 };
 

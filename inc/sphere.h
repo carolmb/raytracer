@@ -24,7 +24,7 @@ public:
 				hit.t = r1;
 				hit.p = ray.at(r1);
 				hit.n = (hit.p - center).norm();
-				hit.c = getColor();
+				hit.m = getMaterial();
 				return true;
 			}
 			double r2 = (-b + std::sqrt(delta)) / (2*a);
@@ -33,15 +33,15 @@ public:
 				hit.t = r2;
 				hit.p = ray.at(r2);
 				hit.n = (hit.p - center).norm();
-				hit.c = getColor();
+				hit.m = getMaterial();
 				return true;
 			}
 		} 
 		return false;
 	}
 
-	Color getColor() {
-		return mat.kd;
+	Material getMaterial() {
+		return mat;
 	}
 
 	~Sphere() {}

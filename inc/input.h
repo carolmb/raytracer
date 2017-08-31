@@ -8,7 +8,7 @@
 #include "scene.h"
 #include "render.h"
 #include "shader.h"
-#include "diffusenolightshader.h"
+#include "diffuseshader.h"
 
 
 struct Package {
@@ -162,7 +162,8 @@ public:
 		if(!parseScene(content, p)) return NULL;
 
 		//Shader *shader = new DepthShader(4.0, Color(0, 0, 0), Color(1, 1, 1));
-		Shader *shader = new DiffuseShader(Vec3(2, 10, -0.5));
+		//Shader *shader = new DiffuseShader(Vec3(2, 10, -0.5));
+		Shader *shader = new BlinnPhongShader(Vec3(2, 10, -0.5));
 
 		p->r = new Render(p->cols, p->rows, 4, shader);
 		return p;
