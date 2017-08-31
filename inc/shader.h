@@ -7,7 +7,14 @@
 
 class Shader {
 public:	
+	double gama = 2.2;
 	virtual Color getColor(Scene scene, Ray ray) = 0;
+	Color correctGama(Color c) {
+		c.x = std::pow(c.x, 1/gama);
+		c.y = std::pow(c.y, 1/gama);
+		c.z = std::pow(c.z, 1/gama);
+		return c;
+	}
 };
 
 class DiffuseShader : public Shader {
@@ -17,7 +24,8 @@ public:
 
 	double reflect(Vec3 normal) {
 		normal = normal.norm();
-		return (light - normal*(2*light.dot(normal))).dot(normal);
+		return normal.dot(light);
+		//return (light - normal*(2*light.dot(normal))).dot(normal);
 	}
 
 	Color getColor(Scene scene, Ray ray) {
@@ -30,14 +38,14 @@ public:
 		}
 		Color c;
 		if(hitAnything) {
-			c = record.c*reflect(record.n) + Vec3(0.1, 0, 0); // TODO
+			c = record.c*reflect(record.n); // TODO
 			c.x = std::max(0.0, c.x);
 			c.y = std::max(0.0, c.y);
 			c.z = std::max(0.0, c.z);
 		} else {
 			c = scene.backgroundColor(ray);
 		}
-		return c;
+		return correctGama(c);
 	}
 };
 

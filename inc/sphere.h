@@ -41,7 +41,7 @@ public:
 	}
 
 	Color getColor() {
-		return mat.k;
+		return mat.kd;
 	}
 
 	~Sphere() {}

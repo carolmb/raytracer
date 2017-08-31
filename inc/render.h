@@ -19,13 +19,7 @@ public:
 	Render(int cols, int rows, int samples, Shader *s) : cols(cols), rows(rows), samples(samples), shader(s) {}
 	int getCols() { return cols; }
 	int getRows() { return rows; }
-	virtual Color* render(Scene scene) {}
-};
 
-class DefaultRender : public Render {
-public:
-	DefaultRender(int cols, int rows, int samples, Shader *s) : Render(cols, rows, samples, s) {}
-	
 	Color* render(Scene scene) {
 		Color* pxls = new Color[rows*cols];
 
@@ -38,7 +32,7 @@ public:
 					c = c + shader->getColor(scene, scene.cam.getRay(u, v));
 				}
 
-				std::cout << (i*cols + j)*100/(cols*rows) << " %\r ";
+				std::cout << 100 - (i*cols + j)*100/(cols*rows) << " %\r ";
 				
 				pxls[i*cols + j] = c/(double)samples;
 			}

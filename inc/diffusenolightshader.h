@@ -31,11 +31,11 @@ public:
 			for(int i = 0; i < nRays; i++) {
 				Vec3 target = record.p + record.n + randomPoint();
 				Ray newRay(record.p, target - record.p);
-				c = c + getColorRec(scene, newRay, count - 1, 1)*record.c*0.5;
+				c = c + correctGama(getColorRec(scene, newRay, count - 1, 1)*record.c*0.5);
 			}
 			c = c/nRays;
 		} else {
-			c = scene.backgroundColor(ray);
+			c = correctGama(scene.backgroundColor(ray));
 		}
 		return c;
 	}
