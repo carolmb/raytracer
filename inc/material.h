@@ -3,8 +3,10 @@
 
 class Material {
 public:
-	Vec3 k;
-	Material(Vec3 m) : k(m) {}
+	Vec3 kd;
+	Vec3 ks;
+	Vec3 ka;
+	Material(Vec3 m) : kd(m) {}
 };
 
 #endif

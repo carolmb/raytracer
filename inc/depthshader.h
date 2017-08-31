@@ -26,7 +26,7 @@ public:
 		} else {
 			c = scene.backgroundColor(ray);
 		}
-		return c;
+		return correctGama(c);
 	}
 };
 

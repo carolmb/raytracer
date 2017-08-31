@@ -19,7 +19,7 @@ class NormalRGBShader : public Shader {
 		} else {
 			c = scene.backgroundColor(ray);
 		}
-		return c;
+		return correctGama(c);
 	}
 
 };
