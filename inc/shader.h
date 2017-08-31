@@ -17,17 +17,25 @@ public:
 	}
 };
 
-class DiffuseShader : public Shader {
-public:
+class BlinnPhongShader : public Shader {
 	Vec3 light;
-	DiffuseShader(Vec3 l) : light(l) { light = light.norm(); }
+	
+	double halfway(Vec3 v, Vec3 n) {
+		v = v.norm();
+		n = n.norm();
+		Vec3 h = (v + n)/((v + n).len());
+		//return h.dot(n);
+		return std::pow(h.dot(n), 4);
+	}
 
 	double reflect(Vec3 normal) {
 		normal = normal.norm();
 		return normal.dot(light);
-		//return (light - normal*(2*light.dot(normal))).dot(normal);
 	}
 
+public:
+	BlinnPhongShader(Vec3 l) : light(l) { light = light.norm(); }
+	
 	Color getColor(Scene scene, Ray ray) {
 		double mint = DBL_MAX;
 		bool hitAnything = false;
@@ -38,15 +46,20 @@ public:
 		}
 		Color c;
 		if(hitAnything) {
-			c = record.c*reflect(record.n); // TODO
+			c = record.m.kd*reflect(record.n) + 
+				record.m.ka + 
+				record.m.ks*halfway((record.p - scene.cam.getOrigin()), record.n);
 			c.x = std::max(0.0, c.x);
 			c.y = std::max(0.0, c.y);
 			c.z = std::max(0.0, c.z);
+			// verificar se o valor passa 1
 		} else {
 			c = scene.backgroundColor(ray);
 		}
 		return correctGama(c);
 	}
+
 };
+
 
 #endif
