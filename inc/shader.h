@@ -24,11 +24,10 @@ class BlinnPhongShader : public Shader {
 		v = v.norm();
 		n = n.norm();
 		Vec3 h = (v + n)/((v + n).len());
-		//return h.dot(n);
 		return std::pow(h.dot(n), 4);
 	}
 
-	double reflect(Vec3 normal) {
+	double diff(Vec3 normal) {
 		normal = normal.norm();
 		return normal.dot(light);
 	}
@@ -46,12 +45,15 @@ public:
 		}
 		Color c;
 		if(hitAnything) {
-			c = record.m.kd*reflect(record.n) + 
+			c = record.m.kd*diff(record.n) + 
 				record.m.ka + 
 				record.m.ks*halfway((record.p - scene.cam.getOrigin()), record.n);
 			c.x = std::max(0.0, c.x);
 			c.y = std::max(0.0, c.y);
 			c.z = std::max(0.0, c.z);
+			c.x = std::min(1.0, c.x);
+			c.y = std::min(1.0, c.y);
+			c.z = std::min(1.0, c.z);
 			// verificar se o valor passa 1
 		} else {
 			c = scene.backgroundColor(ray);

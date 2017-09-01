@@ -163,7 +163,7 @@ public:
 
 		//Shader *shader = new DepthShader(4.0, Color(0, 0, 0), Color(1, 1, 1));
 		//Shader *shader = new DiffuseShader(Vec3(2, 10, -0.5));
-		Shader *shader = new BlinnPhongShader(Vec3(2, 10, -0.5));
+		Shader *shader = new BlinnPhongShader(Vec3(2, 3, -0.5));
 
 		p->r = new Render(p->cols, p->rows, 4, shader);
 		return p;
