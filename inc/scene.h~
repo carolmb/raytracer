@@ -22,7 +22,7 @@ public:
 
 	Scene() {}
 	Scene(Camera cam, std::vector<std::shared_ptr<Object> > o, Color bgtl, Color bgtr, Color bgbl, Color bgbr, Vec3 l) : 
-		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr), light(l) { light = light.norm(); }
+		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr), light(l) {}
 
 	Color backgroundColor(Ray r) {
 		Vec3 unitDir = r.dir().norm();
