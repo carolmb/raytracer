@@ -32,27 +32,6 @@ public:
 		Color final = top.interpole(bottom, ty);
 		return final;
 	}
-
-/*
-	Color getPixelColor(double u, double v, int count) {
-		Ray r = cam.getRay(u, v);
-		Color c;
-		
-		double mint = DBL_MAX;
-		bool hitAnything = false;
-		HitRecord record;
-		for(int k = 0; k < objs.size(); k++) {
-			HitRecord tempRecord;
-			if(objs[k]->hit(r, tempRecord, mint)) { hitAnything = true; record = tempRecord; }
-		}
-		if(hitAnything) {
-			c = 
-		} else {
-			c = backgroundColor(r);
-		}
-		return c;
-	}
-*/
 };
 
 #endif

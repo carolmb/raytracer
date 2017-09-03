@@ -20,11 +20,11 @@ public:
 class BlinnPhongShader : public Shader {
 	Vec3 light;
 	
-	double halfway(Vec3 v, Vec3 n) {
+	double halfway(Vec3 v, Vec3 n, double exp) {
 		v = v.norm();
 		n = n.norm();
 		Vec3 h = (v + n)/((v + n).len());
-		return std::pow(h.dot(n), 4);
+		return std::pow(h.dot(n), exp);
 	}
 
 	double diff(Vec3 normal) {
@@ -47,7 +47,7 @@ public:
 		if(hitAnything) {
 			c = record.m.kd*diff(record.n) + 
 				record.m.ka + 
-				record.m.ks*halfway((record.p - scene.cam.getOrigin()), record.n);
+				record.m.ks*halfway((record.p - scene.cam.getOrigin()), record.n, record.m.exps);
 			c.x = std::max(0.0, c.x);
 			c.y = std::max(0.0, c.y);
 			c.z = std::max(0.0, c.z);

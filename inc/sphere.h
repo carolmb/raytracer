@@ -9,7 +9,7 @@ public:
 	Point3 center;
 	double radius;
 	Sphere() : center(Point3(0, 0, -1)), radius(0.5), Object(Vec3(1, 0, 1)) {}
-	Sphere(Point3 c, double r, Vec3 m) : center(c), radius(r), Object(m) {}
+	Sphere(Point3 c, double r, Material mat) : center(c), radius(r), Object(mat) {}
 
 	bool hit(Ray ray, HitRecord &hit, double &mint) {
 		Vec3 oc = ray.origin() - center;

@@ -18,6 +18,8 @@ struct Package {
 	std::string type;
 	Scene scene;
 	Render *r;
+	int samples;
+	int rec;
 };
 
 class Input {
@@ -74,15 +76,27 @@ class Input {
 		if(!checkFieldName(reader, "RADIUS")) return false;
 		double r; reader >> r;
 		
-		if(!checkFieldName(reader, "MATTE")) return false;
-		Vec3 matt; readVec3(reader, matt);
+		if(!checkFieldName(reader, "ka")) return false;
+		Vec3 ka; readVec3(reader, matt);
 
-		//std::cout << matt.x << " " << matt.y << " " << matt.z << std::endl;
-		o = std::shared_ptr<Sphere> (new Sphere(c, r, matt));
+		if(!checkFieldName(reader, "kd")) return false;
+		Vec3 kd; readVec3(reader, matt);
+
+		if(!checkFieldName(reader, "ks")) return false;
+		Vec3 ks; readVec3(reader, matt);
+
+		if(!checkFieldName(reader, "exps")) return false;
+		double exps; reader >> exps;
+
+		Material mat(ka, kd, ks, exps);
+
+		o = std::shared_ptr<Sphere> (new Sphere(c, r, mat));
 		return true;
 	}
 
 	static bool readObj(std::istringstream &reader, std::shared_ptr<Object> &o) {
+		if(!checkFieldName(reader, "OBJ")) return false;
+
 		std::string field; reader >> field;
 		if(field.compare("SPHERE") == 0) {
 			return readSphere(reader, o);
@@ -106,6 +120,12 @@ class Input {
 
 		if(!checkFieldName(reader, "HEIGHT")) return false;
 		reader >> p->rows;
+
+		if(!checkFieldName(reader, "SAMPLES")) return false;
+		reader >> p->samples;
+
+		if(!checkFieldName(reader, "RECDEPTH")) return false;
+		reader >> p->rec;
 
 		return true;
 	}
@@ -137,7 +157,8 @@ class Input {
 		
 		// objs in scene
 		std::vector<std::shared_ptr<Object> > objs; 
-		while(checkFieldName(reader, "OBJ")) {
+		if(!checkFieldName(reader, "begin_objs")) return false;
+		while(!checkFieldName(reader, "end_objs")) {
 			std::shared_ptr<Object> obj;
 			if(readObj(reader, obj)) {
 				objs.push_back(obj);
@@ -165,7 +186,7 @@ public:
 		//Shader *shader = new DiffuseShader(Vec3(2, 10, -0.5));
 		Shader *shader = new BlinnPhongShader(Vec3(2, 3, -0.5));
 
-		p->r = new Render(p->cols, p->rows, 4, shader);
+		p->r = new Render(p->cols, p->rows, p->samples, shader);
 		return p;
 	}
 
