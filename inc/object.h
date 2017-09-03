@@ -14,10 +14,10 @@ struct HitRecord {
 
 class Object {
 public:
-	Material mat = Material(Vec3(0, 0, 0));
+	Material mat = Material();
 	virtual bool hit(Ray r, HitRecord &hit, double &mint) = 0;
 	virtual Material getMaterial() = 0;
-	Object(Color matt) { mat = Material(matt); }
+	Object(Material mat) mat(mat) {}
 };
 
 
