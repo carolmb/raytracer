@@ -4,7 +4,7 @@
 #include "scene.h"
 #include "ray.h"
 #include "camera.h"
-#include "shader.h"
+#include "shaders/shader.h"
 
 #include <stdlib.h>
 

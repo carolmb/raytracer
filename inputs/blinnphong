@@ -10,6 +10,7 @@ BL = 1 1 1
 BR = 1 1 1
 
 CAMERA = PERSPECTIVE
+ORIGIN = 0 0 0
 LLC = -2 -1 -1
 H = 4 0 0
 V = 0 2 0
@@ -40,4 +41,4 @@ LIGHT = AMBIENT
 i = 0.4 0.4 0.4
 end_lights
 
-SHADER = DEFAULT
+SHADER = BLINN_PHONG
