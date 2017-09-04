@@ -21,6 +21,7 @@ public:
 	}
 
 	Point3 getOrigin() { return origin; }
+	Point3 getLLC() { return lowerLeftCorner; }
 
 };
 

@@ -8,7 +8,7 @@ class Sphere : public Object {
 public:
 	Point3 center;
 	double radius;
-	Sphere() : center(Point3(0, 0, -1)), radius(0.5), Object(Vec3(1, 0, 1)) {}
+	Sphere() : Object() {}
 	Sphere(Point3 c, double r, Material mat) : center(c), radius(r), Object(mat) {}
 
 	bool hit(Ray ray, HitRecord &hit, double &mint) {

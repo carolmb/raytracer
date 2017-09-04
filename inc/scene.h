@@ -18,10 +18,11 @@ public:
 	Color bgtr;
 	Color bgbl;
 	Color bgbr;
+	Vec3 light;
 
 	Scene() {}
-	Scene(Camera cam, std::vector<std::shared_ptr<Object> > o, Color bgtl, Color bgtr, Color bgbl, Color bgbr) : 
-		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr) {}
+	Scene(Camera cam, std::vector<std::shared_ptr<Object> > o, Color bgtl, Color bgtr, Color bgbl, Color bgbr, Vec3 l) : 
+		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr), light(l) { light = light.norm(); }
 
 	Color backgroundColor(Ray r) {
 		Vec3 unitDir = r.dir().norm();
