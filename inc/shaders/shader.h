@@ -2,8 +2,8 @@
 #define __SHADER__
 
 #include <cmath>
-#include "vec3.h"
-#include "ray.h"
+#include "../vec3.h"
+#include "../ray.h"
 
 class Shader {
 public:	

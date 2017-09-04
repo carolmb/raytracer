@@ -5,55 +5,18 @@
 #include <fstream>
 #include <iostream>
 
+#include "package.h"
+#include "preprocess.h"
 #include "scene.h"
 #include "render.h"
-#include "shader.h"
-#include "blinnphongshader.h"
-
-
-struct Package {
-	int cols;
-	int rows;
-	std::string outputfile;
-	std::string type;
-	Scene scene;
-	Render *r;
-	int samples;
-	int rec;
-};
+#include "shaders/shader.h"
+#include "shaders/normalrgbshader.h"
+#include "shaders/depthshader.h"
+#include "shaders/diffuseshader.h"
+#include "shaders/diffusenolightshader.h"
+#include "shaders/blinnphongshader.h"
 
 class Input {
-	// preprocess input
-	static std::string clearComments(std::string &input) {
-		int found = input.find_first_of("#");
-		if (found != std::string::npos) {
-			input = input.substr(0, found);
-		}
-		return input;
-	}
-
-	static bool isEmpty(std::string input) {
-		for(int i = 0; i < input.size(); i++) {
-			if (input[i] != ' ')
-				return false;
-		}
-		return true;
-	}
-
-	static std::string readInput(std::ifstream &file) {
-		std::string input;
-		std::string cleanInput = "";
-		while(!file.eof()) {
-			getline(file, input);
-			clearComments(input);
-			if (!isEmpty(input)) {
-				cleanInput += input + "\n";
-			}
-		}
-		return cleanInput;
-	}
-	//---------------------------------------------------------------------------
-	// auxiliar functions
 	static bool checkFieldName(std::istringstream &reader, std::string field) {
 		std::string f;
 		reader >> f;
@@ -63,10 +26,14 @@ class Input {
 		return true;
 	}	
 
-	static void readVec3(std::istringstream &reader, Vec3 &a) {
-	 	double r, g, b;
+	static bool readVec3(std::istringstream &reader, Vec3 &a) {
+	 	std::string r, g, b;
 	 	reader >> r >> g >> b;
-		a.x = r; a.y = g; a.z = b;	
+	 	a.x = std::stod (r);
+	 	a.y = std::stod (g);
+	 	a.z = std::stod (b);
+	 	std::cout << a.x << " " << a.y << " " << a.z << std::endl;
+ 	 	return true;
 	}
 
 	static bool readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {
@@ -94,15 +61,84 @@ class Input {
 	}
 
 	static bool readObj(std::istringstream &reader, std::shared_ptr<Object> &o) {
-		
 		std::string field; reader >> field >> field;
-		//std::cout << field;
 		if(field.compare("SPHERE") == 0) {
 			return readSphere(reader, o);
 		}
 		// TODO other objs
 		return false;
 	}
+	
+	static bool readLight(std::istringstream &reader, Vec3 &light) {
+		std::string field; reader >> field >> field;
+		if(field.compare("DIRETIONAL") == 0) {
+			if(!checkFieldName(reader, "i")) return false;
+			if(!readVec3(reader, light)) return false;
+
+			if(!checkFieldName(reader, "dir")) return false;
+			if(!readVec3(reader, light)) return false;
+			
+			return true;
+		} else if(field.compare("AMBIENT") == 0) {
+			if(!checkFieldName(reader, "i")) return false;
+			return readVec3(reader, light);
+		}
+		// TODO other objs
+		return false;
+	}
+
+	static bool readCamera(std::istringstream &reader, Camera &cam) {
+		if(!checkFieldName(reader, "CAMERA")) return false;
+		std::string field; reader >> field;
+		if(field.compare("PERSPECTIVE") == 0) {
+			std::string camFields[] = {"ORIGIN", "LLC", "H", "V"};
+			Vec3 camValues[4];
+			for(int i = 0; i < 4; i++) {
+				if(!checkFieldName(reader, camFields[i])) return false; 
+				readVec3(reader, camValues[i]);
+			}
+			cam = Camera(camValues[0], camValues[1], camValues[2], camValues[3]);
+		} else { 
+			// TODO others cameras
+			return false; 
+		}
+		return true;
+	}
+
+	static bool readObjList(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objs) {
+		std::string begin; reader >> begin;
+		if(begin.compare("begin_objs") != 0) return false;
+		while(true) {
+			reader >> begin;
+			
+			if(begin.compare("end_objs") == 0) break;
+			if(begin.compare("OBJ") != 0) break;
+
+			std::shared_ptr<Object> obj;
+			if(readObj(reader, obj)) {
+				objs.push_back(obj);
+			} else return false;
+		}
+		return true;
+	}
+
+	static bool readLights(std::istringstream &reader, std::vector<Vec3> &lights) {
+		std::string begin; reader >> begin;
+		if(begin.compare("begin_lights") != 0) return false;
+		while(true) {
+			reader >> begin;
+			
+			if(begin.compare("end_lights") == 0) break;
+			if(begin.compare("LIGHT") != 0) break;
+
+			Vec3 light;
+			if(readLight(reader, light)) {
+				lights.push_back(light);
+			} else return false;
+		}
+		return true;
+	}
+
 	//---------------------------------------------------------------------------
 	// parses
 	static bool parseHeader(std::istringstream &reader, Package *p) {
@@ -140,60 +176,56 @@ class Input {
 
 		// Camera
 		Camera cam;
-		{
-			if(!checkFieldName(reader, "CAMERA")) return false;
-			std::string field; reader >> field;
-			if(field.compare("PERSPECTIVE") == 0) {
-				std::string camFields[] = {"LLC", "H", "V"};
-				Vec3 camValues[3];
-				for(int i = 0; i < 3; i++) {
-					if(!checkFieldName(reader, camFields[i])) return false; 
-					readVec3(reader, camValues[i]);
-				}
-				cam = Camera(camValues[0], camValues[1], camValues[2]);
-			} else { return false; }
-		}
+		if(!readCamera(reader, cam)) return false;
 
-		// objs in scene
+		// Obj list
 		std::vector<std::shared_ptr<Object> > objs; 
-		std::string begin; reader >> begin;
-		if(begin.compare("begin_objs") != 0) return false;
-		while(true) {
-			reader >> begin;
-			
-			if(begin.compare("end_objs") == 0) break;
-			if(begin.compare("OBJ") != 0) break;
+		if(!readObjList(reader, objs)) return false;
 
-			std::shared_ptr<Object> obj;
-			if(readObj(reader, obj)) {
-				objs.push_back(obj);
-			} else return false;
-		}
+		std::vector<Vec3> lights;
+		if(!readLights(reader, lights)) return false;
 
-		Vec3 light = Vec3(20, 10, 5);
-		p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], light);
+		p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], lights[0]);
 		return true;
 	}
 
-	static bool parseRender(std::istringstream &reader, Package *p) {
+	static bool parseShader(std::istringstream &reader, Package *p) {
+		if(!checkFieldName(reader, "SHADER")) return false;
+		
+		std::string shaderName; 
+		reader >> shaderName;
+
+		Shader *shader;
+		if(shaderName.compare("BLINN_PHONG") == 0) {
+			shader = new BlinnPhongShader();
+		} else if(shaderName.compare("DIFFUSE") == 0) {
+			shader = new DiffuseShader();
+		} else if(shaderName.compare("DEPTH") == 0) {
+			shader = new DepthShader(4.0, Color(0, 0, 0), Color(1, 1, 1));
+			// TODO
+		} else if(shaderName.compare("NORMAL_RBG") == 0) {
+			shader = new NormalRGBShader();
+		} else if(shaderName.compare("DIFFUSE_NOLIGHT") == 0) {
+			shader = new DiffuseNoLightShader(p->rec);
+		} else {
+			return false;
+		}
+		p->r = new Render(p->cols, p->rows, p->samples, shader);
 		return true;
 	}
 
 public:
 	static Package* readInput(std::string filename) {
 		std::ifstream reader(filename.c_str(), std::ifstream::in);
-		std::string contentInput = readInput(reader);
+		std::string contentInput = Preprocess::readInput(reader);
 		
 		std::istringstream content(contentInput);
 		Package *p = new Package();
 		if(!parseHeader(content, p)) return NULL;
 		if(!parseScene(content, p)) return NULL;
 		
-		//Shader *shader = new DepthShader(4.0, Color(0, 0, 0), Color(1, 1, 1));
-		//Shader *shader = new DiffuseShader(Vec3(2, 10, -0.5));
-		Shader *shader = new BlinnPhongShader();
-
-		p->r = new Render(p->cols, p->rows, p->samples, shader);
+		if(!parseShader(content, p)) return NULL;
+		
 		return p;
 	}
 
