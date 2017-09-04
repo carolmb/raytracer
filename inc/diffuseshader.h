@@ -5,12 +5,9 @@
 
 class DiffuseShader : public Shader {
 public:
-	Vec3 light;
-	DiffuseShader(Vec3 l) : light(l) { light = light.norm(); }
-
-	double reflect(Vec3 normal) {
-		normal = normal.norm();
-		return normal.dot(light);
+	double diff(Vec3 n, Vec3 l) {
+		n = n.norm();
+		return n.dot(l);
 	}
 
 	Color getColor(Scene scene, Ray ray) {
@@ -23,7 +20,7 @@ public:
 		}
 		Color c;
 		if(hitAnything) {
-			c = record.m.kd*reflect(record.n);
+			c = record.m.kd*diff(record.n, scene.light);
 			c.x = std::max(0.0, c.x);
 			c.y = std::max(0.0, c.y);
 			c.z = std::max(0.0, c.z);

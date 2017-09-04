@@ -8,7 +8,7 @@
 #include "scene.h"
 #include "render.h"
 #include "shader.h"
-#include "diffuseshader.h"
+#include "blinnphongshader.h"
 
 
 struct Package {
@@ -77,27 +77,26 @@ class Input {
 		double r; reader >> r;
 		
 		if(!checkFieldName(reader, "ka")) return false;
-		Vec3 ka; readVec3(reader, matt);
+		Vec3 ka; readVec3(reader, ka);
 
 		if(!checkFieldName(reader, "kd")) return false;
-		Vec3 kd; readVec3(reader, matt);
+		Vec3 kd; readVec3(reader, kd);
 
 		if(!checkFieldName(reader, "ks")) return false;
-		Vec3 ks; readVec3(reader, matt);
+		Vec3 ks; readVec3(reader, ks);
 
 		if(!checkFieldName(reader, "exps")) return false;
 		double exps; reader >> exps;
-
+		
 		Material mat(ka, kd, ks, exps);
-
 		o = std::shared_ptr<Sphere> (new Sphere(c, r, mat));
 		return true;
 	}
 
 	static bool readObj(std::istringstream &reader, std::shared_ptr<Object> &o) {
-		if(!checkFieldName(reader, "OBJ")) return false;
-
-		std::string field; reader >> field;
+		
+		std::string field; reader >> field >> field;
+		//std::cout << field;
 		if(field.compare("SPHERE") == 0) {
 			return readSphere(reader, o);
 		}
@@ -124,7 +123,7 @@ class Input {
 		if(!checkFieldName(reader, "SAMPLES")) return false;
 		reader >> p->samples;
 
-		if(!checkFieldName(reader, "RECDEPTH")) return false;
+		if(!checkFieldName(reader, "REC_DEPTH")) return false;
 		reader >> p->rec;
 
 		return true;
@@ -154,17 +153,25 @@ class Input {
 				cam = Camera(camValues[0], camValues[1], camValues[2]);
 			} else { return false; }
 		}
-		
+
 		// objs in scene
 		std::vector<std::shared_ptr<Object> > objs; 
-		if(!checkFieldName(reader, "begin_objs")) return false;
-		while(!checkFieldName(reader, "end_objs")) {
+		std::string begin; reader >> begin;
+		if(begin.compare("begin_objs") != 0) return false;
+		while(true) {
+			reader >> begin;
+			
+			if(begin.compare("end_objs") == 0) break;
+			if(begin.compare("OBJ") != 0) break;
+
 			std::shared_ptr<Object> obj;
 			if(readObj(reader, obj)) {
 				objs.push_back(obj);
 			} else return false;
 		}
-		p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3]);
+
+		Vec3 light = Vec3(20, 10, 5);
+		p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], light);
 		return true;
 	}
 
@@ -181,10 +188,10 @@ public:
 		Package *p = new Package();
 		if(!parseHeader(content, p)) return NULL;
 		if(!parseScene(content, p)) return NULL;
-
+		
 		//Shader *shader = new DepthShader(4.0, Color(0, 0, 0), Color(1, 1, 1));
 		//Shader *shader = new DiffuseShader(Vec3(2, 10, -0.5));
-		Shader *shader = new BlinnPhongShader(Vec3(2, 3, -0.5));
+		Shader *shader = new BlinnPhongShader();
 
 		p->r = new Render(p->cols, p->rows, p->samples, shader);
 		return p;
