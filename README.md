@@ -1,3 +1,6 @@
 # raytracer
 
-Compile: g++ -std=c++11 main.cpp -o main 
+Project in C++11.
+
+Compile using makefile.
+
