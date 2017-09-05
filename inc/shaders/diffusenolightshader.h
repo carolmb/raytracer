@@ -19,19 +19,16 @@ public:
 
 	Color getColorRec(Scene scene, Ray ray, int count, int nRays) {
 		if(count == 0) return Vec3(0, 0, 0);
-		double mint = DBL_MAX;
-		bool hitAnything = false;
-		HitRecord record;
-		for(int k = 0; k < scene.objs.size(); k++) {
-			HitRecord tempRecord;
-			if(scene.objs[k]->hit(ray, tempRecord, mint)) { hitAnything = true; record = tempRecord; }
-		}
+		
+		bool isHitting = false;
+		HitRecord record = scene.hitAnything(isHitting, ray);
+
 		Color c;
-		if(hitAnything) {
+		if(isHitting) {
 			for(int i = 0; i < nRays; i++) {
-				Vec3 target = record.p + record.n + randomPoint();
-				Ray newRay(record.p, target - record.p);
-				c = c + correctGama(getColorRec(scene, newRay, count - 1, 1)*record.m.kd*0.5);
+				Vec3 target = record.n + randomPoint();
+				Ray newRay(record.p, target);
+				c = c + correctGama(getColorRec(scene, newRay, count - 1, 1)*record.m.kd);
 			}
 			c = c/nRays;
 		} else {

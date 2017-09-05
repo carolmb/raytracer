@@ -3,27 +3,22 @@
 
 #include "shader.h"
 
+// using just diffuse component from blinn phong
 class DiffuseShader : public Shader {
 public:
 	double diff(Vec3 n, Vec3 l) {
-		n = n.norm();
-		return n.dot(l);
+		return std::max(n.dot(l), 0.0);
 	}
 
 	Color getColor(Scene scene, Ray ray) {
-		double mint = DBL_MAX;
-		bool hitAnything = false;
-		HitRecord record;
-		for(int k = 0; k < scene.objs.size(); k++) {
-			HitRecord tempRecord;
-			if(scene.objs[k]->hit(ray, tempRecord, mint)) { hitAnything = true; record = tempRecord; }
-		}
+		bool isHitting = false;
+		HitRecord record = scene.hitAnything(isHitting, ray);
+
 		Color c;
-		if(hitAnything) {
-			c = record.m.kd*diff(record.n, scene.light);
-			c.x = std::max(0.0, c.x);
-			c.y = std::max(0.0, c.y);
-			c.z = std::max(0.0, c.z);
+		if(isHitting) {
+			Vec3 kd = record.m.kd;
+			c = kd*diff(record.n, scene.light.dir);
+			c.x = std::min(1.0, c.x); c.y = std::min(1.0, c.y); c.z = std::min(1.0, c.z);
 		} else {
 			c = scene.backgroundColor(ray);
 		}

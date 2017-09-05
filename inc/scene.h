@@ -5,6 +5,7 @@
 #include "sphere.h"
 #include "ray.h"
 #include "vec3.h"
+#include "light.h"
 
 #include <vector>
 #include <cfloat>
@@ -18,11 +19,15 @@ public:
 	Color bgtr;
 	Color bgbl;
 	Color bgbr;
-	Vec3 light;
+	Light light;
+	Light ambient;
 
 	Scene() {}
-	Scene(Camera cam, std::vector<std::shared_ptr<Object> > o, Color bgtl, Color bgtr, Color bgbl, Color bgbr, Vec3 l) : 
-		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr), light(l) { light = light.norm(); }
+	Scene(Camera cam, 
+		std::vector<std::shared_ptr<Object> > o, 
+		Color bgtl, Color bgtr, Color bgbl, Color bgbr, 
+		Light l, Light a) : 
+		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr), light(l), ambient(a) { light.dir = light.dir.norm(); }
 
 	Color backgroundColor(Ray r) {
 		Vec3 unitDir = r.dir().norm();
@@ -33,6 +38,17 @@ public:
 		Color final = top.interpole(bottom, ty);
 		return final;
 	}
+
+	HitRecord hitAnything(bool &isHitting, Ray ray) {
+		double mint = DBL_MAX;
+		HitRecord record;
+		for(int k = 0; k < objs.size(); k++) {
+			HitRecord tempRecord;
+			if(objs[k]->hit(ray, tempRecord, mint)) { isHitting = true; record = tempRecord; }
+		}
+		return record;
+	}
+
 };
 
 #endif

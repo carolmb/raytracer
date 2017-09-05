@@ -18,18 +18,14 @@ class BlinnPhongShader : public Shader {
 
 public:
 	Color getColor(Scene scene, Ray ray) {
-		double mint = DBL_MAX;
-		bool hitAnything = false;
-		HitRecord record;
-		for(int k = 0; k < scene.objs.size(); k++) {
-			HitRecord tempRecord;
-			if(scene.objs[k]->hit(ray, tempRecord, mint)) { hitAnything = true; record = tempRecord; }
-		}
+		bool isHitting = false;
+		HitRecord record = scene.hitAnything(isHitting, ray);
+
 		Color c;
-		if(hitAnything) {
-			c = record.m.kd*diff(record.n, scene.light) + 
-				record.m.ka + 
-				record.m.ks*halfway(scene.cam.getOrigin() - record.p, scene.light, record.n, record.m.exps);
+		if(isHitting) {
+			c = record.m.kd*diff(record.n, scene.light.dir) + 
+				record.m.ka*scene.ambient.i + 
+				record.m.ks*halfway(scene.cam.getOrigin() - record.p, scene.light.dir, record.n, record.m.exps);
 			c.x = std::min(1.0, c.x);
 			c.y = std::min(1.0, c.y);
 			c.z = std::min(1.0, c.z);
