@@ -1,5 +1,5 @@
-#ifndef __LIGHT__
-#define __LIGHT__
+#ifndef LIGHT__
+#define LIGHT__
 
 #include "vec3.h"
 

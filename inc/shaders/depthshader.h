@@ -22,7 +22,7 @@ public:
 		} else {
 			c = scene.backgroundColor(ray);
 		}
-		return correctGama(c);
+		return c;
 	}
 };
 
