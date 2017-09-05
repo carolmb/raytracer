@@ -19,7 +19,7 @@ public:
 		: cols(c), rows(r), filename(f), type(t), pxls(p) {}
 
 	void save() {
-		std::ofstream img (filename.c_str());
+		std::ofstream img ((filename + "." + type).c_str());
 	
 		img << "P3\n";
 		img << cols << " " << rows << '\n';
@@ -41,7 +41,7 @@ public:
 	}
 
 	void saveBin() {
-		std::ofstream img (filename.c_str(), std::ios::binary);
+		std::ofstream img ((filename + "." + type).c_str(), std::ios::binary);
 	
 		img << "P6\n";
 		img << cols << " " << rows << '\n';

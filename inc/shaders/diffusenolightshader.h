@@ -12,7 +12,11 @@ public:
 	Vec3 randomPoint() {
 		Vec3 p;
 		do {
-			p = Vec3(drand48(), drand48(), drand48())*2.0 - Vec3(1, 1, 1);
+			double r = std::generate_canonical<double, 6>(randomGenerator);
+			double g = std::generate_canonical<double, 6>(randomGenerator);
+			double b = std::generate_canonical<double, 6>(randomGenerator);
+			
+			p = Vec3(r, g, b)*2.0 - Vec3(1, 1, 1);
 		} while(p.len2() >= 1.0);
 		return p;
 	}
