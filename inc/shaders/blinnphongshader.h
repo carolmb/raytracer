@@ -12,7 +12,6 @@ class BlinnPhongShader : public Shader {
 	}
 
 	double diff(Vec3 n, Vec3 l) {
-		n = n.norm();
 		return std::max(n.dot(l), 0.0);
 	}
 

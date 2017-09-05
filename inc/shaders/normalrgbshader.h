@@ -11,11 +11,11 @@ class NormalRGBShader : public Shader {
 		HitRecord record = scene.hitAnything(isHitting, ray);
 
 		if(isHitting) {
-			c = record.n;
+			c = (record.n + 1)/2;
 		} else {
 			c = scene.backgroundColor(ray);
 		}
-		return correctGama(c);
+		return c;
 	}
 
 };

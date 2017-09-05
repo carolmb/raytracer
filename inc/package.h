@@ -4,6 +4,7 @@
 #include "scene.h"
 #include "render.h"
 
+// Settings from file
 struct Package {
 	int cols;
 	int rows;

@@ -202,7 +202,7 @@ bool Input::parseShader(std::istringstream &reader, Package *p) {
 	} else if(shaderName.compare("DEPTH") == 0) {
 		shader = new DepthShader(4.0, Color(0, 0, 0), Color(1, 1, 1));
 		// TODO
-	} else if(shaderName.compare("NORMAL_RBG") == 0) {
+	} else if(shaderName.compare("NORMAL_RGB") == 0) {
 		shader = new NormalRGBShader();
 	} else if(shaderName.compare("DIFFUSE_NOLIGHT") == 0) {
 		shader = new DiffuseNoLightShader(p->rec);

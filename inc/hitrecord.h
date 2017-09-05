@@ -1,10 +1,11 @@
-#ifndef __HITRECORD__
-#define __HITRECORD__
+#ifndef HITRECORD__
+#define HITRECORD__
 
 #include "ray.h"
 #include "vec3.h"
 #include "material.h"
 
+// Informations about a hit
 class HitRecord {
 public:
 	double t;

@@ -27,7 +27,7 @@ class Input {
 	static bool readLights(std::istringstream &reader, std::vector<Light> &lights);
 
 	//---------------------------------------------------------------------------
-	// parses
+	// Parses
 	static bool parseHeader(std::istringstream &reader, Package *p);
 
 	static bool parseScene(std::istringstream &reader, Package *p);
@@ -35,6 +35,7 @@ class Input {
 	static bool parseShader(std::istringstream &reader, Package *p);
 
 public:
+	// Read an input and returns all settings that the render will use
 	static Package* readInput(std::string filename);
 
 };

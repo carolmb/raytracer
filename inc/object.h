@@ -1,5 +1,5 @@
-#ifndef __OBJ__
-#define __OBJ__
+#ifndef OBJ__
+#define OBJ__
 
 #include "hitrecord.h"
 #include "material.h"

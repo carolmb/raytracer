@@ -1,5 +1,5 @@
-#ifndef __CAMERA__
-#define __CAMERA__
+#ifndef CAMERA__
+#define CAMERA__
 
 #include "vec3.h"
 #include "ray.h"

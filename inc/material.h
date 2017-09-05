@@ -1,5 +1,5 @@
-#ifndef __MAT__
-#define __MAT__
+#ifndef MAT__
+#define MAT__
 
 #include "vec3.h"
 
