@@ -7,7 +7,7 @@
 
 class Shader {
 public:	
-	double gama = 2.2;
+	double gama = 2;
 	virtual Color getColor(Scene scene, Ray ray) = 0;
 	Color correctGama(Color c) {
 		c.x = std::pow(c.x, 1/gama);

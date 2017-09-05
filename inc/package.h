@@ -1,5 +1,8 @@
-#ifndef __PACKAGE__
-#define __PACKAGE__
+#ifndef PACKAGE__
+#define PACKAGE__
+
+#include "scene.h"
+#include "render.h"
 
 struct Package {
 	int cols;

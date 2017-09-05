@@ -10,6 +10,7 @@ public:
 	DiffuseNoLightShader(int countCalls) : countCalls(countCalls) {}
 
 	Vec3 randomPoint() {
+		std::knuth_b randomGenerator(3);
 		Vec3 p;
 		do {
 			double r = std::generate_canonical<double, 6>(randomGenerator);

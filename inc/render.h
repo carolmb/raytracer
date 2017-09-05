@@ -8,8 +8,7 @@
 
 #include <stdlib.h>
 #include <random>
-
-std::knuth_b randomGenerator(3);
+#include <iostream>
 
 class Render {
 protected:
@@ -17,13 +16,14 @@ protected:
 	int rows;
 	int samples;
 	Shader *shader;
-		
 public: 
 	Render(int cols, int rows, int samples, Shader *s) : cols(cols), rows(rows), samples(samples), shader(s) {}
 	int getCols() { return cols; }
 	int getRows() { return rows; }
 
 	Color* render(Scene scene) {
+		
+		std::knuth_b randomGenerator(3);
 		Color* pxls = new Color[rows*cols];
 
 		for(int i = rows - 1; i >= 0; i--) {

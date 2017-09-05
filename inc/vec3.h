@@ -1,5 +1,5 @@
-#ifndef __Vec3__
-#define __Vec3__
+#ifndef VEC3__
+#define VEC3__
 
 #include <cmath>
 
@@ -22,8 +22,6 @@ public:
 	Vec3 operator+(double a) { return Vec3(x + a, y + a, z + a); }
 	Vec3 operator*(double a) { return Vec3(x*a, y*a, z*a); }
 	Vec3 operator/(double a) { return Vec3(x/a, y/a, z/a); }
-
-
 
 	double dot(Vec3 other) { return x*other.x + y*other.y + z*other.z; }
 	double len2() { return x*x + y*y + z*z; }
