@@ -13,15 +13,11 @@ public:
 	Color getColor(Scene scene, Ray ray) {
 		Color c;
 		
-		double mint = DBL_MAX;
-		bool hitAnything = false;
-		HitRecord record;
-		for(int k = 0; k < scene.objs.size(); k++) {
-			HitRecord tempRecord;
-			if(scene.objs[k]->hit(ray, tempRecord, mint)) { hitAnything = true; record = tempRecord; }
-		}
+		bool isHitting = false;
+		HitRecord record = scene.hitAnything(isHitting, ray);
+
 		double t = (record.p - scene.cam.getOrigin()).len()/maxDepth;
-		if(hitAnything && t < 1) {
+		if(isHitting && t < 1) {
 			c = fg.interpole(bg, t);
 		} else {
 			c = scene.backgroundColor(ray);

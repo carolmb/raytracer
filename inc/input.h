@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 
+#include "light.h"
 #include "package.h"
 #include "preprocess.h"
 #include "scene.h"
@@ -32,7 +33,7 @@ class Input {
 	 	a.x = std::stod (r);
 	 	a.y = std::stod (g);
 	 	a.z = std::stod (b);
-	 	std::cout << a.x << " " << a.y << " " << a.z << std::endl;
+	 	//std::cout << a.x << " " << a.y << " " << a.z << std::endl;
  	 	return true;
 	}
 
@@ -69,19 +70,19 @@ class Input {
 		return false;
 	}
 	
-	static bool readLight(std::istringstream &reader, Vec3 &light) {
+	static bool readLight(std::istringstream &reader, Light &light) {
 		std::string field; reader >> field >> field;
 		if(field.compare("DIRETIONAL") == 0) {
 			if(!checkFieldName(reader, "i")) return false;
-			if(!readVec3(reader, light)) return false;
+			if(!readVec3(reader, light.i)) return false;
 
 			if(!checkFieldName(reader, "dir")) return false;
-			if(!readVec3(reader, light)) return false;
+			if(!readVec3(reader, light.dir)) return false;
 			
 			return true;
 		} else if(field.compare("AMBIENT") == 0) {
 			if(!checkFieldName(reader, "i")) return false;
-			return readVec3(reader, light);
+			return readVec3(reader, light.i);
 		}
 		// TODO other objs
 		return false;
@@ -122,7 +123,7 @@ class Input {
 		return true;
 	}
 
-	static bool readLights(std::istringstream &reader, std::vector<Vec3> &lights) {
+	static bool readLights(std::istringstream &reader, std::vector<Light> &lights) {
 		std::string begin; reader >> begin;
 		if(begin.compare("begin_lights") != 0) return false;
 		while(true) {
@@ -131,7 +132,7 @@ class Input {
 			if(begin.compare("end_lights") == 0) break;
 			if(begin.compare("LIGHT") != 0) break;
 
-			Vec3 light;
+			Light light;
 			if(readLight(reader, light)) {
 				lights.push_back(light);
 			} else return false;
@@ -182,10 +183,11 @@ class Input {
 		std::vector<std::shared_ptr<Object> > objs; 
 		if(!readObjList(reader, objs)) return false;
 
-		std::vector<Vec3> lights;
+		std::vector<Light> lights;
 		if(!readLights(reader, lights)) return false;
+		Light ambient = lights.back();
 
-		p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], lights[0]);
+		p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], lights[0], ambient);
 		return true;
 	}
 
@@ -223,7 +225,6 @@ public:
 		Package *p = new Package();
 		if(!parseHeader(content, p)) return NULL;
 		if(!parseScene(content, p)) return NULL;
-		
 		if(!parseShader(content, p)) return NULL;
 		
 		return p;

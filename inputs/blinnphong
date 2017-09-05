@@ -1,4 +1,4 @@
-FILENAME = outputs/bla
+FILENAME = outputs/blinnphong
 FILETYPE = ppm
 WIDTH = 1200
 HEIGHT = 600
