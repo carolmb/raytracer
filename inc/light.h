@@ -3,8 +3,7 @@
 
 #include "vec3.h"
 
-class Light {
-public:
+struct Light {
 	Vec3 dir;
 	Vec3 i;
 };

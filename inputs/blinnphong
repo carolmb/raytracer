@@ -35,7 +35,7 @@ end_objs
 
 begin_lights
 LIGHT = DIRETIONAL 
-i = 0.6 0.6 0.6
+i = 1 1 1
 dir = 20 10 5
 LIGHT = AMBIENT  
 i = 0.4 0.4 0.4
