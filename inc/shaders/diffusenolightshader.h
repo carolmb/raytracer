@@ -5,12 +5,14 @@
 
 class DiffuseNoLightShader : public Shader {
 	int countCalls; 
-
+	std::knuth_b randomGenerator;
+		
 public:
-	DiffuseNoLightShader(int countCalls) : countCalls(countCalls) {}
+	DiffuseNoLightShader(int countCalls) : countCalls(countCalls) {
+		randomGenerator = std::knuth_b(3); 
+	}
 
 	Vec3 randomPoint() {
-		std::knuth_b randomGenerator(3);
 		Vec3 p;
 		do {
 			double r = std::generate_canonical<double, 6>(randomGenerator);
