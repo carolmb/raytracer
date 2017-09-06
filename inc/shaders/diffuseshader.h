@@ -16,8 +16,10 @@ public:
 
 		Color c;
 		if(isHitting) {
-			Vec3 kd = record.m.kd;
-			c = kd*diff(record.n, scene.light.dir);
+			for(int i = 0; i < scene.lights.size(); i++) {			
+				Vec3 kd = record.m.kd;
+				c += kd*diff(record.n, scene.lights[i].dir);
+			}
 			c.x = std::min(1.0, c.x); c.y = std::min(1.0, c.y); c.z = std::min(1.0, c.z);
 		} else {
 			c = scene.backgroundColor(ray);

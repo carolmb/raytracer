@@ -22,9 +22,12 @@ public:
 
 		Color c;
 		if(isHitting) {
-			c = record.m.kd*scene.light.i*diff(record.n, scene.light.dir) + 
-				record.m.ka*scene.ambient.i + 
-				record.m.ks*scene.light.i*halfway(scene.cam.getOrigin() - record.p, scene.light.dir, record.n, record.m.exps);
+			c = record.m.ka*scene.ambient.i;
+			for(int i = 0; i < scene.lights.size(); i++) {
+				Light light = scene.lights[i];				
+				c += (record.m.kd*light.i*diff(record.n, light.dir) + 
+				record.m.ks*light.i*halfway(scene.cam.getOrigin() - record.p, light.dir, record.n, record.m.exps));
+			}
 			c.x = std::min(1.0, c.x);
 			c.y = std::min(1.0, c.y);
 			c.z = std::min(1.0, c.z);

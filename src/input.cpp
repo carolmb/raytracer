@@ -183,8 +183,9 @@ bool Input::parseScene(std::istringstream &reader, Package *p) {
 	std::vector<Light> lights;
 	if(!readLights(reader, lights)) return false;
 	Light ambient = lights.back();
-
-	p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], lights[0], ambient);
+	lights.pop_back();
+	
+	p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], lights, ambient);
 	return true;
 }
 
