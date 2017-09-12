@@ -24,8 +24,15 @@ public:
 		if(isHitting) {
 			c = record.m.ka*scene.ambient.i;
 			for(int i = 0; i < scene.lights.size(); i++) {
-				Light light = scene.lights[i];				
-				c += (record.m.kd*light.i*diff(record.n, light.dir) + 
+				Light light = scene.lights[i];
+				Point3 newOrigin = record.p + record.n*0.01;
+				Ray newRay(newOrigin, light.dir.norm());
+				bool isShadow = false;
+				HitRecord hr = scene.hitAnything(isShadow, newRay);
+				if(isShadow) {
+					return correctGama(c);
+				}
+				c += (record.m.kd*light.i*diff(record.n, light.dir) +
 				record.m.ks*light.i*halfway(scene.cam.getOrigin() - record.p, light.dir, record.n, record.m.exps));
 			}
 			c.x = std::min(1.0, c.x);

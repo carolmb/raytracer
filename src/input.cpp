@@ -23,7 +23,7 @@ bool Input::checkFieldName(std::istringstream &reader, std::string field) {
 	reader >> f;
 	if(f.compare("=") != 0) return false;
 	return true;
-}	
+}
 
 bool Input::readVec3(std::istringstream &reader, Vec3 &a) {
  	std::string r, g, b;
@@ -40,7 +40,7 @@ bool Input::readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {
 
 	if(!checkFieldName(reader, "RADIUS")) return false;
 	double r; reader >> r;
-	
+
 	if(!checkFieldName(reader, "ka")) return false;
 	Vec3 ka; readVec3(reader, ka);
 
@@ -52,7 +52,7 @@ bool Input::readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {
 
 	if(!checkFieldName(reader, "exps")) return false;
 	double exps; reader >> exps;
-	
+
 	Material mat(ka, kd, ks, exps);
 	o = std::shared_ptr<Sphere> (new Sphere(c, r, mat));
 	return true;
@@ -75,7 +75,7 @@ bool Input::readLight(std::istringstream &reader, Light &light) {
 
 		if(!checkFieldName(reader, "dir")) return false;
 		if(!readVec3(reader, light.dir)) return false;
-		
+
 		return true;
 	} else if(field.compare("AMBIENT") == 0) {
 		if(!checkFieldName(reader, "i")) return false;
@@ -92,13 +92,13 @@ bool Input::readCamera(std::istringstream &reader, Camera &cam) {
 		std::string camFields[] = {"ORIGIN", "LLC", "H", "V"};
 		Vec3 camValues[4];
 		for(int i = 0; i < 4; i++) {
-			if(!checkFieldName(reader, camFields[i])) return false; 
+			if(!checkFieldName(reader, camFields[i])) return false;
 			readVec3(reader, camValues[i]);
 		}
 		cam = Camera(camValues[0], camValues[1], camValues[2], camValues[3]);
-	} else { 
+	} else {
 		// TODO others cameras
-		return false; 
+		return false;
 	}
 	return true;
 }
@@ -108,7 +108,7 @@ bool Input::readObjList(std::istringstream &reader, std::vector<std::shared_ptr<
 	if(begin.compare("begin_objs") != 0) return false;
 	while(true) {
 		reader >> begin;
-		
+
 		if(begin.compare("end_objs") == 0) break;
 		if(begin.compare("OBJ") != 0) break;
 
@@ -125,7 +125,7 @@ bool Input::readLights(std::istringstream &reader, std::vector<Light> &lights) {
 	if(begin.compare("begin_lights") != 0) return false;
 	while(true) {
 		reader >> begin;
-		
+
 		if(begin.compare("end_lights") == 0) break;
 		if(begin.compare("LIGHT") != 0) break;
 
@@ -147,7 +147,7 @@ bool Input::parseHeader(std::istringstream &reader, Package *p) {
 
 	if(!checkFieldName(reader, "FILETYPE")) return false;
 	reader >> p->type;
-	
+
 	if(!checkFieldName(reader, "WIDTH")) return false;
 	reader >> p->cols;
 
@@ -170,29 +170,29 @@ bool Input::parseScene(std::istringstream &reader, Package *p) {
 	for(int i = 0; i < 4; i++) {
 		if(!checkFieldName(reader, colorFields[i])) return false;
 		readVec3(reader, colors[i]);
-	}		
+	}
 
 	// Camera
 	Camera cam;
 	if(!readCamera(reader, cam)) return false;
 
 	// Obj list
-	std::vector<std::shared_ptr<Object> > objs; 
+	std::vector<std::shared_ptr<Object> > objs;
 	if(!readObjList(reader, objs)) return false;
 
 	std::vector<Light> lights;
 	if(!readLights(reader, lights)) return false;
 	Light ambient = lights.back();
 	lights.pop_back();
-	
+
 	p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], lights, ambient);
 	return true;
 }
 
 bool Input::parseShader(std::istringstream &reader, Package *p) {
 	if(!checkFieldName(reader, "SHADER")) return false;
-	
-	std::string shaderName; 
+
+	std::string shaderName;
 	reader >> shaderName;
 
 	Shader *shader;
@@ -217,12 +217,12 @@ bool Input::parseShader(std::istringstream &reader, Package *p) {
 Package* Input::readInput(std::string filename) {
 	std::ifstream reader(filename.c_str(), std::ifstream::in);
 	std::string contentInput = Preprocess::readInput(reader);
-	
+
 	std::istringstream content(contentInput);
 	Package *p = new Package();
 	if(!parseHeader(content, p)) return NULL;
 	if(!parseScene(content, p)) return NULL;
 	if(!parseShader(content, p)) return NULL;
-	
+
 	return p;
 }
