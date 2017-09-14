@@ -10,7 +10,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint) {
 	double delta = b*b - 4*a*c;
 	if(delta > 0) {
 		double r1 = (-b - std::sqrt(delta)) / (2*a);
-		if(r1 > 0 && r1 < mint) {
+		if(r1 > 0.001 && r1 < mint) {
 			mint = r1;
 			hit.t = r1;
 			hit.p = ray.at(r1);
@@ -19,7 +19,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint) {
 			return true;
 		}
 		double r2 = (-b + std::sqrt(delta)) / (2*a);
-		if(r2 > 0 && r2 < mint) {
+		if(r2 > 0.001 && r2 < mint) {
 			mint = r2;
 			hit.t = r2;
 			hit.p = ray.at(r2);

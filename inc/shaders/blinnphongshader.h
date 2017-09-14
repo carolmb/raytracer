@@ -28,7 +28,7 @@ public:
 				bool isShadow = false;
 				HitRecord hr = scene.hitAnything(isShadow, newRay);
 				if(isShadow) {
-					return correctGama(c);
+					continue;
 				}
 
 				// diffuse
