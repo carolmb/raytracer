@@ -18,13 +18,13 @@ class Input {
 
 	static bool readObj(std::istringstream &reader, std::shared_ptr<Object> &o);
 	
-	static bool readLight(std::istringstream &reader, Light &light);
+	static bool readLight(std::istringstream &reader, std::shared_ptr<Light> &light);
 
 	static bool readCamera(std::istringstream &reader, Camera &cam);
 
 	static bool readObjList(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objs);
 
-	static bool readLights(std::istringstream &reader, std::vector<Light> &lights);
+	static bool readLights(std::istringstream &reader, std::vector<std::shared_ptr<Light> > &lights);
 
 	//---------------------------------------------------------------------------
 	// Parses

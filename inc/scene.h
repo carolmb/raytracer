@@ -18,19 +18,15 @@ public:
 	Color bgtr;
 	Color bgbl;
 	Color bgbr;
-	std::vector<Light> lights;
-	Light ambient;
+	std::vector<std::shared_ptr<Light> >  lights;
+	std::shared_ptr<AmbientLight> ambient;
 
 	Scene() {}
 	Scene(Camera cam, 
 		std::vector<std::shared_ptr<Object> > o, 
 		Color bgtl, Color bgtr, Color bgbl, Color bgbr, 
-		std::vector<Light> l, Light a) : 
-		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr), lights(l), ambient(a) { 
-			for(int i = 0; i < lights.size(); i++) {
-				lights[i].dir = lights[i].dir.norm(); 
-			}
-		}
+		std::vector<std::shared_ptr<Light> > l, std::shared_ptr<AmbientLight> &a) : 
+		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr), lights(l), ambient(a) {}
 		
 
 	Color backgroundColor(Ray r);

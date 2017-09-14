@@ -3,11 +3,11 @@
 
 #include "shader.h"
 
-class DiffuseNoLightShader : public Shader {
+class RecursiveShader : public Shader {
 	int countCalls; 
 		
 public:
-	DiffuseNoLightShader(int countCalls) : countCalls(countCalls) {}
+	RecursiveShader(int countCalls) : countCalls(countCalls) {}
 
 	Color getColorRec(Scene scene, Ray ray, int count, int nRays) {
 		if(count == 0) return Vec3(0, 0, 0);

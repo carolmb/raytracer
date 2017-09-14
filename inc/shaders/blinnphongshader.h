@@ -18,13 +18,13 @@ public:
 		if(isHitting) {
 			
 			BlinnPhongMaterial *mat = dynamic_cast<BlinnPhongMaterial*>(record.m);
-			c = mat->ka*scene.ambient.i;
+			c = mat->ka*scene.ambient->i;
 			for(int i = 0; i < scene.lights.size(); i++) {
-				Light light = scene.lights[i];
+				std::shared_ptr<Light> light = scene.lights[i];
 				
 				// shadow
 				Point3 newOrigin = record.p + record.n*0.01;
-				Ray newRay(newOrigin, light.dir.norm());
+				Ray newRay(newOrigin, light->getDir().norm());
 				bool isShadow = false;
 				HitRecord hr = scene.hitAnything(isShadow, newRay);
 				if(isShadow) {
@@ -32,14 +32,14 @@ public:
 				}
 
 				// diffuse
-				double diffuseComponent = std::max(record.n.dot(light.getDir()), 0.0);
-				c += mat->kd*light.i*diffuseComponent;
+				double diffuseComponent = std::max(record.n.dot(light->getDir()), 0.0);
+				c += mat->kd*light->i*diffuseComponent;
 
 				// specular
 				Vec3 v = (scene.cam.getOrigin() - record.p).norm();
-				Vec3 h = (v + light.getDir()).norm();
+				Vec3 h = (v + light->getDir()).norm();
 				double specularComponent = std::pow(std::max(h.dot(record.n), 0.0), mat->exps);
-				c += mat->ks*light.i*specularComponent;
+				c += mat->ks*light->i*specularComponent;
 			}
 			c.x = std::min(1.0, c.x);
 			c.y = std::min(1.0, c.y);

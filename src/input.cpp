@@ -9,12 +9,13 @@
 #include "render.h"
 #include "sphere.h"
 
-#include "shaders/shader.h"
+#include "shader.h"
 #include "shaders/normalrgbshader.h"
 #include "shaders/depthshader.h"
 #include "shaders/diffuseshader.h"
-#include "shaders/diffusenolightshader.h"
+#include "shaders/recursiveshader.h"
 #include "shaders/blinnphongshader.h"
+
 #include "materials/blinnphongmat.h"
 #include "materials/metalmat.h"
 #include "materials/lambertianmat.h"
@@ -99,12 +100,14 @@ bool Input::readLight(std::istringstream &reader, std::shared_ptr<Light> &light)
 		Vec3 d;
 		if(!readVec3(reader, d)) return false;
 
-		light = new DiretionalLight(d, i);
+		light = std::shared_ptr<DiretionalLight> (new DiretionalLight(d.norm(), i));
 
 		return true;
 	} else if(field.compare("AMBIENT") == 0) {
 		if(!checkFieldName(reader, "i")) return false;
-		return readVec3(reader, light.i);
+		Vec3 i;		
+		return readVec3(reader, i);
+		light = std::shared_ptr<AmbientLight> (new AmbientLight(i));
 	}
 	// TODO other objs
 	return false;
@@ -205,9 +208,9 @@ bool Input::parseScene(std::istringstream &reader, Package *p) {
 	std::vector<std::shared_ptr<Object> > objs;
 	if(!readObjList(reader, objs)) return false;
 
-	std::vector<Light> lights;
+	std::vector<std::shared_ptr<Light> > lights;
 	if(!readLights(reader, lights)) return false;
-	Light ambient = lights.back();
+	std::shared_ptr<AmbientLight> ambient = std::dynamic_pointer_cast<AmbientLight>(lights.back());
 	lights.pop_back();
 
 	p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], lights, ambient);
@@ -231,7 +234,7 @@ bool Input::parseShader(std::istringstream &reader, Package *p) {
 	} else if(shaderName.compare("NORMAL_RGB") == 0) {
 		shader = new NormalRGBShader();
 	} else if(shaderName.compare("DIFFUSE_NOLIGHT") == 0) {
-		shader = new DiffuseNoLightShader(p->rec);
+		shader = new RecursiveShader(p->rec);
 	} else {
 		return false;
 	}

@@ -4,7 +4,7 @@
 #include "scene.h"
 #include "ray.h"
 #include "camera.h"
-#include "shaders/shader.h"
+#include "shader.h"
 
 class Render {
 protected:
