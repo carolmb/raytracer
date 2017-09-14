@@ -32,7 +32,7 @@ public:
 				}
 
 				// diffuse
-				double diffuseComponent = std::max(record.n.dot(light.getDir()), 0.0);
+				double diffuseComponent = std::max(record.n.dot(light.dir), 0.0);
 				c += mat->kd*light.i*diffuseComponent;
 
 				// specular

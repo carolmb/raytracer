@@ -88,14 +88,18 @@ bool Input::readObj(std::istringstream &reader, std::shared_ptr<Object> &o) {
 	return false;
 }
 
-bool Input::readLight(std::istringstream &reader, Light &light) {
+bool Input::readLight(std::istringstream &reader, std::shared_ptr<Light> &light) {
 	std::string field; reader >> field >> field;
 	if(field.compare("DIRETIONAL") == 0) {
 		if(!checkFieldName(reader, "i")) return false;
-		if(!readVec3(reader, light.i)) return false;
+		Vec3 i;
+		if(!readVec3(reader, i)) return false;
 
 		if(!checkFieldName(reader, "dir")) return false;
-		if(!readVec3(reader, light.dir)) return false;
+		Vec3 d;
+		if(!readVec3(reader, d)) return false;
+
+		light = new DiretionalLight(d, i);
 
 		return true;
 	} else if(field.compare("AMBIENT") == 0) {
@@ -141,7 +145,7 @@ bool Input::readObjList(std::istringstream &reader, std::vector<std::shared_ptr<
 	return true;
 }
 
-bool Input::readLights(std::istringstream &reader, std::vector<Light> &lights) {
+bool Input::readLights(std::istringstream &reader, std::vector<std::shared_ptr<Light> > &lights) {
 	std::string begin; reader >> begin;
 	if(begin.compare("begin_lights") != 0) return false;
 	while(true) {
@@ -150,7 +154,7 @@ bool Input::readLights(std::istringstream &reader, std::vector<Light> &lights) {
 		if(begin.compare("end_lights") == 0) break;
 		if(begin.compare("LIGHT") != 0) break;
 
-		Light light;
+		std::shared_ptr<Light> light;
 		if(readLight(reader, light)) {
 			lights.push_back(light);
 		} else return false;

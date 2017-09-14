@@ -7,7 +7,7 @@ class Light {
 public:
 	Vec3 i;
 	Light(Vec3 i) : i(i) {}
-	virtual Vec3 getDir(Point p = Vec3(0, 0, 0)) = 0;
+	Vec3 getDir(Point p = Vec3(0, 0, 0));
 };
 
 class DiretionalLight : public Light {
