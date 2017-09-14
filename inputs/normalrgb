@@ -19,34 +19,22 @@ begin_objs
 OBJ = SPHERE
 CENTER = 0 -100.5 -3
 RADIUS = 99
-ka = 0 0 0
-kd = 0 0 0
-ks = 0 0 0
-exps = 0
+MATERIAL = null
 
 OBJ = SPHERE
 CENTER = 0.3 0 -1 
 RADIUS = 0.4
-ka = 0 0 0
-kd = 0 0 0
-ks = 0 0 0
-exps = 0
+MATERIAL = null
 
 OBJ = SPHERE
 CENTER = 0 1 -2
 RADIUS = 0.6
-ka = 0 0 0
-kd = 0 0 0
-ks = 0 0 0
-exps = 0
+MATERIAL = null
 
 OBJ = SPHERE
 CENTER = -0.4 0 -3
 RADIUS = 0.7
-ka = 0 0 0
-kd = 0 0 0
-ks = 0 0 0
-exps = 0
+MATERIAL = null
 end_objs
 
 begin_lights

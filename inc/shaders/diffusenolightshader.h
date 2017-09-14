@@ -5,24 +5,9 @@
 
 class DiffuseNoLightShader : public Shader {
 	int countCalls; 
-	std::knuth_b randomGenerator;
 		
 public:
-	DiffuseNoLightShader(int countCalls) : countCalls(countCalls) {
-		randomGenerator = std::knuth_b(3); 
-	}
-
-	Vec3 randomPoint() {
-		Vec3 p;
-		do {
-			double r = std::generate_canonical<double, 6>(randomGenerator);
-			double g = std::generate_canonical<double, 6>(randomGenerator);
-			double b = std::generate_canonical<double, 6>(randomGenerator);
-			
-			p = Vec3(r, g, b)*2.0 - Vec3(1, 1, 1);
-		} while(p.len2() >= 1.0);
-		return p;
-	}
+	DiffuseNoLightShader(int countCalls) : countCalls(countCalls) {}
 
 	Color getColorRec(Scene scene, Ray ray, int count, int nRays) {
 		if(count == 0) return Vec3(0, 0, 0);
@@ -33,9 +18,11 @@ public:
 		Color c;
 		if(isHitting) {
 			for(int i = 0; i < nRays; i++) {
-				Vec3 target = record.n + randomPoint();
-				Ray newRay(record.p, target);
-				c = c + correctGama(getColorRec(scene, newRay, count - 1, 1)*record.m.kd);
+				Ray scattered;
+				Vec3 att;
+				if(record.m->scatter(ray, record, att, scattered)) {
+					c = c + correctGama(getColorRec(scene, scattered, count - 1, 1)*att);
+				}
 			}
 			c = c/nRays;
 		} else {

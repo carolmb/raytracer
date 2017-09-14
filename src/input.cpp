@@ -15,6 +15,9 @@
 #include "shaders/diffuseshader.h"
 #include "shaders/diffusenolightshader.h"
 #include "shaders/blinnphongshader.h"
+#include "materials/blinnphongmat.h"
+#include "materials/metalmat.h"
+#include "materials/lambertianmat.h"
 
 bool Input::checkFieldName(std::istringstream &reader, std::string field) {
 	std::string f;
@@ -41,19 +44,37 @@ bool Input::readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {
 	if(!checkFieldName(reader, "RADIUS")) return false;
 	double r; reader >> r;
 
-	if(!checkFieldName(reader, "ka")) return false;
-	Vec3 ka; readVec3(reader, ka);
+	if(!checkFieldName(reader, "MATERIAL")) return false;
+	std::string type; reader >> type;
 
-	if(!checkFieldName(reader, "kd")) return false;
-	Vec3 kd; readVec3(reader, kd);
+	Material *mat;
+	if(type.compare("lambertian") == 0) {
+		if(!checkFieldName(reader, "kd")) return false;
+		Vec3 kd; readVec3(reader, kd);
+		mat = new LambertianMaterial(kd);
+	} else if (type.compare("metal") == 0) {
+		if(!checkFieldName(reader, "kd")) return false;
+		Vec3 kd; readVec3(reader, kd);
+		if(!checkFieldName(reader, "fuzz")) return false;
+		double fuzz; reader >> fuzz;
+		mat = new MetalMaterial(kd, fuzz);
+	} else if (type.compare("blinnphong") == 0) {
+		if(!checkFieldName(reader, "ka")) return false;
+		Vec3 ka; readVec3(reader, ka);
 
-	if(!checkFieldName(reader, "ks")) return false;
-	Vec3 ks; readVec3(reader, ks);
+		if(!checkFieldName(reader, "kd")) return false;
+		Vec3 kd; readVec3(reader, kd);
 
-	if(!checkFieldName(reader, "exps")) return false;
-	double exps; reader >> exps;
+		if(!checkFieldName(reader, "ks")) return false;
+		Vec3 ks; readVec3(reader, ks);
 
-	Material mat(ka, kd, ks, exps);
+		if(!checkFieldName(reader, "exps")) return false;
+		double exps; reader >> exps;
+		mat = new BlinnPhongMaterial(ka, kd, ks, exps);
+	} else if (type.compare("null") == 0) {
+		mat = NULL;
+	} else { return false; }
+
 	o = std::shared_ptr<Sphere> (new Sphere(c, r, mat));
 	return true;
 }
@@ -198,8 +219,8 @@ bool Input::parseShader(std::istringstream &reader, Package *p) {
 	Shader *shader;
 	if(shaderName.compare("BLINN_PHONG") == 0) {
 		shader = new BlinnPhongShader();
-	} else if(shaderName.compare("DIFFUSE") == 0) {
-		shader = new DiffuseShader();
+	//} else if(shaderName.compare("DIFFUSE") == 0) {
+	//	shader = new DiffuseShader();
 	} else if(shaderName.compare("DEPTH") == 0) {
 		shader = new DepthShader(4.0, Color(0, 0, 0), Color(1, 1, 1));
 		// TODO

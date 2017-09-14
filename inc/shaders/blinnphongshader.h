@@ -2,18 +2,12 @@
 #define __BLINNPHONGSHADER__
 
 #include "shader.h"
+#include <exception>
+#include "../materials/blinnphongmat.h"
+#include "../hitrecord.h"
+#include "../material.h"
 
 class BlinnPhongShader : public Shader {
-
-	double halfway(Vec3 v, Vec3 l, Vec3 n, double exp) {
-		v = v.norm();
-		Vec3 h = (v + l).norm();
-		return std::pow(std::max(h.dot(n), 0.0), exp);
-	}
-
-	double diff(Vec3 n, Vec3 l) {
-		return std::max(n.dot(l), 0.0);
-	}
 
 public:
 	Color getColor(Scene scene, Ray ray) {
@@ -22,9 +16,13 @@ public:
 
 		Color c;
 		if(isHitting) {
-			c = record.m.ka*scene.ambient.i;
+			
+			BlinnPhongMaterial *mat = dynamic_cast<BlinnPhongMaterial*>(record.m);
+			c = mat->ka*scene.ambient.i;
 			for(int i = 0; i < scene.lights.size(); i++) {
 				Light light = scene.lights[i];
+				
+				// shadow
 				Point3 newOrigin = record.p + record.n*0.01;
 				Ray newRay(newOrigin, light.dir.norm());
 				bool isShadow = false;
@@ -32,8 +30,16 @@ public:
 				if(isShadow) {
 					return correctGama(c);
 				}
-				c += (record.m.kd*light.i*diff(record.n, light.dir) +
-				record.m.ks*light.i*halfway(scene.cam.getOrigin() - record.p, light.dir, record.n, record.m.exps));
+
+				// diffuse
+				double diffuseComponent = std::max(record.n.dot(light.dir), 0.0);
+				c += mat->kd*light.i*diffuseComponent;
+
+				// specular
+				Vec3 v = (scene.cam.getOrigin() - record.p).norm();
+				Vec3 h = (v + light.dir).norm();
+				double specularComponent = std::pow(std::max(h.dot(record.n), 0.0), mat->exps);
+				c += mat->ks*light.i*specularComponent;
 			}
 			c.x = std::min(1.0, c.x);
 			c.y = std::min(1.0, c.y);

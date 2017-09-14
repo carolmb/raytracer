@@ -2,14 +2,11 @@
 #define MAT__
 
 #include "vec3.h"
+#include "hitrecord.h"
 
-struct Material {
-	Vec3 ka;
-	Vec3 kd;
-	Vec3 ks;
-	double exps;
-	Material(Vec3 ka, Vec3 kd, Vec3 ks, double exps) : ka(ka), kd(kd), ks(ks), exps(exps) {}
-	Material() {}
+class Material {
+public:
+	virtual bool scatter(Ray r, HitRecord &rec, Vec3 &att, Ray &scattered) = 0;
 };
 
 #endif

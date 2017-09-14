@@ -8,11 +8,11 @@ public:
 	Point3 center;
 	double radius;
 	Sphere() : Object() {}
-	Sphere(Point3 c, double r, Material mat) : center(c), radius(r), Object(mat) {}
+	Sphere(Point3 c, double r, Material *mat) : center(c), radius(r), Object(mat) {}
 
 	bool hit(Ray ray, HitRecord &hit, double &mint);
 
-	Material getMaterial() { return mat; }
+	Material* getMaterial() { return mat; }
 
 };
 

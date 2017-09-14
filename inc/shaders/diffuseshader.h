@@ -2,7 +2,7 @@
 #define __DIFFUSESHADER__
 
 #include "shader.h"
-
+/*
 // using just diffuse component from blinn phong
 class DiffuseShader : public Shader {
 public:
@@ -27,5 +27,5 @@ public:
 		return correctGama(c);
 	}
 };
-
+*/
 #endif
