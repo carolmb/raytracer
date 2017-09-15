@@ -52,25 +52,25 @@ bool Input::readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {
 	if(type.compare("lambertian") == 0) {
 		if(!checkFieldName(reader, "kd")) return false;
 		Vec3 kd; readVec3(reader, kd);
+
 		mat = new LambertianMaterial(kd);
 	} else if (type.compare("metal") == 0) {
 		if(!checkFieldName(reader, "kd")) return false;
 		Vec3 kd; readVec3(reader, kd);
 		if(!checkFieldName(reader, "fuzz")) return false;
 		double fuzz; reader >> fuzz;
+
 		mat = new MetalMaterial(kd, fuzz);
 	} else if (type.compare("blinnphong") == 0) {
 		if(!checkFieldName(reader, "ka")) return false;
 		Vec3 ka; readVec3(reader, ka);
-
 		if(!checkFieldName(reader, "kd")) return false;
 		Vec3 kd; readVec3(reader, kd);
-
 		if(!checkFieldName(reader, "ks")) return false;
 		Vec3 ks; readVec3(reader, ks);
-
 		if(!checkFieldName(reader, "exps")) return false;
 		double exps; reader >> exps;
+
 		mat = new BlinnPhongMaterial(ka, kd, ks, exps);
 	} else if (type.compare("null") == 0) {
 		mat = NULL;
@@ -103,11 +103,24 @@ bool Input::readLight(std::istringstream &reader, std::shared_ptr<Light> &light)
 		light = std::shared_ptr<DiretionalLight> (new DiretionalLight(d.norm(), i));
 
 		return true;
+	} else if(field.compare("SPOT") == 0) {
+		if(!checkFieldName(reader, "i")) return false;
+		Vec3 i;
+		if(!readVec3(reader, i)) return false;
+
+		if(!checkFieldName(reader, "origin")) return false;
+		Vec3 d;
+		if(!readVec3(reader, d)) return false;
+
+		light = std::shared_ptr<PointLight> (new PointLight(i, d));
+
+		return true;
 	} else if(field.compare("AMBIENT") == 0) {
 		if(!checkFieldName(reader, "i")) return false;
 		Vec3 i;		
-		return readVec3(reader, i);
+		if(!readVec3(reader, i)) return false;
 		light = std::shared_ptr<AmbientLight> (new AmbientLight(i));
+		return true;
 	}
 	// TODO other objs
 	return false;
@@ -211,6 +224,7 @@ bool Input::parseScene(std::istringstream &reader, Package *p) {
 	std::vector<std::shared_ptr<Light> > lights;
 	if(!readLights(reader, lights)) return false;
 	std::shared_ptr<AmbientLight> ambient = std::dynamic_pointer_cast<AmbientLight>(lights.back());
+	
 	lights.pop_back();
 
 	p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], lights, ambient);
@@ -251,6 +265,5 @@ Package* Input::readInput(std::string filename) {
 	if(!parseHeader(content, p)) return NULL;
 	if(!parseScene(content, p)) return NULL;
 	if(!parseShader(content, p)) return NULL;
-
 	return p;
 }

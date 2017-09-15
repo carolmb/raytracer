@@ -1,7 +1,7 @@
 #include "sphere.h"
 
 #include <cmath>
-
+#include <iostream>
 bool Sphere::hit(Ray ray, HitRecord &hit, double &mint) {
 	Vec3 oc = ray.origin() - center;
 	double a = ray.dir().len2();
@@ -15,7 +15,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint) {
 			hit.t = r1;
 			hit.p = ray.at(r1);
 			hit.n = (hit.p - center).norm();
-			hit.m = getMaterial();
+			hit.m = mat;
 			return true;
 		}
 		double r2 = (-b + std::sqrt(delta)) / (2*a);
@@ -24,7 +24,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint) {
 			hit.t = r2;
 			hit.p = ray.at(r2);
 			hit.n = (hit.p - center).norm();
-			hit.m = getMaterial();
+			hit.m = mat;
 			return true;
 		}
 	} 

@@ -32,6 +32,7 @@ public:
 		att = kd;
 		return ref.dot(rec.n) > 0;
 	}
+
 };
 
 #endif

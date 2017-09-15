@@ -12,8 +12,6 @@ public:
 
 	bool hit(Ray ray, HitRecord &hit, double &mint);
 
-	Material* getMaterial() { return mat; }
-
 };
 
 

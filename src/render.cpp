@@ -6,7 +6,6 @@
 #include <ctime>
 
 Color* Render::render(Scene scene) {
-	
 	std::knuth_b randomGenerator(3);
 	Color* pxls = new Color[rows*cols];
 
@@ -20,6 +19,7 @@ Color* Render::render(Scene scene) {
 				double deltaV = std::generate_canonical<double, 6>(randomGenerator);
 				double v = 1 - ((double)i + deltaV)/(double)rows;
 				double u = ((double)j + deltaU)/(double)cols;
+
 				c = c + shader->getColor(scene, scene.cam.getRay(u, v));
 			}
 
@@ -28,9 +28,9 @@ Color* Render::render(Scene scene) {
 			pxls[i*cols + j] = c/(double)samples;
 		}
 	}
-
 	std::clock_t end = std::clock();
   	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
   	std::cout << "Total time: " << elapsed_secs << " seconds" << std::endl;
 	return pxls;		
-}
+
+return NULL;}
