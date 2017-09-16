@@ -247,7 +247,7 @@ bool Input::parseShader(std::istringstream &reader, Package *p) {
 		// TODO
 	} else if(shaderName.compare("NORMAL_RGB") == 0) {
 		shader = new NormalRGBShader();
-	} else if(shaderName.compare("DIFFUSE_NOLIGHT") == 0) {
+	} else if(shaderName.compare("RECURSIVE") == 0) {
 		shader = new RecursiveShader(p->rec);
 	} else {
 		return false;
