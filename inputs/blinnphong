@@ -34,20 +34,12 @@ kd = 0.4 0.4 0.4
 ks = 1 1 1
 exps = 5
 
-OBJ = SPHERE
-CENTER = 2 2 -5
-RADIUS = 0.2
-MATERIAL = blinnphong
-ka = 0.1 0.1 0.1
-kd = 0.4 0.4 0.4
-ks = 1 1 1
-exps = 5
 end_objs
 
 begin_lights
-LIGHT = SPOT
+LIGHT = DIRETIONAL
 i = 1 1 1
-origin = 2 2 -3
+dir = 20 10 5
 LIGHT = AMBIENT  
 i = 0.4 0.4 0.4
 end_lights

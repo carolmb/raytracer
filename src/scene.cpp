@@ -13,11 +13,11 @@ Color Scene::backgroundColor(Ray r) {
 }
 
 HitRecord Scene::hitAnything(bool &isHitting, Ray ray) {
-	double maxt = DBL_MAX;
+	double mint = DBL_MAX;
 	HitRecord record;
 	for(int k = 0; k < objs.size(); k++) {
 		HitRecord tempRecord;
-		if(objs[k]->hit(ray, tempRecord, maxt)) { isHitting = true; record = tempRecord; }
+		if(objs[k]->hit(ray, tempRecord, mint)) { isHitting = true; record = tempRecord; }
 	}
 	return record;
 }

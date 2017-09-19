@@ -262,8 +262,8 @@ Package* Input::readInput(std::string filename) {
 
 	std::istringstream content(contentInput);
 	Package *p = new Package();
-	if(!parseHeader(content, p)) return NULL;
-	if(!parseScene(content, p)) return NULL;
-	if(!parseShader(content, p)) return NULL;
+	if(!parseHeader(content, p)) { std::cout << "Header incorrect" << std::endl; return NULL; }
+	if(!parseScene(content, p)) { std::cout << "Scene incorrect" << std::endl; return NULL; }
+	if(!parseShader(content, p)) { std::cout << "Shader incorrect" << std::endl; return NULL; }
 	return p;
 }
