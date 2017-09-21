@@ -13,6 +13,7 @@ public:
 	Color getColor(Scene scene, Ray ray) {
 		bool isHitting = false;
 		HitRecord record = scene.hitAnything(isHitting, ray);
+		std::cout << "aaaaaa";
 		Color c;
 		if(isHitting) {
 			CartoonMaterial *mat = dynamic_cast<CartoonMaterial*>(record.m);
