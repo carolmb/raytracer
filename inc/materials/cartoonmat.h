@@ -12,16 +12,15 @@ public:
 	CartoonMaterial(std::vector<Vec3> g, std::vector<double> i) : gradient(g), intervals(i) {}
 	CartoonMaterial() {}
 	bool scatter(Ray r, HitRecord &rec, Vec3 &att, Ray &scattered) { return false; }
-	Color getOutlineColor() { return gradient.front(); }
+	Color getOutline() { return gradient.front(); }
 	Color getColor(double cos) {
-		for(int i = 0; i < intervals.size() - 1; i++) {
-			if(intervals[i] >= cos && cos < intervals[i+1]) {
-				return gradient[i + 1];
+		for(int i = 1; i < intervals.size(); i++) {
+			if(cos < intervals[i]) {
+				return gradient[gradient.size() - i];
 			}
 		}
-		return gradient.front();
+		return gradient[1];
 	}
-	double outlineValue() { return intervals.front(); }
 };
 
 #endif
