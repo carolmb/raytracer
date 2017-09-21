@@ -15,10 +15,12 @@
 #include "shaders/diffuseshader.h"
 #include "shaders/recursiveshader.h"
 #include "shaders/blinnphongshader.h"
+#include "shaders/cartoonshader.h"
 
 #include "materials/blinnphongmat.h"
 #include "materials/metalmat.h"
 #include "materials/lambertianmat.h"
+#include "materials/cartoonmat.h"
 
 bool Input::checkFieldName(std::istringstream &reader, std::string field) {
 	std::string f;
@@ -72,6 +74,30 @@ bool Input::readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {
 		double exps; reader >> exps;
 
 		mat = new BlinnPhongMaterial(ka, kd, ks, exps);
+	} else if (type.compare("cartoon") == 0) {
+		std::vector<Vec3> g;
+		std::string begin;
+		reader >> begin;
+		if(begin.compare("begin_gradient") != 0) return false;
+		while(true) {
+			reader >> begin;
+			if(begin.compare("end_gradient") == 0) break;
+			if(begin.compare("color") != 0) return false;
+			Vec3 color;
+			readVec3(reader, color);
+			g.push_back(color);
+		}
+		std::vector<double> i;
+		reader >> begin;
+		if(begin.compare("begin_intervals") != 0) return false;
+		while(true) {
+			reader >> begin;
+			if(begin.compare("end_intervals") == 0) break;
+			double angle;
+			reader >> angle;
+			i.push_back(angle);
+		}
+		mat = new CartoonMaterial(g, i);
 	} else if (type.compare("null") == 0) {
 		mat = NULL;
 	} else { return false; }
@@ -249,6 +275,8 @@ bool Input::parseShader(std::istringstream &reader, Package *p) {
 		shader = new NormalRGBShader();
 	} else if(shaderName.compare("RECURSIVE") == 0) {
 		shader = new RecursiveShader(p->rec);
+	} else if(shaderName.compare("CARTOON") == 0) {
+		shader = new CartoonShader();
 	} else {
 		return false;
 	}
@@ -262,8 +290,10 @@ Package* Input::readInput(std::string filename) {
 
 	std::istringstream content(contentInput);
 	Package *p = new Package();
+	std::cout << "bbbb";
 	if(!parseHeader(content, p)) { std::cout << "Header incorrect" << std::endl; return NULL; }
 	if(!parseScene(content, p)) { std::cout << "Scene incorrect" << std::endl; return NULL; }
 	if(!parseShader(content, p)) { std::cout << "Shader incorrect" << std::endl; return NULL; }
+	std::cout << "aaaa";
 	return p;
 }

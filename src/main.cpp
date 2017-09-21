@@ -4,6 +4,7 @@
 #include "input.h"
 
 int main(int argc, char* argv[]) {
+	std::cout << "aaaa";
 	if(argc > 1) {
 		std::string inputFile = argv[1];
 		Package* package = Input::readInput(inputFile);

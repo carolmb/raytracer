@@ -1,0 +1,46 @@
+FILENAME = outputs/blinnphong
+FILETYPE = ppm
+WIDTH = 1200
+HEIGHT = 600
+SAMPLES = 1
+REC_DEPTH = 1
+TL = 0.5 0.7 1
+TR = 0.5 0.7 1
+BL = 1 1 1
+BR = 1 1 1
+
+CAMERA = PERSPECTIVE
+ORIGIN = 0 0 0
+LLC = -2 -1 -1
+H = 4 0 0
+V = 0 2 0
+
+begin_objs
+
+OBJ = SPHERE
+CENTER = 0 0 -1
+RADIUS = 0.5
+MATERIAL = cartoon
+	begin_gradient
+	color = 0 0 0
+	color = 1 0 0
+	color = 1 0 1
+	end_gradient
+	begin_intervals
+	0 0.2 0.4 1
+	end_intervals
+
+end_objs
+
+begin_lights
+LIGHT = DIRETIONAL 
+i = 0.8 0.8 0.8
+dir = -8 7 0
+LIGHT = DIRETIONAL 
+i = 0.5 0.5 0.5
+dir = 20 10 15
+LIGHT = AMBIENT  
+i = 0.4 0.4 0.4
+end_lights
+
+SHADER = CARTOON
