@@ -1,12 +1,12 @@
 #include <iostream>
 #include "img.h"
 #include "render.h"
-#include "input.h"
+#include "parser.h"
 
 int main(int argc, char* argv[]) {
 	if(argc > 1) {
 		std::string inputFile = argv[1];
-		Package* package = Input::readInput(inputFile);
+		Package* package = Parser::readInput(inputFile);
 		if(package != NULL) {
 			std::cout << "Valid values." << std::endl;
 			Color* pxls = package->r->render(package->scene);

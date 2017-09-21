@@ -17,8 +17,8 @@ public:
 		if(isHitting) {
 			CartoonMaterial *mat = dynamic_cast<CartoonMaterial*>(record.m);
 			double cos = record.n.dot(-ray.dir().norm());
-			if (cos <= 0.16 && cos >= 0) { // outline
-				return mat->getOutline();
+			if (cos <= mat->outlineValue() && cos >= 0) { // outline
+				return mat->getOutlineColor();
 			}
 			for(int i = 0; i < scene.lights.size(); i++) {
 				std::shared_ptr<Light> light = scene.lights[i];
