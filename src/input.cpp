@@ -94,7 +94,7 @@ bool Input::readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {
 			reader >> begin;
 			if(begin.compare("end_intervals") == 0) break;
 			double angle;
-			reader >> angle;
+			angle = std::stod (begin);
 			i.push_back(angle);
 		}
 		mat = new CartoonMaterial(g, i);
@@ -290,10 +290,8 @@ Package* Input::readInput(std::string filename) {
 
 	std::istringstream content(contentInput);
 	Package *p = new Package();
-	std::cout << "bbbb";
 	if(!parseHeader(content, p)) { std::cout << "Header incorrect" << std::endl; return NULL; }
 	if(!parseScene(content, p)) { std::cout << "Scene incorrect" << std::endl; return NULL; }
 	if(!parseShader(content, p)) { std::cout << "Shader incorrect" << std::endl; return NULL; }
-	std::cout << "aaaa";
 	return p;
 }
