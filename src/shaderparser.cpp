@@ -3,7 +3,6 @@
 #include <string>
 #include "shaders/normalrgbshader.h"
 #include "shaders/depthshader.h"
-#include "shaders/diffuseshader.h"
 #include "shaders/recursiveshader.h"
 #include "shaders/blinnphongshader.h"
 #include "shaders/cartoonshader.h"

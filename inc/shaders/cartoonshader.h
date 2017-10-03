@@ -1,5 +1,5 @@
-#ifndef __CARTOONSHADER
-#define __CARTOONSHADER
+#ifndef CARTOONSHADER__
+#define CARTOONSHADER__
 
 #include "shader.h"
 #include <exception>

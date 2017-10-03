@@ -1,5 +1,5 @@
-#ifndef __BLINNPHONGSHADER__
-#define __BLINNPHONGSHADER__
+#ifndef BLINNPHONGSHADER__
+#define BLINNPHONGSHADER__
 
 #include "shader.h"
 #include <exception>
@@ -13,7 +13,7 @@ public:
 	Color getColor(Scene scene, Ray ray) {
 		bool isHitting = false;
 		HitRecord record = scene.hitAnything(isHitting, ray);
-	
+
 		Color c;
 		if(isHitting) {
 			BlinnPhongMaterial *mat = dynamic_cast<BlinnPhongMaterial*>(record.m);
@@ -44,6 +44,7 @@ public:
 			c.x = std::min(1.0, c.x);
 			c.y = std::min(1.0, c.y);
 			c.z = std::min(1.0, c.z);
+
 		} else {
 			c = scene.backgroundColor(ray);
 		}

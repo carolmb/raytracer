@@ -1,5 +1,5 @@
-#ifndef __SHADER__
-#define __SHADER__
+#ifndef SHADER__
+#define SHADER__
 
 #include <cmath>
 #include "vec3.h"

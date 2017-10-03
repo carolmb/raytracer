@@ -2,13 +2,13 @@
 #define MATPARSER__
 
 #include "parser.h"
-#include "material.h"
+#include "../material.h"
 
 #include <sstream>
 
 class MaterialParser : public Parser {
 public:
-	bool getMaterial(std::istringstream &reader, Material *mat);
+	bool getMaterial(std::istringstream &reader, Material **mat);
 };
 
 

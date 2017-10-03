@@ -23,7 +23,7 @@ Color* Render::render(Scene scene) {
 				c = c + shader->getColor(scene, scene.cam.getRay(u, v));
 			}
 
-			///std::cout << 100 - (i*cols + j)*100/(cols*rows) << " %\r ";
+			std::cout << 100 - (i*cols + j)*100/(cols*rows) << " %\r ";
 			
 			pxls[i*cols + j] = c/(double)samples;
 		}

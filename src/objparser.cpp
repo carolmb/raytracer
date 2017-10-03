@@ -12,9 +12,9 @@ bool ObjectParser::readSphere(std::istringstream &reader, std::shared_ptr<Object
 	if(!checkFieldName(reader, "RADIUS")) return false;
 	double r; reader >> r;
 
-	Material *mat;
+	Material *mat = nullptr;
 	MaterialParser matParser;
-	if(!matParser.getMaterial(reader, mat)) return false;
+	if(!matParser.getMaterial(reader, &mat)) return false;
 
 	o = std::shared_ptr<Sphere> (new Sphere(c, r, mat));
 	return true;

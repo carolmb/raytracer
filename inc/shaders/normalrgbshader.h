@@ -1,5 +1,5 @@
-#ifndef __NORMALSHADER__
-#define __NORMALSHADER__
+#ifndef NORMALSHADER__
+#define NORMALSHADER__
 
 #include "shader.h"
 

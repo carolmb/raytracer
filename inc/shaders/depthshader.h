@@ -1,5 +1,5 @@
-#ifndef __DEPTHSHADER__
-#define __DEPTHSHADER__
+#ifndef DEPTHSHADER__
+#define DEPTHSHADER__
 
 #include "shader.h"
 

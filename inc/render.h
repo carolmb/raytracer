@@ -1,5 +1,5 @@
-#ifndef __RENDER__
-#define __RENDER__
+#ifndef RENDER__
+#define RENDER__
 
 #include "scene.h"
 #include "ray.h"

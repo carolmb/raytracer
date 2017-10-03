@@ -1,5 +1,5 @@
-#ifndef __DNOLIGHT__
-#define __DNOLIGHT__
+#ifndef RECSHADER__
+#define RECSHADER__
 
 #include "shader.h"
 
