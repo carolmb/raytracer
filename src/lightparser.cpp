@@ -1,5 +1,10 @@
 #include "parsers/lightparser.h"
 
+#include "lights/dirlight.h"
+#include "lights/amblight.h"
+#include "lights/punclight.h"
+#include "lights/spotlight.h"
+
 bool LightParser::readLight(std::istringstream &reader, std::shared_ptr<Light> &light) {
 	std::string field; reader >> field >> field;
 	if(field.compare("DIRETIONAL") == 0) {
@@ -23,7 +28,22 @@ bool LightParser::readLight(std::istringstream &reader, std::shared_ptr<Light> &
 		Vec3 d;
 		if(!readVec3(reader, d)) return false;
 
-		light = std::shared_ptr<PointLight> (new PointLight(i, d));
+		light = std::shared_ptr<PunctualLight> (new PunctualLight(i, d));
+
+		return true;
+	} else if(field.compare("SPOTLIGHT") == 0) {
+		if(!checkFieldName(reader, "i")) return false;
+		Vec3 i;
+		if(!readVec3(reader, i)) return false;
+
+		if(!checkFieldName(reader, "origin")) return false;
+		Vec3 d;
+		if(!readVec3(reader, d)) return false;
+
+		if(!checkFieldName(reader, "angle")) return false;
+		double a; reader >> a;
+
+		light = std::shared_ptr<SpotLight> (new SpotLight(i, d, a));
 
 		return true;
 	} else if(field.compare("AMBIENT") == 0) {

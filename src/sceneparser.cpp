@@ -3,6 +3,8 @@
 #include "parsers/objparser.h"
 #include "parsers/camparser.h"
 
+#include "lights/amblight.h"
+
 bool SceneParser::getScene(std::istringstream &reader, Package *p) {
 	// Background Colors
 	std::string colorFields[] = {"TL", "TR", "BL", "BR"};

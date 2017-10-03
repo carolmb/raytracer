@@ -1,0 +1,55 @@
+FILENAME = outputs/normal_rgb
+FILETYPE = ppm
+WIDTH = 1200
+HEIGHT = 600
+SAMPLES = 1
+REC_DEPTH = 1
+TL = 0.5 0.7 1
+TR = 0.5 0.7 1
+BL = 1 1 1
+BR = 1 1 1
+
+CAMERA = PERSPECTIVE
+ORIGIN = 0 0 0
+LLC = -2 -1 -1
+H = 4 0 0
+V = 0 2 0
+
+begin_objs
+OBJ = SPHERE
+CENTER = 0 -100.5 -3
+RADIUS = 99
+MATERIAL = null
+
+OBJ = SPHERE
+CENTER = 0.3 0 -1 
+RADIUS = 0.4
+MATERIAL = null
+
+OBJ = SPHERE
+CENTER = 0 1 -2
+RADIUS = 0.6
+MATERIAL = null
+
+OBJ = SPHERE
+CENTER = -0.4 0 -3
+RADIUS = 0.7
+MATERIAL = null
+end_objs
+
+begin_lights
+LIGHT = DIRETIONAL 
+i = 1 1 1
+dir = 20 10 5
+LIGHT = AMBIENT  
+i = 0.4 0.4 0.4
+end_lights
+
+SHADER = NORMAL_RGB
+
+# Esferas = { center, radius } 
+# { point3(0,-100.5,-3), 99.f }, 
+# { point3( 0.3 , 0 , -1 ), 0.4 }, 
+# { point3( 0 , 1 , -2 ), 0.6 }, 
+# { point3(-0.4 , 0 , -3 ), 0.7 } 
+# width = 1200 height = 600

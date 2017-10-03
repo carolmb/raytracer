@@ -6,6 +6,7 @@
 #include "ray.h"
 #include "vec3.h"
 #include "light.h"
+#include "lights/amblight.h"
 
 #include <vector>
 #include <memory>
