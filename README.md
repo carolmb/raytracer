@@ -6,4 +6,4 @@ Compile using makefile.
 
 Execute using the command "./main <input file>".
 
-Please, use the examples in "inputs" folder to know how write an input file valid. 
+Please, use the examples in "inputs" folder to know how write a valid input file. 
