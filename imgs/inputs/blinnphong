@@ -10,14 +10,14 @@ BL = 1 1 1
 BR = 1 1 1
 
 CAMERA = PERSPECTIVE
-ORIGIN = 0 0.5 -4
+ORIGIN = 0 0.5 -15
 LLC = -2 -1 -1
 H = 4 0 0
 V = 0 2 0
 
 begin_objs
 OBJ = SPHERE
-CENTER = 0 0 -1
+CENTER = -1 0 -1
 RADIUS = 0.5
 MATERIAL = blinnphong
 ka = 0.1 0.1 0.1
@@ -26,8 +26,8 @@ ks = 0.9 0.9 0.9
 exps = 64
 
 OBJ = SPHERE
-CENTER = 0 -100.5 -1
-RADIUS = 100
+CENTER = 1 0 -1
+RADIUS = 0.5
 MATERIAL = blinnphong
 ka = 0.1 0.1 0.1
 kd = 0.4 0.4 0.4
@@ -39,12 +39,9 @@ end_objs
 begin_lights
 LIGHT = SPOTLIGHT
 i = 1 1 1
-origin = 0 5 -1
-angle = 45
-LIGHT = SPOTLIGHT
-i = 1 1 1
-origin = 0 5 -1
-angle = 45
+origin = 0 0 -1
+dir = -1 0 0
+angle = 20
 LIGHT = AMBIENT  
 i = 0.4 0.4 0.4
 end_lights
