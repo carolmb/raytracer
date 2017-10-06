@@ -41,7 +41,7 @@ LIGHT = SPOTLIGHT
 i = 1 1 1
 origin = 0 0 -1
 dir = -1 0 0
-angle = 20
+angle = 30
 LIGHT = AMBIENT  
 i = 0.4 0.4 0.4
 end_lights
