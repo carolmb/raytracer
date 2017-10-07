@@ -6,8 +6,8 @@
 class DiretionalLight : public Light {
 	Vec3 dir;
 public:
-	DiretionalLight(Vec3 dir, Vec3 i) : Light(i), dir(dir) {} 
-	Vec3 getDir(Point3 p = Vec3()) { return dir; }
+	DiretionalLight(Vec3 dir, Vec3 i) : Light(i), dir(dir.norm()) {} 
+	Vec3 getDir(Point3 p = Vec3()) { return -dir; }
 };
 
 #endif
