@@ -20,7 +20,7 @@ Color* Render::render(Scene scene) {
 				double v = 1 - ((double)i + deltaV)/(double)rows;
 				double u = ((double)j + deltaU)/(double)cols;
 
-				c = c + shader->getColor(scene, scene.cam.getRay(u, v));
+				c = c + shader->getColor(scene, scene.cam->getRay(u, v));
 			}
 
 			std::cout << 100 - (i*cols + j)*100/(cols*rows) << " %\r ";

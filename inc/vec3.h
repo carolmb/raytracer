@@ -35,6 +35,11 @@ public:
 		return Vec3(r, g, b); 
 	}
 
+	//AxB = (AyBz − AzBy, AzBx − AxBz, AxBy − AyBx)
+	Vec3 cross(Vec3 other) {
+		return Vec3(y*other.z - z*other.y, z*other.x - x*other.z, x*other.y - y*other.x);
+	}
+
 };
 
 typedef Vec3 Point3;

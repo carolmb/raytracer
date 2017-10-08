@@ -16,8 +16,8 @@ bool SceneParser::getScene(std::istringstream &reader, Package *p) {
 
 	// Camera
 	CameraParser camParser;
-	Camera cam;
-	if(!camParser.getCamera(reader, cam)) return false;
+	Camera *cam;
+	if(!camParser.getCamera(reader, &cam)) return false;
 
 	// Obj list
 	ObjectParser objParser;

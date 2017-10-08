@@ -23,13 +23,13 @@ public:
 				std::shared_ptr<Light> light = scene.lights[i];
 				
 				// shadow
-				/*Point3 newOrigin = record.p + record.n*0.01;
+				Point3 newOrigin = record.p + record.n*0.01;
 				Ray newRay(newOrigin, -light->getDir(record.p));
 				bool isShadow = false;
 				HitRecord hr = scene.hitAnything(isShadow, newRay);
 				if (isShadow) {
 					continue;
-				}*/
+				}
 	
 				// diffuse
 				double diffuseComponent = record.n.dot(-light->getDir(record.p));
@@ -37,7 +37,8 @@ public:
 					c += mat->kd * light->i * diffuseComponent;
 
 					// specular
-					Vec3 h = (scene.cam.getOrigin() - record.p - light->getDir(record.p)).norm();
+					
+					Vec3 h = (scene.cam->getOrigin() - record.p - light->getDir(record.p)).norm();
 					double specularComponent = std::pow(h.dot(record.n), mat->exps);
 					c += mat->ks * light->i * specularComponent;
 				}

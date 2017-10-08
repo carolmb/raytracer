@@ -16,7 +16,7 @@ public:
 		bool isHitting = false;
 		HitRecord record = scene.hitAnything(isHitting, ray);
 
-		double t = (record.p - scene.cam.getOrigin()).len()/maxDepth;
+		double t = (record.p - scene.cam->getOrigin()).len()/maxDepth;
 		if(isHitting && t < 1) {
 			c = fg.interpole(bg, t);
 		} else {
