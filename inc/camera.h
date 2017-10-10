@@ -14,22 +14,22 @@ public:
 
 class PerspectiveCamera : public Camera {
 	Point3 origin;
-	Point3 lowerLeftCorner; // lower left corner
+	double distance; // lower left corner
 	Vec3 horizontal;
 	Vec3 vertical;
+	Vec3 w;
 
 public:	
-	PerspectiveCamera() : origin(), 
-		lowerLeftCorner(Vec3(-2, -1, -1)), horizontal(Vec3(4, 0, 0)), vertical(Vec3(0, 2, 0)) {}
+	PerspectiveCamera() : Camera(), origin(), 
+		horizontal(Vec3(4, 0, 0)), vertical(Vec3(0, 2, 0)) {}
 
-	PerspectiveCamera(Point3 o, Vec3 llc, Vec3 h, Vec3 v) : origin(o), lowerLeftCorner(llc), horizontal(h), vertical(v) {}
+	PerspectiveCamera(Point3 o, double d, Vec3 h, Vec3 v, Vec3 w) : origin(o), distance(d), horizontal(h), vertical(v), w(w) {}
 
 	Ray getRay(double u, double v) {
-		return Ray(origin, lowerLeftCorner + horizontal*u + vertical*v - origin);
+		return Ray(origin, horizontal*u + vertical*v - w*distance);
 	}
 
 	Point3 getOrigin() { return origin; }
-	Point3 getLLC() { return lowerLeftCorner; }
 
 };
 

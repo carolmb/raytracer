@@ -23,20 +23,23 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		if(!checkFieldName(reader, "viewup")) return false;
 		readVec3(reader, viewup);
 
-		double vfov, aspectRatio;
+		double vfov, aspectRatio, dist;
 
 		if(!checkFieldName(reader, "vfov")) return false;
 		reader >> vfov;
 
 		if(!checkFieldName(reader, "aspectratio")) return false;
-		render >> aspectRatio;
+		reader >> aspectRatio;
+
+		if(!checkFieldName(reader, "camdist")) return false;
+		reader >> dist;
 
 		/*
 		look from (viewpoint), look at (viewdir), up
 		*/
 		
 		// camera frame
-		Vector3 gaze = (viewpoint - viewdir).norm(); 
+		Vec3 gaze = (viewpoint - viewdir).norm(); 
 		Vec3 u = viewup.cross(gaze).norm();
 		Vec3 v = gaze.cross(u).norm();		
 
@@ -47,13 +50,14 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		double theta = vfov * pi / 180;
 		double halfHeight = std::tan(theta/2);
 		double haldWidth = aspectRatio * halfHeight;
+		//double d = (viewpoint - viewdir).len();
 
 		Vec3 origin = viewpoint;
-		Vec3 h = u * (2*haldWidth);
-		Vec3 v = v * (2*halfHeight);
-		Point3 llc = Vec3();
+		Vec3 horizontal = u * (2*haldWidth);
+		Vec3 vertical = v * (2*halfHeight);
+		Vec3 w = -viewdir.norm();
 
-		*cam = new PerspectiveCamera(origin, llc, h, v);
+		*cam = new PerspectiveCamera(origin, dist, horizontal, vertical, w);
 
 	} else if(field.compare("ORTHOGRAPHIC_PARALLEL") == 0) {
 		double bottom, top, left, right;
@@ -62,13 +66,13 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		reader >> bottom;
 
 		if(!checkFieldName(reader, "top")) return false;
-		render >> top;
+		reader >> top;
 
 		if(!checkFieldName(reader, "left")) return false;
-		render >> left;
+		reader >> left;
 
 		if(!checkFieldName(reader, "right")) return false;
-		render >> right;
+		reader >> right;
 
 		Vec3 viewpoint, viewdir, viewplanenormal, viewup;
 
@@ -99,13 +103,13 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		reader >> bottom;
 
 		if(!checkFieldName(reader, "top")) return false;
-		render >> top;
+		reader >> top;
 
 		if(!checkFieldName(reader, "left")) return false;
-		render >> left;
+		reader >> left;
 
 		if(!checkFieldName(reader, "right")) return false;
-		render >> right;
+		reader >> right;
 
 		Vec3 viewpoint, viewdir, viewplanenormal, viewup;
 
