@@ -31,48 +31,44 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		if(!checkFieldName(reader, "aspectratio")) return false;
 		reader >> aspectRatio;
 
-		if(!checkFieldName(reader, "camdist")) return false;
-		reader >> dist;
-
 		/*
 		look from (viewpoint), look at (viewdir), up
 		*/
 		
 		// camera frame
-		Vec3 gaze = (viewpoint - viewdir).norm(); 
+		Vec3 gaze = (viewdir - viewpoint).norm(); 
 		Vec3 u = viewup.cross(gaze).norm();
 		Vec3 v = gaze.cross(u).norm();		
 
 		/*
-		vertical field of view (angle), aspect ratio (double), distance to focus (double), view plane normal
+		vertical field of view (angle), aspect ratio (double), distance to focus (double), 
+		view plane normal
 		*/
 
 		double theta = vfov * pi / 180;
-		double halfHeight = std::tan(theta/2);
-		double haldWidth = aspectRatio * halfHeight;
-		//double d = (viewpoint - viewdir).len();
-
+		double d = (viewpoint - viewdir).len();
+		double halfHeight = d/std::tan(theta/2);
+		double halfWidth = halfHeight*aspectRatio;
+		
 		Vec3 origin = viewpoint;
-		Vec3 horizontal = u * (2*haldWidth);
-		Vec3 vertical = v * (2*halfHeight);
 		Vec3 w = -viewdir.norm();
 
-		*cam = new PerspectiveCamera(origin, dist, horizontal, vertical, w);
+		*cam = new PerspectiveCamera(origin, d, u, v, w, halfWidth, halfHeight);
 
 	} else if(field.compare("ORTHOGRAPHIC_PARALLEL") == 0) {
-		double bottom, top, left, right;
+		double b, t, l, r;
 
 		if(!checkFieldName(reader, "bottom")) return false;
-		reader >> bottom;
+		reader >> b;
 
 		if(!checkFieldName(reader, "top")) return false;
-		reader >> top;
+		reader >> t;
 
 		if(!checkFieldName(reader, "left")) return false;
-		reader >> left;
+		reader >> l;
 
 		if(!checkFieldName(reader, "right")) return false;
-		reader >> right;
+		reader >> r;
 
 		Vec3 viewpoint, viewdir, viewplanenormal, viewup;
 
@@ -88,28 +84,26 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		if(!checkFieldName(reader, "viewup")) return false;
 		readVec3(reader, viewup);
 
-		double horizontal = right - left;
-		double vertical = top - bottom;
 		Vec3 w = -viewdir.norm();
-		Vec3 u = w.cross(viewup).norm() * horizontal;
-		Vec3 v = w.cross(u).norm() * vertical;
+		Vec3 u = -w.cross(viewup).norm();
+		Vec3 v = w.cross(u).norm();
 		
-		*cam = new OrthographicParallelCamera(u, v, w, viewpoint);
+		*cam = new OrthographicParallelCamera(u, v, w, viewpoint, b, t, l, r);
 	
 	} else if(field.compare("OBLIQUE_PARALLEL") == 0) {
-		double bottom, top, left, right;
+		double b, t, l, r;
 
 		if(!checkFieldName(reader, "bottom")) return false;
-		reader >> bottom;
+		reader >> b;
 
 		if(!checkFieldName(reader, "top")) return false;
-		reader >> top;
+		reader >> t;
 
 		if(!checkFieldName(reader, "left")) return false;
-		reader >> left;
+		reader >> l;
 
 		if(!checkFieldName(reader, "right")) return false;
-		reader >> right;
+		reader >> r;
 
 		Vec3 viewpoint, viewdir, viewplanenormal, viewup;
 
@@ -125,11 +119,9 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		if(!checkFieldName(reader, "viewup")) return false;
 		readVec3(reader, viewup);
 
-		double horizontal = right - left;
-		double vertical = top - bottom;
 		Vec3 w = -viewdir.norm();
-		Vec3 u = w.cross(viewup).norm() * horizontal;
-		Vec3 v = w.cross(u).norm() * vertical;
+		Vec3 u = -w.cross(viewup).norm();
+		Vec3 v = w.cross(u).norm();
 
 		*cam = new ObliqueParallelCamera(u, v, w, viewpoint, viewdir);
 	

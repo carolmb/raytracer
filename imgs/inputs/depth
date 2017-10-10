@@ -1,4 +1,4 @@
-FILENAME = outputs/depth
+FILENAME = imgs/outputs/depth
 FILETYPE = ppm
 WIDTH = 1200
 HEIGHT = 600

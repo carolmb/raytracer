@@ -14,7 +14,8 @@ public:
 
 class PerspectiveCamera : public Camera {
 	Point3 origin;
-	double distance; // lower left corner
+	double distance; 
+	double halfWidth, halfHeight;
 	Vec3 horizontal;
 	Vec3 vertical;
 	Vec3 w;
@@ -23,9 +24,12 @@ public:
 	PerspectiveCamera() : Camera(), origin(), 
 		horizontal(Vec3(4, 0, 0)), vertical(Vec3(0, 2, 0)) {}
 
-	PerspectiveCamera(Point3 o, double d, Vec3 h, Vec3 v, Vec3 w) : origin(o), distance(d), horizontal(h), vertical(v), w(w) {}
+	PerspectiveCamera(Point3 o, double d, Vec3 h, Vec3 v, Vec3 w, double hh, double hw) : 
+		origin(o), distance(d), horizontal(h), vertical(v), w(w), halfWidth(hw), halfHeight(hh) {}
 
 	Ray getRay(double u, double v) {
+		u = -halfWidth + 2*halfWidth*u;
+		v = -halfHeight + 2*halfHeight*v;
 		return Ray(origin, horizontal*u + vertical*v - w*distance);
 	}
 
@@ -37,12 +41,15 @@ class OrthographicParallelCamera : public Camera {
 	Vec3 u, v, w;
 	Point3 e;
 	Point3 origin;
+	double b, t, l, r;
 
 public:	
-	OrthographicParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e) : 
-		Camera(), u(u), v(v), w(w), e(e) {}
+	OrthographicParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e, double b, double t, double l, double r) : 
+		Camera(), u(u), v(v), w(w), e(e), b(b), l(l), r(r) {}
 
 	Ray getRay(double u, double v) {
+		u = l + (r - l)*u;
+		v = b + (t - b)*v;
 		origin = e + this->u * u + this->v * v;
 		return Ray(origin, -w);
 	}
@@ -62,6 +69,8 @@ public:
 		Camera(), u(u), v(v), w(w), e(e), dir(dir) {}
 
 	Ray getRay(double u, double v) {
+		u = l + (r - l)*u;
+		v = b + (t - b)*v;
 		origin = e + this->u * u + this->v * v;
 		return Ray(origin, dir);
 	}
