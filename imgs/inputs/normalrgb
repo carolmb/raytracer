@@ -1,4 +1,4 @@
-FILENAME = outputs/normal_rgb
+FILENAME = imgs/outputs/normal_rgb
 FILETYPE = ppm
 WIDTH = 1200
 HEIGHT = 600

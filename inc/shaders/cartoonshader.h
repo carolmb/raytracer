@@ -26,14 +26,14 @@ public:
 					std::shared_ptr<Light> light = scene.lights[i];
 					
 					Point3 newOrigin = record.p + record.n*0.01;
-					Ray newRay(newOrigin, light->getDir(record.p).norm());
+					Ray newRay(newOrigin, -light->getDir(record.p).norm());
 					bool isShadow = false;
 					HitRecord hr = scene.hitAnything(isShadow, newRay);
 					if(isShadow) {
 						continue;
 					}
 
-					cos = record.n.dot(light->getDir(record.p).norm());
+					cos = record.n.dot(-light->getDir(record.p).norm());
 					if(currentCos < cos) {
 						c = mat->getColor(cos)*light->i;
 						currentCos = cos;
