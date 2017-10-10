@@ -2,6 +2,7 @@
 #define DEPTHSHADER__
 
 #include "shader.h"
+#include <limits>
 
 class DepthShader : public Shader {
 public:
@@ -14,7 +15,7 @@ public:
 		Color c;
 		
 		bool isHitting = false;
-		HitRecord record = scene.hitAnything(isHitting, ray);
+		HitRecord record = scene.hitAnything(isHitting, ray, std::numeric_limits<float>::max());
 
 		double t = (record.p - scene.cam.getOrigin()).len()/maxDepth;
 		if(isHitting && t < 1) {

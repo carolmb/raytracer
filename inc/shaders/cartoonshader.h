@@ -3,6 +3,7 @@
 
 #include "shader.h"
 #include <exception>
+#include <limits>
 #include "../materials/cartoonmat.h"
 #include "../hitrecord.h"
 #include "../material.h"
@@ -12,7 +13,7 @@ class CartoonShader : public Shader {
 public:
 	Color getColor(Scene scene, Ray ray) {
 		bool isHitting = false;
-		HitRecord record = scene.hitAnything(isHitting, ray);
+		HitRecord record = scene.hitAnything(isHitting, ray, std::numeric_limits<float>::max());
 		Color c;
 		if(isHitting) {
 			CartoonMaterial *mat = dynamic_cast<CartoonMaterial*>(record.m);
@@ -28,7 +29,8 @@ public:
 					Point3 newOrigin = record.p + record.n*0.01;
 					Ray newRay(newOrigin, -light->getDir(record.p).norm());
 					bool isShadow = false;
-					HitRecord hr = scene.hitAnything(isShadow, newRay);
+					double maxt = newRay.getT(light->getOrigin());
+					HitRecord hr = scene.hitAnything(isShadow, newRay, maxt);
 					if(isShadow) {
 						continue;
 					}

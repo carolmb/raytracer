@@ -36,9 +36,11 @@ exps = 64
 end_objs
 
 begin_lights
-LIGHT = PUNCTUAL 
+LIGHT = DIRETIONAL 
 i = 0.8 0.8 0.8
-origin = -8 7 0
+dir = -8 7 0
+#dir = 8 -7 0
+#angle = 5
 LIGHT = PUNCTUAL 
 i = 0.5 0.5 0.5
 origin = 20 10 15

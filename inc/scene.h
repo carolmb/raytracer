@@ -32,7 +32,7 @@ public:
 
 	Color backgroundColor(Ray r);
 
-	HitRecord hitAnything(bool &isHitting, Ray ray);
+	HitRecord hitAnything(bool &isHitting, Ray ray, double maxt);
 
 };
 

@@ -2,6 +2,7 @@
 #define RECSHADER__
 
 #include "shader.h"
+#include <limits>
 
 class RecursiveShader : public Shader {
 	int countCalls; 
@@ -13,7 +14,7 @@ public:
 		if(count == 0) return Vec3(0, 0, 0);
 		
 		bool isHitting = false;
-		HitRecord record = scene.hitAnything(isHitting, ray);
+		HitRecord record = scene.hitAnything(isHitting, ray, std::numeric_limits<float>::max());
 
 		Color c;
 		if(isHitting) {
