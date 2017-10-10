@@ -37,16 +37,10 @@ class OrthographicParallelCamera : public Camera {
 	Vec3 u, v, w;
 	Point3 e;
 	Point3 origin;
-	Vec3 hr, vr;
-	Vec3 bottom, left;
 
 public:	
-	OrthographicParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e, Point3 bottom, 
-		Point3 top, Point3 left, Point3 right) : 
-		Camera(), u(u), v(v), w(w), e(e), bottom(bottom), left(left) {
-			hr = right - left;
-			vr = top - bottom;
-		}
+	OrthographicParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e) : 
+		Camera(), u(u), v(v), w(w), e(e) {}
 
 	Ray getRay(double u, double v) {
 		origin = e + this->u * u + this->v * v;
@@ -62,16 +56,10 @@ class ObliqueParallelCamera : public Camera {
 	Point3 e;
 	Vec3 dir;
 	Point3 origin;
-	Vec3 hr, vr;
-	Vec3 bottom, left;
 
 public:	
-	ObliqueParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e, Vec3 dir, Point3 bottom, 
-		Point3 top, Point3 left, Point3 right) : 
-		Camera(), u(u), v(v), w(w), e(e), dir(dir), bottom(bottom), left(left) {
-			hr = right - left;
-			vr = top - bottom;
-		}
+	ObliqueParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e, Vec3 dir) : 
+		Camera(), u(u), v(v), w(w), e(e), dir(dir) {}
 
 	Ray getRay(double u, double v) {
 		origin = e + this->u * u + this->v * v;

@@ -9,11 +9,15 @@ TR = 0.5 0.7 1
 BL = 1 1 1
 BR = 1 1 1
 
-CAMERA = PERSPECTIVE
-ORIGIN = 0 0.5 -15
-LLC = -2 -1 -1
-H = 4 0 0
-V = 0 2 0
+CAMERA = ORTHOGRAPHIC_PARALLEL
+bottom = 0 -1 -1
+top = 0 1 -1
+left = -2 0 -1
+right = 2 0 -1
+viewpoint = 0 0.5 -15
+viewdir = 1 0 0
+viewplanenormal = 1 0 0
+viewup = 0 1 0
 
 begin_objs
 OBJ = SPHERE
