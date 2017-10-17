@@ -11,7 +11,6 @@ class Ray {
 public:
 	Ray() : o(), d() {}
 	Ray(Point3 o, Vec3 d, double ap = 0) : o(o), d(d), ap(ap) {
-		std::knuth_b randomGenerator(3);		
 		double deltaX = std::generate_canonical<double, 6>(randomGenerator);
 		double deltaY = std::generate_canonical<double, 6>(randomGenerator);		
 		o.x = o.x + deltaX * ap - ap/2;
