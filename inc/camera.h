@@ -28,8 +28,8 @@ public:
 		origin(o), distance(d), horizontal(h), vertical(v), w(w), halfWidth(hw), halfHeight(hh) {}
 
 	Ray getRay(double u, double v) {
-		u = -halfWidth + 2*halfWidth*u;
-		v = -halfHeight + 2*halfHeight*v;
+		v = -halfWidth + 2*halfWidth*v;
+		u = -halfHeight + 2*halfHeight*u;
 		return Ray(origin, horizontal*u + vertical*v - w*distance);
 	}
 
@@ -37,42 +37,21 @@ public:
 
 };
 
-class OrthographicParallelCamera : public Camera {
-	Vec3 u, v, w;
+class ParallelCamera : public Camera {
+	Vec3 u_, v_, w_;
 	Point3 e;
 	Point3 origin;
 	double b, t, l, r;
 
 public:	
-	OrthographicParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e, double b, double t, double l, double r) : 
-		Camera(), u(u), v(v), w(w), e(e), b(b), l(l), r(r) {}
+	ParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e, double b, double t, double l, double r) : 
+		Camera(), u_(u), v_(v), w_(w), e(e), b(b), l(l), r(r) {}
 
 	Ray getRay(double u, double v) {
-		u = l + (r - l)*u;
-		v = b + (t - b)*v;
-		origin = e + this->u * u + this->v * v;
-		return Ray(origin, -w);
-	}
-
-	Point3 getOrigin() { return origin; }
-
-};
-
-class ObliqueParallelCamera : public Camera {
-	Vec3 u, v, w;
-	Point3 e;
-	Vec3 dir;
-	Point3 origin;
-
-public:	
-	ObliqueParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e, Vec3 dir) : 
-		Camera(), u(u), v(v), w(w), e(e), dir(dir) {}
-
-	Ray getRay(double u, double v) {
-		u = l + (r - l)*u;
-		v = b + (t - b)*v;
-		origin = e + this->u * u + this->v * v;
-		return Ray(origin, dir);
+		u = l + (r - l) * u;
+		v = b + (t - b) * v;
+		origin = e + u_ * u + v_ * v;
+		return Ray(origin, -w_);
 	}
 
 	Point3 getOrigin() { return origin; }

@@ -9,19 +9,28 @@ TR = 0.5 0.7 1
 BL = 1 1 1
 BR = 1 1 1
 
-CAMERA = ORTHOGRAPHIC_PARALLEL
+CAMERA = ORTHOGRAPHIC
 bottom = -1
 top = 1
 left = -2
 right = 2
-viewpoint = 0 0 0
-viewdir = 0 0 -1
-viewplanenormal = 0 0 1
+viewpoint = 0 1 1
+viewdir = 0 0 0
+viewplanenormal = 0 -1 -1
 viewup = 0 1 0
+isoblique = 0
+
+#CAMERA = PERSPECTIVE
+#viewpoint = 0 1 1
+#viewdir = 0 0 0
+#viewplanenormal = 0 0 0
+#viewup = 0 1 0
+#vfov = 45
+#aspectratio = 0.5
 
 begin_objs
 OBJ = SPHERE
-CENTER = -1 0 -1
+CENTER = 0 0 -1
 RADIUS = 0.5
 MATERIAL = blinnphong
 ka = 0.1 0.1 0.1
@@ -30,22 +39,20 @@ ks = 0.9 0.9 0.9
 exps = 64
 
 OBJ = SPHERE
-CENTER = 1 0 -1
-RADIUS = 0.5
+CENTER = 0 -100.5 0
+RADIUS = 100
 MATERIAL = blinnphong
 ka = 0.1 0.1 0.1
-kd = 0.4 0.4 0.4
+kd = 0.8 0.8 0.8
 ks = 1 1 1
 exps = 5
 
 end_objs
 
 begin_lights
-LIGHT = SPOTLIGHT
+LIGHT = DIRETIONAL
 i = 1 1 1
-origin = 0 0.3 -0.5
-dir = -0.5 0 -0.5
-angle = 30
+dir = 10 10 -1
 LIGHT = AMBIENT  
 i = 0.4 0.4 0.4
 end_lights
