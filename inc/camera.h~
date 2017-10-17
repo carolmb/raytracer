@@ -45,7 +45,7 @@ class ParallelCamera : public Camera {
 
 public:	
 	ParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e, double b, double t, double l, double r) : 
-		Camera(), u_(u), v_(v), w_(w), e(e), b(b), t(t), l(l), r(r) {}
+		Camera(), u_(u), v_(v), w_(w), e(e), b(b), l(l), r(r) {}
 
 	Ray getRay(double u, double v) {
 		u = l + (r - l) * u;

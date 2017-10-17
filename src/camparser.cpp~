@@ -56,7 +56,7 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		double d = (lookat - lookfrom).len();
 		double halfHeight = d/std::tan(theta/2);
 		double halfWidth = halfHeight/aspectRatio;
-		//std::cout << halfHeight << " " << halfWidth;
+		std::cout << halfHeight << " " << halfWidth;
 		
 		Vec3 origin = lookfrom;
 
