@@ -5,21 +5,28 @@
 #include <random>
 
 class Ray {
-	Point3 o;
-	Vec3 d;
+	Point3 o_;
+	Vec3 d_;
 	double ap; // aperture
+	static std::knuth_b randomGenerator;
 public:
-	Ray() : o(), d() {}
-	Ray(Point3 o, Vec3 d, double ap = 0) : o(o), d(d), ap(ap) {
-		double deltaX = std::generate_canonical<double, 6>(randomGenerator);
-		double deltaY = std::generate_canonical<double, 6>(randomGenerator);		
-		o.x = o.x + deltaX * ap - ap/2;
-		o.y = o.y + deltaY * ap - ap/2;
+	Ray() : o_(), d_() {}
+	Ray(Point3 o, Vec3 d) : o_(o), d_(d) {}
+	Ray(Point3 o, Vec3 d, double ap) : o_(o), d_(d), ap(ap) {
+				
+		double deltaX = std::generate_canonical<double, 6>(randomGenerator)* ap - ap/2;
+		double deltaY = std::generate_canonical<double, 6>(randomGenerator)* ap - ap/2;
+
+		o_.x += deltaX;
+		o_.y += deltaY;
+		d_.x += deltaX;
+		d_.y += deltaY;
+
 	}
 
-	Point3 origin() { return o; }
-	Vec3 dir() { return d; }
-	Point3 at(double t) { return o + d*t; } 
+	Point3 origin() { return o_; }
+	Vec3 dir() { return d_; }
+	Point3 at(double t) { return o_ + d_*t; } 
 };
 
 

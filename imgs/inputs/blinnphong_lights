@@ -1,7 +1,7 @@
 FILENAME = imgs/outputs/blinnphong
 FILETYPE = ppm
-WIDTH = 100
-HEIGHT = 50
+WIDTH = 600
+HEIGHT = 300
 SAMPLES = 1
 REC_DEPTH = 1
 TL = 0.5 0.7 1
@@ -9,15 +9,15 @@ TR = 0.5 0.7 1
 BL = 1 1 1
 BR = 1 1 1
 
-CAMERA = OBLIQUE_PARALLEL
-bottom = 0 0 0
-top = 0 100 0
-left = 0 0 0
-right = 200 0 0
-viewpoint = 2 1 -5
-viewdir = 0 1 0
-viewplanenormal = 0 -1 0
-viewup = 0.0 1.0 0.0
+CAMERA = PERSPECTIVE
+lookfrom = 0 0 1
+lookat = 0 0 0
+viewplanenormal = 0 1 0
+viewup = 0 1 0
+vfov = 45
+aspectratio = 0.5
+aperture = 3
+isoblique = 0
 
 begin_objs
 OBJ = SPHERE
@@ -34,10 +34,7 @@ end_objs
 begin_lights
 LIGHT = PUNCTUAL 
 i = 0.8 0.8 0.8
-origin = -8 7 0
-LIGHT = PUNCTUAL 
-i = 0.5 0.5 0.5
-origin = 20 10 15
+origin = 0 0 1
 LIGHT = AMBIENT  
 i = 0.4 0.4 0.4
 end_lights
