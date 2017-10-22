@@ -40,6 +40,16 @@ kd = 0.0 0.3 0.8
 ks = 0.9 0.9 0.9
 exps = 64
 
+OBJ = TRIANGLE
+P1 = 1 1 -1
+P2 = 0 1 -1
+P3 = 0 0 -1
+MATERIAL = blinnphong
+ka = 0.1 0.1 0.1
+kd = 0.0 0.3 0.8
+ks = 0.9 0.9 0.9
+exps = 64
+
 OBJ = SPHERE
 CENTER = 0 -100.5 0
 RADIUS = 100
