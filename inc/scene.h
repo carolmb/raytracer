@@ -13,7 +13,7 @@
 
 class Scene {
 public: 
-	Camera cam;
+	Camera *cam;
 	std::vector<std::shared_ptr<Object> > objs;
 	Color bgtl;
 	Color bgtr;
@@ -23,7 +23,7 @@ public:
 	std::shared_ptr<AmbientLight> ambient;
 
 	Scene() {}
-	Scene(Camera cam, 
+	Scene(Camera *cam, 
 		std::vector<std::shared_ptr<Object> > o, 
 		Color bgtl, Color bgtr, Color bgbl, Color bgbr, 
 		std::vector<std::shared_ptr<Light> > l, std::shared_ptr<AmbientLight> &a) : 

@@ -39,7 +39,8 @@ public:
 					c += mat->kd * light->i * diffuseComponent;
 
 					// specular
-					Vec3 h = (scene.cam.getOrigin() - record.p - light->getDir(record.p)).norm();
+					
+					Vec3 h = (scene.cam->getOrigin() - record.p - light->getDir(record.p)).norm();
 					double specularComponent = std::pow(h.dot(record.n), mat->exps);
 					c += mat->ks * light->i * specularComponent;
 				}

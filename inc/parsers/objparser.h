@@ -14,6 +14,7 @@ public:
 private:
 	bool readObj(std::istringstream &reader, std::shared_ptr<Object> &o);
 	bool readSphere(std::istringstream &reader, std::shared_ptr<Object> &o);
+	bool readTriangle(std::istringstream &reader, std::shared_ptr<Object> &o);
 };
 
 #endif

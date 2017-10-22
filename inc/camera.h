@@ -3,25 +3,62 @@
 
 #include "vec3.h"
 #include "ray.h"
+#include <iostream>
 
 class Camera {
+public:	
+	Camera() {}
+	virtual Ray getRay(double u, double v) = 0;
+	virtual Point3 getOrigin() = 0;
+};
+
+class PerspectiveCamera : public Camera {
 	Point3 origin;
-	Point3 lowerLeftCorner; // lower left corner
+	double distance; 
+	double halfWidth, halfHeight;
 	Vec3 horizontal;
 	Vec3 vertical;
+	Vec3 w;
+	double aperture;
+	double fdist;
 
 public:	
-	Camera() : origin(), 
-		lowerLeftCorner(Vec3(-2, -1, -1)), horizontal(Vec3(4, 0, 0)), vertical(Vec3(0, 2, 0)) {}
+	PerspectiveCamera() : Camera(), origin(), 
+		horizontal(Vec3(4, 0, 0)), vertical(Vec3(0, 2, 0)) {}
 
-	Camera(Point3 o, Vec3 llc, Vec3 h, Vec3 v) : origin(o), lowerLeftCorner(llc), horizontal(h), vertical(v) {}
+	PerspectiveCamera(Point3 o, double d, Vec3 h, Vec3 v, Vec3 w, 
+		double hh, double hw, double ap, double fdist) : 
+		origin(o), distance(d), horizontal(h), vertical(v), w(w), 
+		halfWidth(hw), halfHeight(hh), aperture(ap), fdist(fdist) {}
 
 	Ray getRay(double u, double v) {
-		return Ray(origin, lowerLeftCorner + horizontal*u + vertical*v - origin);
+		v = -halfWidth + 2*halfWidth*v;
+		u = -halfHeight + 2*halfHeight*u;
+		return Ray(origin, horizontal*u + vertical*v - w*distance, aperture, fdist);
 	}
 
 	Point3 getOrigin() { return origin; }
-	Point3 getLLC() { return lowerLeftCorner; }
+
+};
+
+class ParallelCamera : public Camera {
+	Vec3 u_, v_, w_;
+	Point3 e;
+	Point3 origin;
+	double b, t, l, r;
+
+public:	
+	ParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e, double b, double t, double l, double r) : 
+		Camera(), u_(u), v_(v), w_(w), e(e), b(b), t(t), l(l), r(r) {}
+
+	Ray getRay(double u, double v) {
+		u = l + (r - l) * u;
+		v = b + (t - b) * v;
+		origin = e + u_ * u + v_ * v;
+		return Ray(origin, -w_);
+	}
+
+	Point3 getOrigin() { return origin; }
 
 };
 

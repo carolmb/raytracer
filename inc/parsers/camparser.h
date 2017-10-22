@@ -7,7 +7,7 @@
 
 class CameraParser : public Parser {
 public:
-	bool getCamera(std::istringstream &reader, Camera &cam);
+	bool getCamera(std::istringstream &reader, Camera **cam);
 };
 
 #endif
