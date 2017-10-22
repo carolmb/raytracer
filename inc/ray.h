@@ -12,16 +12,18 @@ class Ray {
 public:
 	Ray() : o_(), d_() {}
 	Ray(Point3 o, Vec3 d) : o_(o), d_(d) {}
-	Ray(Point3 o, Vec3 d, double ap) : o_(o), d_(d), ap(ap) {
-				
-		double deltaX = (std::generate_canonical<double, 6>(randomGenerator) - 0.5)*ap;
-		double deltaY = (std::generate_canonical<double, 6>(randomGenerator) - 0.5)*ap;
+	Ray(Point3 o, Vec3 d, double ap, double focaldist) : o_(o), d_(d), ap(ap) {
+		if(ap > 0) {		
+			double deltaX = (std::generate_canonical<double, 6>(randomGenerator) - 0.5)*ap;
+			double deltaY = (std::generate_canonical<double, 6>(randomGenerator) - 0.5)*ap;
 
-		o_.x += deltaX;
-		o_.y += deltaY;
-		d_.x += deltaX;
-		d_.y += deltaY;
-
+			double ft = (-focaldist - o.z)/d.z; // focal dist t
+			Point3 pfocus = at(ft);
+			
+			o_.x += deltaX;
+			o_.y += deltaY;
+			d_ = (pfocus - o_).norm();
+		}
 	}
 
 	Point3 origin() { return o_; }

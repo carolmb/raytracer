@@ -1,4 +1,4 @@
-FILENAME = imgs/outputs/blinnphong
+FILENAME = imgs/outputs/blinnphong1
 FILETYPE = ppm
 WIDTH = 1000
 HEIGHT = 500
@@ -26,7 +26,8 @@ viewplanenormal = 0 0 0
 viewup = 0 1 0
 vfov = 45
 aspectratio = 0.5
-aperture = 0.1
+aperture = 0
+fdist = 7
 isoblique = 0
 
 begin_objs

@@ -2,6 +2,7 @@
 
 #include "parsers/matparser.h"
 #include "sphere.h"
+#include "triangle.h"
 
 #include <string>
 
@@ -20,11 +21,33 @@ bool ObjectParser::readSphere(std::istringstream &reader, std::shared_ptr<Object
 	return true;
 }
 
+bool ObjectParser::readTriangle(std::istringstream &reader, std::shared_ptr<Object> &o) {
+	Point3 p1, p2, p3;
+	if(!checkFieldName(reader, "P1")) return false;
+	readVec3(reader, p1);
+
+	if(!checkFieldName(reader, "P2")) return false;
+	readVec3(reader, p2);
+	
+	if(!checkFieldName(reader, "P3")) return false;
+	readVec3(reader, p3);
+
+	Material *mat = nullptr;
+	MaterialParser matParser;
+	if(!matParser.getMaterial(reader, &mat)) return false;
+
+	o = std::shared_ptr<Triangle> (new Triangle(p1, p2, p3, mat));
+	return true;
+}
+
+
 bool ObjectParser::readObj(std::istringstream &reader, std::shared_ptr<Object> &o) {
 	std::string field; reader >> field >> field;
 	if(field.compare("SPHERE") == 0) {
 		return readSphere(reader, o);
-	}
+	} else if(field.compare("TRIANGLE") == 0) {
+		return readTriangle(reader, o);
+	} 
 	// TODO other objs
 	return false;
 }
