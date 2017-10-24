@@ -43,20 +43,23 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		reader >> oblique;
 		
 		//camera frame
-		Vec3 gaze = (lookat - lookfrom).norm(); 
-		Vec3 u = -viewup.cross(gaze).norm();
-		Vec3 v = -gaze.cross(u).norm();		
-		Vec3 w = u.cross(v).norm();
+		Vec3 gaze = (lookfrom - lookat); 
+		Vec3 w = gaze.norm();
+		Vec3 u = viewup.cross(w).norm();
+		Vec3 v = w.cross(u).norm();		
+		
+		std::cout << u << " " << v << " " << w << std::endl;
 
 		double theta = vfov * pi / 180;
-		double d = (lookat - lookfrom).len();
+		double d = (lookfrom - lookat).len();
+		std::cout << "dist: " << d << std::endl;
 		double halfHeight = d/std::tan(theta/2);
 		double halfWidth = halfHeight/aspectRatio;
 		
 		Vec3 origin = lookfrom;
 
 		if(oblique) {
-			w = (lookat - lookfrom).norm();
+
 		}
 
 		*cam = new PerspectiveCamera(origin, d, u, v, w, halfWidth, halfHeight, aperture, fdist);
