@@ -40,7 +40,7 @@ bool Triangle::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 	}
 
 	if(t < mint){
-		t = mint;
+		mint = t;
 		hit.t = t;
 		hit.p = ray.at(t);
 		hit.n = edge1.cross(edge2).norm();

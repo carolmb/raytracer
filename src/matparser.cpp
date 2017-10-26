@@ -34,7 +34,6 @@ bool MaterialParser::getMaterial(std::istringstream &reader, Material **mat) {
 		if(!checkFieldName(reader, "exps")) return false;
 		double exps; reader >> exps;
 		*mat = new BlinnPhongMaterial(ka, kd, ks, exps);
-	
 	} else if (type.compare("cartoon") == 0) {
 		std::string fieldName;
 		if(!checkFieldName(reader, "outline")) return false;
