@@ -22,14 +22,12 @@ public:
 			double deltaX = (std::generate_canonical<double, 6>(randomGenerator) - 0.5)*ap;
 			double deltaY = (std::generate_canonical<double, 6>(randomGenerator) - 0.5)*ap;
 
-			// double ft = -(focaldist + o.z)/d.z; // focal dist t
 			Point3 pfocus = at(focaldist);
 			
 			o_.x += deltaX;
 			o_.y += deltaY;
 			d_ = (pfocus - o_).norm();
-			// std::cout << "d:" << d << "d_:" << d_;
-		} else { std::cout << "AAAAAA";}
+		} 
 	}
 
 	double getT(Point3 p) { 

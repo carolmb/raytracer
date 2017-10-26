@@ -21,9 +21,10 @@ fdist = 1
 isoblique = 1
 
 begin_objs
-OBJ = SPHERE
-CENTER = 0 0 -1
-RADIUS = 0.5
+OBJ = TRIANGLE
+P1 = 0 0 -1
+P2 = 1 1 -1
+P3 = 0 1 -1
 MATERIAL = blinnphong
 ka = 0.1 0.1 0.1
 kd = 0.0 0.3 0.8
@@ -44,7 +45,7 @@ end_objs
 begin_lights
 LIGHT = PUNCTUAL
 i = 1 1 1
-origin = 0 0 1
+origin = 0 0 0
 LIGHT = AMBIENT  
 i = 0.4 0.4 0.4
 end_lights

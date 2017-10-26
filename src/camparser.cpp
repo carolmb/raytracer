@@ -48,21 +48,16 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		Vec3 u = viewup.cross(w).norm();
 		Vec3 v = w.cross(u).norm();		
 		
-		std::cout << u << " " << v << " " << w << std::endl;
-
 		double theta = vfov * pi / 180;
 		double d = (lookfrom - lookat).len();
-		std::cout << "dist: " << d << std::endl;
 		double halfHeight = d/std::tan(theta/2);
 		double halfWidth = halfHeight/aspectRatio;
-		
-		Vec3 origin = lookfrom;
 
 		if(oblique) {
 
 		}
 
-		*cam = new PerspectiveCamera(origin, d, u, v, w, halfWidth, halfHeight, aperture, fdist);
+		*cam = new PerspectiveCamera(lookfrom, d, u, v, w, halfWidth, halfHeight, aperture, fdist);
 
 	} else if(field.compare("PARALLEL") == 0) {
 		double b, t, l, r;

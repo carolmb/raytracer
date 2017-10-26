@@ -43,9 +43,9 @@ bool Triangle::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 		t = mint;
 		hit.t = t;
 		hit.p = ray.at(t);
-		hit.n = (p1 - hit.p).cross((p2 - hit.p)).norm();
+		hit.n = edge1.cross(edge2).norm();
 		hit.m = mat;
 		return true;
 	}
-
+	return false;
 }
