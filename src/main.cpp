@@ -18,4 +18,5 @@ int main(int argc, char* argv[]) {
 	}
 	std::cout << "Main function finished." << std::endl;
 	return 0;
+
 }
