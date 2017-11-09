@@ -1,4 +1,5 @@
 #include "sphere.h"
+#include "vec4.h"
 
 #include <cmath>
 #include <iostream>

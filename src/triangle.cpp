@@ -6,15 +6,26 @@
 #include <iostream>
 
 bool Triangle::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
-	Vec3 edge1 = p2 - p1;
-	Vec3 edge2 = p3 - p1;
+	Vec4 bla = Vec4::toVec4Homo(p1);
+	Point3 p1_ = (transf.mat*bla).toVec3();
+
+	bla = Vec4::toVec4Homo(p2);
+	Point3 p2_ = (transf.mat*bla).toVec3();
+	
+	bla = Vec4::toVec4Homo(p3);
+	Point3 p3_ = (transf.mat*bla).toVec3();
+
+	//std::cout << p1_ << " " << p2_ << " " << p3_;
+
+	Vec3 edge1 = p2_ - p1_;
+	Vec3 edge2 = p3_ - p1_;
 	Vec3 pvec = ray.dir().cross(edge2);
 	double det = edge1.dot(pvec);
 	if(det < epsilon) {
 		return false;
 	}
 
-	Vec3 tvec = ray.origin() - p1;
+	Vec3 tvec = ray.origin() - p1_;
 	double u = tvec.dot(pvec);
 
 	if(u < 0 || u > det) {

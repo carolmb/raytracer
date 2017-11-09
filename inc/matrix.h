@@ -3,6 +3,8 @@
 
 #include <cmath>
 
+#include "vec4.h"
+
 class Mat4 {
 	typedef double number;
 public:
@@ -203,6 +205,19 @@ public:
 			}
 		}
 		return result;
+	}
+
+	void canonical() {
+		zeros();
+		m[3][3] = 1;
+	}
+
+	Vec4 operator*(Vec4 other) {
+		return Vec4(
+			m[0][0]*other.x + m[0][1]*other.y + m[0][2]*other.z + m[0][3]*other.w,
+			m[1][0]*other.x + m[1][1]*other.y + m[1][2]*other.z + m[1][3]*other.w,
+			m[2][0]*other.x + m[2][1]*other.y + m[2][2]*other.z + m[2][3]*other.w,
+			m[3][0]*other.x + m[3][1]*other.y + m[3][2]*other.z + m[3][3]*other.w);
 	}
 
 };
