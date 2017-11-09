@@ -30,7 +30,9 @@ kd = 0.0 0.3 0.8
 ks = 0.9 0.9 0.9
 exps = 64
 begin_transf
-translation 0.2 0.2 0
+rotate x 30
+scale 0.5 0.5 1
+translate 0.5 0.5 0
 end_transf
 
 OBJ = TRIANGLE
