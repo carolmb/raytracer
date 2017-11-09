@@ -6,14 +6,14 @@
 #include <iostream>
 
 bool Triangle::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
-	Vec4 bla = Vec4::toVec4Homo(p1);
-	Point3 p1_ = (transf.mat*bla).toVec3();
+	Vec4 bla = p1;
+	Point3 p1_ = transf.mat*bla;
 
-	bla = Vec4::toVec4Homo(p2);
-	Point3 p2_ = (transf.mat*bla).toVec3();
+	bla = p2;
+	Point3 p2_ = transf.mat*bla;
 	
-	bla = Vec4::toVec4Homo(p3);
-	Point3 p3_ = (transf.mat*bla).toVec3();
+	bla = p3;
+	Point3 p3_ = transf.mat*bla;
 
 	//std::cout << p1_ << " " << p2_ << " " << p3_;
 

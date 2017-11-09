@@ -4,6 +4,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "vec4.h"
+
 class Vec3 {
 	typedef double number;
 public:
@@ -46,6 +48,10 @@ public:
 		return os;
 	}
 
+	void operator=(Vec4 &other) {
+		double w = other.x;
+		x = other.x/w; y = other.y/w; z = other.z/w;
+	}
 };
 
 typedef Vec3 Point3;

@@ -4,7 +4,7 @@
 #include <cmath>
 #include <iostream>
 
-#include "vec3.h"
+class Vec3;
 
 class Vec4 {
 	typedef double number;
@@ -16,6 +16,7 @@ public:
 
 	Vec4() : x(0), y(0), z(0), w(0) {}
 	Vec4(number x0, number y0, number z0, number w0) : x(x0), y(y0), z(z0), w(w0) {}
+	Vec4(Vec3 other) { x = other.x; y = other.y; z = other.z; w = 0; }
 
 	Vec4 operator+(Vec4 other) { return Vec4(x + other.x, y + other.y, z + other.z, w + other.w); }
 	Vec4 operator-(Vec4 other) { return Vec4(x - other.x, y - other.y, z - other.z, w - other.w); }
@@ -36,16 +37,8 @@ public:
 		return os;
 	}
 
-	Vec3 toVec3() {
-		return Vec3(x/w, y/w, z/w);
-	}
-
-	static Vec4 toVec4(Vec3 v) {
-		return Vec4(v.x, v.y, v.z, 0);
-	}
-
-	static Vec4 toVec4Homo(Vec3 v) {
-		return Vec4(v.x, v.y, v.z, 1);
+	void operator=(Vec3 const &other) {
+		x = other.x; y = other.y; z = other.z; w = 1;
 	}
 
 };

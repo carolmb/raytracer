@@ -4,6 +4,8 @@
 #include <cmath>
 #include <iostream>
 bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
+	
+
 	Vec3 oc = ray.origin() - center;
 	double a = ray.dir().len2();
 	double b = 2.0 * oc.dot(ray.dir());
@@ -24,7 +26,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			mint = r2;
 			hit.t = r2;
 			hit.p = ray.at(r2);
-			hit.n = (hit.p - center).norm();
+			hit.n =  (hit.p - center).norm();
 			hit.m = mat;
 			return true;
 		}
