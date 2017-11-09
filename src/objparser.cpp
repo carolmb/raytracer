@@ -115,7 +115,7 @@ bool ObjectParser::readTransformations(std::istringstream &reader, std::shared_p
 	Transformation finalT;
 	finalT.mat = allTransf;
 	finalT.inv = allTransf.inverse();
-	o->transf = finalT;
+	o->setTransf(finalT);
 	return true;
 }
 

@@ -5,27 +5,24 @@
 #include <cmath>
 #include <iostream>
 
+void Triangle::setTransf(Transformation t) {
+	p1 = t.mat*p1;
+	p2 = t.mat*p2;
+	p3 = t.mat*p3;
+	transf = t;
+}
+
 bool Triangle::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
-	Vec4 bla = p1;
-	Point3 p1_ = transf.mat*bla;
-
-	bla = p2;
-	Point3 p2_ = transf.mat*bla;
 	
-	bla = p3;
-	Point3 p3_ = transf.mat*bla;
-
-	//std::cout << p1_ << " " << p2_ << " " << p3_;
-
-	Vec3 edge1 = p2_ - p1_;
-	Vec3 edge2 = p3_ - p1_;
+	Vec3 edge1 = p2 - p1;
+	Vec3 edge2 = p3 - p1;
 	Vec3 pvec = ray.dir().cross(edge2);
 	double det = edge1.dot(pvec);
 	if(det < epsilon) {
 		return false;
 	}
 
-	Vec3 tvec = ray.origin() - p1_;
+	Vec3 tvec = ray.origin() - p1;
 	double u = tvec.dot(pvec);
 
 	if(u < 0 || u > det) {

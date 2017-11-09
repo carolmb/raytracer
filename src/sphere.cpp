@@ -1,11 +1,13 @@
 #include "sphere.h"
-#include "vec4.h"
 
 #include <cmath>
 #include <iostream>
-bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
-	
 
+void Sphere::setTransf(Transformation t) {
+	transf = t;
+}
+
+bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 	Vec3 oc = ray.origin() - center;
 	double a = ray.dir().len2();
 	double b = 2.0 * oc.dot(ray.dir());

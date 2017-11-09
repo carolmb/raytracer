@@ -13,6 +13,7 @@ public:
 	virtual bool hit(Ray r, HitRecord &hit, double &mint, double maxt) = 0;
 	Object(Material *mat) : mat(mat) {}
 	Object() { mat = new BlinnPhongMaterial(); }
+	virtual void setTransf(Transformation t) = 0;
 };
 
 

@@ -9,9 +9,8 @@ public:
 	double radius;
 	Sphere() : Object() {}
 	Sphere(Point3 c, double r, Material *mat) : center(c), radius(r), Object(mat) {}
-
 	bool hit(Ray ray, HitRecord &hit, double &mint, double maxt);
-
+	void setTransf(Transformation t);
 };
 
 
