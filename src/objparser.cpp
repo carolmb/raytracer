@@ -53,29 +53,36 @@ bool ObjectParser::readTransf(std::istringstream &reader, Mat4 &m, std::string t
 		m.m[0][3] = t.x; m.m[1][3] = t.y; m.m[2][3] = t.z;
 	} else if(transfName.compare("rotate") == 0) {
 		std::string axis; 
-		double angle;
-		reader >> axis;
-		reader >> angle;
-		double cos = std::cos(angle*PI/180.0);
-		double sin = std::sin(angle*PI/180.0);
+		Vec3 t; readVec3(reader, t);
+		double cosX = std::cos(t.x*PI/180.0);
+		double sinX = std::sin(t.x*PI/180.0);
 		
-		if(axis.compare("x") == 0) {
-			m.m[1][1] = cos;
-			m.m[2][2] = cos;
-			m.m[1][2] = -sin;
-			m.m[2][1] = sin;
-			std::cout << m;
-		} else if(axis.compare("y") == 0) {
-			m.m[0][0] = cos;
-			m.m[0][2] = sin;
-			m.m[2][0] = -sin;
-			m.m[2][2] = cos;
-		} else if(axis.compare("z") == 0) {
-			m.m[0][0] = cos;
-			m.m[0][1] = -sin;
-			m.m[1][0] = sin;
-			m.m[1][1] = cos;
-		} else { return false; }
+		double cosY = std::cos(t.y*PI/180.0);
+		double sinY = std::sin(t.y*PI/180.0);
+
+		double cosZ = std::cos(t.z*PI/180.0);
+		double sinZ = std::sin(t.z*PI/180.0);
+		Mat4 m1; m1.identity();
+		m1.m[1][1] = cosX;
+		m1.m[2][2] = cosX;
+		m1.m[1][2] = -sinX;
+		m1.m[2][1] = sinX;
+		
+		Mat4 m2; m2.identity();
+		m2.m[0][0] = cosY;
+		m2.m[0][2] = sinY;
+		m2.m[2][0] = -sinY;
+		m2.m[2][2] = cosY;
+
+		Mat4 m3; m3.identity();
+		m3.m[0][0] = cosZ;
+		m3.m[0][1] = -sinZ;
+		m3.m[1][0] = sinZ;
+		m3.m[1][1] = cosZ;
+
+		m = m1 * m2 * m3;
+		std::cout << m;
+
 	} else if(transfName.compare("free") == 0) {
 		for(int i = 0; i < 4; i++) {
 			for(int j = 0; j < 4; j++) {

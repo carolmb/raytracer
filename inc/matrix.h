@@ -33,10 +33,7 @@ public:
 
 	}
 
-	Mat4 operator*(double a);
-
-	void canonical();
-
+	Mat4 operator*(double a);	
 	Vec3 operator*(Vec3 other);
 
 	friend std::ostream &operator<<(std::ostream &os, Mat4 const &mat) {
