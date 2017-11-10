@@ -81,7 +81,6 @@ bool ObjectParser::readTransf(std::istringstream &reader, Mat4 &m, std::string t
 		m3.m[1][1] = cosZ;
 
 		m = m1 * m2 * m3;
-		std::cout << m;
 
 	} else if(transfName.compare("free") == 0) {
 		for(int i = 0; i < 4; i++) {

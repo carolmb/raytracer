@@ -6,9 +6,15 @@
 #include <iostream>
 
 void Triangle::setTransf(Transformation t) {
+	std::cout << "p1:  "<< p1;
 	p1 = t.mat*p1;
+	std::cout << p1;
+	std::cout << p2;
 	p2 = t.mat*p2;
+	std::cout << p2;
+	std::cout << p3;
 	p3 = t.mat*p3;
+	std::cout << p3;
 	transf = t;
 }
 
