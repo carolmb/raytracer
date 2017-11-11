@@ -1,7 +1,7 @@
 #ifndef DIRLIGHT__
 #define DIRLIGHT__
 
-#include "light.h"
+#include "lights/light.h"
 
 #include <limits>
 

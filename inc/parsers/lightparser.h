@@ -1,8 +1,8 @@
 #ifndef LIGHTPARSER__
 #define LIGHTPARSER__
 
-#include "parser.h"
-#include "light.h"
+#include "parsers/parser.h"
+#include "lights/light.h"
 
 #include <sstream>
 #include <vector>

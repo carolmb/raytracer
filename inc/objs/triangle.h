@@ -1,7 +1,7 @@
 #ifndef TRIANGLE__
 #define TRIANGLE__
 
-#include "object.h"
+#include "objs/object.h"
 
 class Triangle : public Object {
 public:

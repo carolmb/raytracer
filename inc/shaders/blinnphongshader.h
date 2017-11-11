@@ -1,12 +1,13 @@
 #ifndef BLINNPHONGSHADER__
 #define BLINNPHONGSHADER__
 
-#include "shader.h"
+#include "shaders/shader.h"
+#include "materials/blinnphongmat.h"
+#include "hitrecord.h"
+#include "materials/material.h"
+
 #include <limits>
 #include <exception>
-#include "../materials/blinnphongmat.h"
-#include "../hitrecord.h"
-#include "../material.h"
 
 class BlinnPhongShader : public Shader {
 

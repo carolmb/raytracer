@@ -1,7 +1,7 @@
 #ifndef LAMBMAT__
 #define LAMBMAT__
 
-#include "material.h"
+#include "materials/material.h"
 #include <random>
 
 class LambertianMaterial : public Material {

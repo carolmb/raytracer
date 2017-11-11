@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "parsers/parser.h"
 
 bool Parser::checkFieldName(std::istringstream &reader, std::string field) {
 	std::string f;

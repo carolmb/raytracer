@@ -9,7 +9,13 @@ class Mat4 {
 	typedef double number;
 public:
 	number m[4][4];
-	Mat4() { zeros(); }
+	Mat4() { 
+		for(int i = 0; i < 4; i++) {
+			for(int j = 0; j < 4; j++) {
+				m[i][j] = 0;
+			}
+		}
+	}
 	Mat4(number a[4][4]) {
 		for(int i = 0; i < 4; i++) {
 			for(int j = 0; j < 4; j++) {
@@ -18,23 +24,22 @@ public:
 		}
 	}
 
-	void identity();
-	void zeros();
-	void ones();
-
-	Mat4 operator*(Mat4 o);
-	Mat4 operator+(Mat4 other);
+	static Mat4 identity();
+	static Mat4 zeros();
+	static Mat4 ones();
+	
 	Mat4 transpose();
 	Mat4 inverse();
+	Mat4 operator*(Mat4 o);
+	Mat4 operator+(Mat4 other);
+	Mat4 operator*(double a);	
+	Vec3 operator*(Vec3 other);
 
 	double det();
 
 	Mat4 invalid() {
 
 	}
-
-	Mat4 operator*(double a);	
-	Vec3 operator*(Vec3 other);
 
 	friend std::ostream &operator<<(std::ostream &os, Mat4 const &mat) {
 		for(int i = 0; i < 4; i++) {
@@ -54,6 +59,9 @@ public:
 		}
 	}
 
+	static Mat4 rotation(Vec3 t);
+	static Mat4 translation(Vec3 t);
+	static Mat4 scaling(Vec3 t);
 };
 
 #endif

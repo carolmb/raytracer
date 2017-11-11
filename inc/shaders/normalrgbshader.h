@@ -1,7 +1,7 @@
 #ifndef NORMALSHADER__
 #define NORMALSHADER__
 
-#include "shader.h"
+#include "shaders/shader.h"
 #include <limits>
 
 class NormalRGBShader : public Shader {

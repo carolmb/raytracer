@@ -1,4 +1,4 @@
-#include "sphere.h"
+#include "objs/sphere.h"
 
 #include <cmath>
 #include <iostream>

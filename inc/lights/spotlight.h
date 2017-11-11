@@ -1,7 +1,7 @@
 #ifndef SPOTLIGHT__
 #define SPOTLIGHT__
 
-#include "light.h"
+#include "lights/light.h"
 #include "ray.h"
 
 #include <cmath>

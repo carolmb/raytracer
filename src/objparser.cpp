@@ -1,14 +1,10 @@
 #include "parsers/objparser.h"
 
-#define PI 3.14159265	
-
 #include "parsers/matparser.h"
-#include "sphere.h"
-#include "triangle.h"
-#include "transf.h"
-#include "matrix.h"
-
-#include <cmath>
+#include "objs/sphere.h"
+#include "objs/triangle.h"
+#include "util/transf.h"
+#include "util/mat4.h"
 
 bool ObjectParser::readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {
 	if(!checkFieldName(reader, "CENTER")) return false;
@@ -47,41 +43,13 @@ bool ObjectParser::readTriangle(std::istringstream &reader, std::shared_ptr<Obje
 bool ObjectParser::readTransf(std::istringstream &reader, Mat4 &m, std::string transfName) {
 	if(transfName.compare("scale") == 0) {
 		Vec3 t; readVec3(reader, t);
-		m.m[0][0] = t.x; m.m[1][1] = t.y; m.m[2][2] = t.z; 
+		m = Mat4::scaling(t);
 	} else if(transfName.compare("translate") == 0) {
 		Vec3 t; readVec3(reader, t);
-		m.m[0][3] = t.x; m.m[1][3] = t.y; m.m[2][3] = t.z;
+		m = Mat4::translation(t);
 	} else if(transfName.compare("rotate") == 0) {
-		std::string axis; 
 		Vec3 t; readVec3(reader, t);
-		double cosX = std::cos(t.x*PI/180.0);
-		double sinX = std::sin(t.x*PI/180.0);
-		
-		double cosY = std::cos(t.y*PI/180.0);
-		double sinY = std::sin(t.y*PI/180.0);
-
-		double cosZ = std::cos(t.z*PI/180.0);
-		double sinZ = std::sin(t.z*PI/180.0);
-		Mat4 m1; m1.identity();
-		m1.m[1][1] = cosX;
-		m1.m[2][2] = cosX;
-		m1.m[1][2] = -sinX;
-		m1.m[2][1] = sinX;
-		
-		Mat4 m2; m2.identity();
-		m2.m[0][0] = cosY;
-		m2.m[0][2] = sinY;
-		m2.m[2][0] = -sinY;
-		m2.m[2][2] = cosY;
-
-		Mat4 m3; m3.identity();
-		m3.m[0][0] = cosZ;
-		m3.m[0][1] = -sinZ;
-		m3.m[1][0] = sinZ;
-		m3.m[1][1] = cosZ;
-
-		m = m1 * m2 * m3;
-
+		m = Mat4::rotation(t);
 	} else if(transfName.compare("free") == 0) {
 		for(int i = 0; i < 4; i++) {
 			for(int j = 0; j < 4; j++) {
@@ -103,14 +71,13 @@ bool ObjectParser::readTransformations(std::istringstream &reader, std::shared_p
 		reader >> begin;
 		
 		if(begin.compare("end_transf") == 0) break;
-		Mat4 m; m.identity();
+		Mat4 m = Mat4::identity();
 		if(readTransf(reader, m, begin)) {
 			transf.push_back(m);
 		} else return false;
 	}
 
-	Mat4 allTransf; 
-	allTransf.identity();
+	Mat4 allTransf = Mat4::identity(); 
 	if(transf.size() > 0) {
 		allTransf = transf.back();
 		for(int i = transf.size() - 2; i >= 0; i--) {

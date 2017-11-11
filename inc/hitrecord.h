@@ -2,7 +2,7 @@
 #define HITRECORD__
 
 #include "ray.h"
-#include "vec3.h"
+#include "util/vec3.h"
 
 class Material;
 

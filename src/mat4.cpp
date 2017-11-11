@@ -1,32 +1,41 @@
-#include "matrix.h"
+#include "util/mat4.h"
 
+#define PI 3.14159265	
 
-void Mat4::identity() {
+#include <cmath>
+
+Mat4 Mat4::identity() {
+	Mat4 m;
 	for(int i = 0; i < 4; i++) {
 		for(int j = 0; j < 4; j++) {
 			if(i == j) {
-				m[i][j] = 1;
+				m.m[i][j] = 1;
 			} else {
-				m[i][j] = 0;
+				m.m[i][j] = 0;
 			}				
 		}
 	}
+	return m;
 }
 
-void Mat4::zeros() {
+Mat4 Mat4::zeros() {
+	Mat4 m;
 	for(int i = 0; i < 4; i++) {
 		for(int j = 0; j < 4; j++) {
-			m[i][j] = 0;				
+			m.m[i][j] = 0;				
 		}
 	}
+	return m;
 }
 
-void Mat4::ones() {
+Mat4 Mat4::ones() {
+	Mat4 m;
 	for(int i = 0; i < 4; i++) {
 		for(int j = 0; j < 4; j++) {
-			m[i][j] = 1;				
+			m.m[i][j] = 1;				
 		}
 	}
+	return m;
 }
 
 Mat4 Mat4::operator*(Mat4 o) {
@@ -173,4 +182,49 @@ Vec3 Mat4::operator*(Vec3 other) {
 		m[0][0]*other.x + m[0][1]*other.y + m[0][2]*other.z + m[0][3],
 		m[1][0]*other.x + m[1][1]*other.y + m[1][2]*other.z + m[1][3],
 		m[2][0]*other.x + m[2][1]*other.y + m[2][2]*other.z + m[2][3]);
+}
+
+Mat4 Mat4::rotation(Vec3 t) {
+	Mat4 m;
+	double cosX = std::cos(t.x*PI/180.0);
+	double sinX = std::sin(t.x*PI/180.0);
+	
+	double cosY = std::cos(t.y*PI/180.0);
+	double sinY = std::sin(t.y*PI/180.0);
+
+	double cosZ = std::cos(t.z*PI/180.0);
+	double sinZ = std::sin(t.z*PI/180.0);
+	
+	Mat4 m1 = identity();
+	m1.m[1][1] = cosX;
+	m1.m[2][2] = cosX;
+	m1.m[1][2] = -sinX;
+	m1.m[2][1] = sinX;
+	
+	Mat4 m2 = identity();
+	m2.m[0][0] = cosY;
+	m2.m[0][2] = sinY;
+	m2.m[2][0] = -sinY;
+	m2.m[2][2] = cosY;
+
+	Mat4 m3 = identity();
+	m3.m[0][0] = cosZ;
+	m3.m[0][1] = -sinZ;
+	m3.m[1][0] = sinZ;
+	m3.m[1][1] = cosZ;
+
+	m = m1 * m2 * m3;
+	return m;
+}
+
+Mat4 Mat4::translation(Vec3 t) {
+	Mat4 m = identity();
+	m.m[0][3] = t.x; m.m[1][3] = t.y; m.m[2][3] = t.z;
+	return m;
+}
+
+Mat4 Mat4::scaling(Vec3 t) {
+	Mat4 m = identity();
+	m.m[0][0] = t.x; m.m[1][1] = t.y; m.m[2][2] = t.z; 
+	return m;
 }

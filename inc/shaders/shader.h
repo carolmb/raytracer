@@ -2,7 +2,7 @@
 #define SHADER__
 
 #include <cmath>
-#include "vec3.h"
+#include "util/vec3.h"
 #include "ray.h"
 
 class Shader {

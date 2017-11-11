@@ -1,7 +1,7 @@
 #ifndef SCENEPARSER__
 #define SCENEPARSER__
 
-#include "parser.h"
+#include "parsers/parser.h"
 #include "package.h"
 
 class SceneParser : public Parser {

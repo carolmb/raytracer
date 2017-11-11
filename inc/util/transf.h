@@ -1,7 +1,7 @@
 #ifndef TRANSF__
 #define TRANSF__
 
-#include "matrix.h"
+#include "mat4.h"
 
 struct Transformation {
 	Mat4 mat;

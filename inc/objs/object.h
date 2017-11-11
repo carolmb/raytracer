@@ -2,9 +2,9 @@
 #define OBJ__
 
 #include "hitrecord.h"
-#include "material.h"
+#include "materials/material.h"
 #include "materials/blinnphongmat.h"
-#include "transf.h"
+#include "util/transf.h"
 
 class Object {
 public:

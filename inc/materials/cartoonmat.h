@@ -1,7 +1,7 @@
 #ifndef CARTOONMAT__
 #define CARTOONMAT__
 
-#include "material.h"
+#include "materials/material.h"
 #include <vector>
 
 class CartoonMaterial : public Material {

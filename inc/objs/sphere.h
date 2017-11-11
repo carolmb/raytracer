@@ -1,7 +1,7 @@
 #ifndef SPHERE__
 #define SPHERE__
 
-#include "object.h"
+#include "objs/object.h"
 
 class Sphere : public Object {
 public:

@@ -1,7 +1,7 @@
 #ifndef RECSHADER__
 #define RECSHADER__
 
-#include "shader.h"
+#include "shaders/shader.h"
 #include <limits>
 
 class RecursiveShader : public Shader {

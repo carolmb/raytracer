@@ -1,7 +1,7 @@
 #ifndef POINTLIGHT__
 #define POINTLIGHT__
 
-#include "light.h"
+#include "lights/light.h"
 #include <limits>
 
 class PunctualLight : public Light {

@@ -3,7 +3,7 @@
 
 #include <string>
 #include <sstream>
-#include "vec3.h"
+#include "util/vec3.h"
 
 class Parser {
 public:

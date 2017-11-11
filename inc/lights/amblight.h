@@ -1,7 +1,7 @@
 #ifndef AMBLIGHT__
 #define AMBLIGHT__
 
-#include "light.h"
+#include "lights/light.h"
 
 class AmbientLight : public Light {
 public:

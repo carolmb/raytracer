@@ -1,7 +1,7 @@
 #ifndef HEADERPARSER__
 #define HEADERPARSER__
 
-#include "parser.h"
+#include "parsers/parser.h"
 #include "package.h"
 #include <sstream>
 

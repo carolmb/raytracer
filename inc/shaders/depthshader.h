@@ -1,7 +1,7 @@
 #ifndef DEPTHSHADER__
 #define DEPTHSHADER__
 
-#include "shader.h"
+#include "shaders/shader.h"
 #include <limits>
 
 class DepthShader : public Shader {

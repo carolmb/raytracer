@@ -1,8 +1,8 @@
 #ifndef OBJPARSER__
 #define OBJPARSER__
 
-#include "parser.h"
-#include "object.h"
+#include "parsers/parser.h"
+#include "objs/object.h"
 
 #include <sstream>
 #include <memory>

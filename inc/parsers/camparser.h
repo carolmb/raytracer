@@ -1,7 +1,7 @@
 #ifndef CAMPARSER__
 #define CAMPARSER__
 
-#include "parser.h"
+#include "parsers/parser.h"
 #include "camera.h"
 #include <sstream>
 

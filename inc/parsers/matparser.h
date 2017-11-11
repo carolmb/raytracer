@@ -1,8 +1,8 @@
 #ifndef MATPARSER__
 #define MATPARSER__
 
-#include "parser.h"
-#include "../material.h"
+#include "parsers/parser.h"
+#include "materials/material.h"
 
 #include <sstream>
 

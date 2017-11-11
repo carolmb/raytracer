@@ -3,10 +3,10 @@
 
 #include <string>
 
-#include "vec3.h"
-#include "light.h"
+#include "util/vec3.h"
+#include "lights/light.h"
 #include "camera.h"
-#include "object.h"
+#include "objs/object.h"
 #include "package.h"
 
 class Input {

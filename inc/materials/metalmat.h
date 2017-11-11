@@ -1,7 +1,7 @@
 #ifndef METALMAT__
 #define METALMAT__
 
-#include "material.h"
+#include "materials/material.h"
 #include <random>
 
 class MetalMaterial : public Material {

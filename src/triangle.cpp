@@ -1,4 +1,4 @@
-#include "triangle.h"
+#include "objs/triangle.h"
 
 #define epsilon 0.00001
 

@@ -1,7 +1,7 @@
 #ifndef CAMERA__
 #define CAMERA__
 
-#include "vec3.h"
+#include "util/vec3.h"
 #include "ray.h"
 #include <iostream>
 

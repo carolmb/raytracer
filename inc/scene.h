@@ -2,10 +2,10 @@
 #define SCENE__
 
 #include "camera.h"
-#include "object.h"
+#include "objs/object.h"
 #include "ray.h"
-#include "vec3.h"
-#include "light.h"
+#include "util/vec3.h"
+#include "lights/light.h"
 #include "lights/amblight.h"
 
 #include <vector>

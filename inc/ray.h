@@ -1,7 +1,7 @@
 #ifndef RAY__
 #define RAY__
 
-#include "vec3.h"
+#include "util/vec3.h"
 
 #include <cmath>
 #include <iostream> 

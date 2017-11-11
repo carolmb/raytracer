@@ -1,12 +1,12 @@
 #ifndef CARTOONSHADER__
 #define CARTOONSHADER__
 
-#include "shader.h"
+#include "shaders/shader.h"
 #include <exception>
 #include <limits>
 #include "../materials/cartoonmat.h"
 #include "../hitrecord.h"
-#include "../material.h"
+#include "../materials/material.h"
 
 class CartoonShader : public Shader {
 

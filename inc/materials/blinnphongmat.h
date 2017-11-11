@@ -1,7 +1,7 @@
 #ifndef BPMAT__
 #define BPMAT__
 
-#include "material.h"
+#include "materials/material.h"
 
 class BlinnPhongMaterial : public Material {
 public:

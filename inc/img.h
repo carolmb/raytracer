@@ -2,7 +2,7 @@
 #define IMG__
 
 #include <string>
-#include "vec3.h"
+#include "util/vec3.h"
 
 // Uses an array of colors to save an image in a file
 class Img {
