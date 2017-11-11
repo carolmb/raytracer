@@ -50,8 +50,8 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		
 		double theta = vfov * pi / 180;
 		double d = (lookfrom - lookat).len();
-		double halfHeight = d/std::tan(theta/2);
-		double halfWidth = halfHeight/aspectRatio;
+		double halfHeight = d*std::tan(theta/2);
+		double halfWidth = halfHeight*aspectRatio;
 
 		if(oblique) {
 
