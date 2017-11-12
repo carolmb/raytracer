@@ -45,7 +45,7 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		//camera frame
 		Vec3 gaze = (lookfrom - lookat); 
 		Vec3 w = gaze.norm();
-		Vec3 u = viewup.cross(w).norm();
+		Vec3 u = (viewup.norm()).cross(w).norm();
 		Vec3 v = w.cross(u).norm();		
 		
 		double theta = vfov * pi / 180;

@@ -19,13 +19,17 @@ public:
 	Ray(Point3 o, Vec3 d) : o_(o), d_(d) {}
 	Ray(Point3 o, Vec3 d, double ap, double focaldist) : o_(o), d_(d), ap(ap) {
 		if(ap > 0) {		
-			double deltaX = (std::generate_canonical<double, 6>(randomGenerator) - 0.5)*ap;
-			double deltaY = (std::generate_canonical<double, 6>(randomGenerator) - 0.5)*ap;
+			Vec3 v;
+	      	do{
+		        double x = std::generate_canonical<double, std::numeric_limits<double>::digits> (randomGenerator);
+		        double y = std::generate_canonical<double, std::numeric_limits<double>::digits> (randomGenerator);
+		        v = Vec3(x,y,0)*2 - Vec3(1,1,0);
+	      	} while(v.dot(v) >= 1.0);
 
-			Point3 pfocus = at(focaldist);
+			double t = -focaldist/d.z;
+			Point3 pfocus = at(t);
 			
-			o_.x += deltaX;
-			o_.y += deltaY;
+			o_ = o_ + v*ap;
 			d_ = (pfocus - o_).norm();
 		} 
 	}
