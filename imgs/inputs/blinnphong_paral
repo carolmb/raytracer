@@ -15,7 +15,6 @@ top = 2
 left = -4
 right = 4
 lookfrom = 0 0 1
-viewplanenormal = 0 0 -1
 viewup = 0 1 0
 isoblique = 0
 

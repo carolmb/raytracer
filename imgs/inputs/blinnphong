@@ -12,7 +12,6 @@ BR = 1 1 1
 CAMERA = PERSPECTIVE
 lookfrom = 0 1 1
 lookat = 0 0 0
-viewplanenormal = 0 0 0
 viewup = 0 1 0
 vfov = 45
 aspectratio = 2

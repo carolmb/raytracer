@@ -10,7 +10,7 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 
 	if(field.compare("PERSPECTIVE") == 0) {
 		Vec3 lookfrom, lookat, viewplanenormal, viewup;
-		int oblique;
+		bool oblique;
 		double aperture, fdist;
 
 		if(!checkFieldName(reader, "lookfrom")) return false;
@@ -19,8 +19,8 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		if(!checkFieldName(reader, "lookat")) return false;
 		readVec3(reader, lookat);
 
-		if(!checkFieldName(reader, "viewplanenormal")) return false;
-		readVec3(reader, viewplanenormal);
+		//if(!checkFieldName(reader, "viewplanenormal")) return false;
+		//readVec3(reader, viewplanenormal);
 
 		if(!checkFieldName(reader, "viewup")) return false;
 		readVec3(reader, viewup);
@@ -54,7 +54,8 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		double halfWidth = halfHeight*aspectRatio;
 
 		if(oblique) {
-
+			Vec3 d = (lookat - lookfrom).norm();
+			w = d;
 		}
 
 		*cam = new PerspectiveCamera(lookfrom, d, u, v, w, halfWidth, halfHeight, aperture, fdist);
@@ -80,8 +81,8 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		if(!checkFieldName(reader, "lookfrom")) return false;
 		readVec3(reader, lookfrom);
 
-		if(!checkFieldName(reader, "viewplanenormal")) return false;
-		readVec3(reader, viewplanenormal);
+		//if(!checkFieldName(reader, "viewplanenormal")) return false;
+		//readVec3(reader, viewplanenormal);
 
 		if(!checkFieldName(reader, "viewup")) return false;
 		readVec3(reader, viewup);
@@ -94,7 +95,7 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		Vec3 v = w.cross(u);
 
 		if(oblique) { // read viewdir
-			if(!checkFieldName(reader, "viewdir")) return false;
+			if(!checkFieldName(reader, "viewplanenormal")) return false;
 			readVec3(reader, w);
 			w = -w.norm();
 		}
