@@ -10,10 +10,15 @@ BL = 1 1 1
 BR = 1 1 1
 
 CAMERA = PERSPECTIVE
-ORIGIN = 0 0 3
-LLC = -2 -1 -1
-H = 4 0 0
-V = 0 2 0
+lookfrom = 0 1 1
+lookat = 0 0.5 0
+viewplanenormal = 0 0 0
+viewup = 0 1 0
+vfov = 45
+aspectratio = 2
+aperture = 0	
+fdist = 1
+isoblique = 0
 
 begin_objs
 
@@ -31,6 +36,7 @@ MATERIAL = cartoon
 	begin_intervals		# bigger to smarller angles (value used cos)
 		0.2 0.4 0.6 0.8
 	end_intervals
+	begin_transf null end_transf
 
 OBJ = SPHERE
 CENTER = 1 0 -1
@@ -46,6 +52,7 @@ MATERIAL = cartoon
 	begin_intervals		# bigger to smarller angles (value used cos)
 		0.2 0.4 0.6 0.8
 	end_intervals
+	begin_transf null end_transf
 
 OBJ = SPHERE
 CENTER = -1 0 -1
@@ -61,7 +68,8 @@ MATERIAL = cartoon
 	begin_intervals		# bigger to smarller angles (value used cos)
 		0.2 0.4 0.6 0.8
 	end_intervals
-
+	begin_transf null end_transf
+	
 OBJ = SPHERE
 CENTER = 0 -100.5 -1
 RADIUS = 100
@@ -76,7 +84,7 @@ MATERIAL = cartoon
 	begin_intervals		# bigger to smarller angles (value used cosine)
 		0.2 0.4 0.6 0.8
 	end_intervals
-
+	begin_transf null end_transf
 
 end_objs
 

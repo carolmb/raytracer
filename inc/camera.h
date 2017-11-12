@@ -38,7 +38,6 @@ public:
 	}
 
 	Point3 getOrigin() { return origin; }
-
 };
 
 class ParallelCamera : public Camera {
@@ -59,7 +58,6 @@ public:
 	}
 
 	Point3 getOrigin() { return origin; }
-
 };
 
 #endif

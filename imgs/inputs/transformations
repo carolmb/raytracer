@@ -1,4 +1,4 @@
-FILENAME = imgs/outputs/blinnphong1
+FILENAME = imgs/outputs/transformations
 FILETYPE = ppm
 WIDTH = 1000
 HEIGHT = 500

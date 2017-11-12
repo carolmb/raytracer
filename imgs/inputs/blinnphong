@@ -1,0 +1,55 @@
+FILENAME = imgs/outputs/blinnphong
+FILETYPE = ppm
+WIDTH = 600
+HEIGHT = 300
+SAMPLES = 1
+REC_DEPTH = 1
+TL = 0.5 0.7 1
+TR = 0.5 0.7 1
+BL = 1 1 1
+BR = 1 1 1
+
+CAMERA = PERSPECTIVE
+lookfrom = 0 1 1
+lookat = 0 0 0
+viewplanenormal = 0 0 0
+viewup = 0 1 0
+vfov = 45
+aspectratio = 2
+aperture = 0	
+fdist = 1
+isoblique = 0
+
+begin_objs
+
+OBJ = SPHERE
+CENTER = 0 0 0
+RADIUS = 0.2
+MATERIAL = blinnphong
+ka = 0.1 0.1 0.1
+kd = 0.7 0.2 0.1
+ks = 1 1 1
+exps = 64
+begin_transf null end_transf
+
+OBJ = SPHERE
+CENTER = 0 -100.5 -1
+RADIUS = 100
+MATERIAL = blinnphong
+ka = 0.1 0.1 0.1
+kd = 0.7 0.2 0.1
+ks = 1 1 1
+exps = 64
+begin_transf null end_transf
+
+end_objs
+
+begin_lights
+LIGHT = PUNCTUAL 
+i = 0.8 0.8 0.8
+origin = 0 0 1
+LIGHT = AMBIENT  
+i = 0.4 0.4 0.4
+end_lights
+
+SHADER = BLINN_PHONG

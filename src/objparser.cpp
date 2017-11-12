@@ -32,11 +32,15 @@ bool ObjectParser::readTriangle(std::istringstream &reader, std::shared_ptr<Obje
 	if(!checkFieldName(reader, "P3")) return false;
 	readVec3(reader, p3);
 
+	if(!checkFieldName(reader, "culling")) return false;
+	bool culling;
+	reader >> culling;
+
 	Material *mat = nullptr;
 	MaterialParser matParser;
 	if(!matParser.getMaterial(reader, &mat)) return false;
 
-	o = std::shared_ptr<Triangle> (new Triangle(p1, p2, p3, mat));
+	o = std::shared_ptr<Triangle> (new Triangle(p1, p2, p3, mat, culling));
 	return true;
 }
 
