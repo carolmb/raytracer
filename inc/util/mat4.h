@@ -34,6 +34,7 @@ public:
 	Mat4 operator+(Mat4 other);
 	Mat4 operator*(double a);	
 	Vec3 operator*(Vec3 other);
+	Vec3 transfVec(Vec3 other);
 
 	double det();
 

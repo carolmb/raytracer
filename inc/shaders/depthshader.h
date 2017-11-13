@@ -17,7 +17,7 @@ public:
 		bool isHitting = false;
 		HitRecord record = scene.hitAnything(isHitting, ray, std::numeric_limits<float>::max());
 
-		double t = (record.p - scene.cam->getOrigin()).len()/maxDepth;
+		double t = (record.p - ray.origin()).len()/maxDepth;
 		if(isHitting && t < 1) {
 			c = fg.interpole(bg, t);
 		} else {

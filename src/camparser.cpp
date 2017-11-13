@@ -76,23 +76,23 @@ bool CameraParser::getCamera(std::istringstream &reader, Camera **cam) {
 		if(!checkFieldName(reader, "right")) return false;
 		reader >> r;
 
-		Vec3 lookfrom, viewplanenormal, viewup, aspectRatio;
+		Vec3 lookfrom, viewdir, viewup, aspectRatio;
 
 		if(!checkFieldName(reader, "lookfrom")) return false;
 		readVec3(reader, lookfrom);
 
-		//if(!checkFieldName(reader, "viewplanenormal")) return false;
-		//readVec3(reader, viewplanenormal);
-
 		if(!checkFieldName(reader, "viewup")) return false;
 		readVec3(reader, viewup);
+
+		if(!checkFieldName(reader, "viewdir")) return false;
+		readVec3(reader, viewdir);
 
 		if(!checkFieldName(reader, "isoblique")) return false;
 		reader >> oblique;
 		
-		Vec3 w = -viewplanenormal.norm();
-		Vec3 u = -w.cross(viewup.norm()).norm();
-		Vec3 v = w.cross(u);
+		Vec3 w = -(viewdir).norm();
+		Vec3 u = (viewup.norm()).cross(w).norm();
+		Vec3 v = w.cross(u).norm();		
 
 		if(oblique) { // read viewdir
 			if(!checkFieldName(reader, "viewplanenormal")) return false;

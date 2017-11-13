@@ -4,17 +4,18 @@
 #include <iostream>
 
 void Sphere::setTransf(Transformation t) {
+	t.mat = (Mat4::scaling(Vec3(radius, radius, radius)) * Mat4::translation(center)) * t.mat; 
+	t.inv = t.mat.inverse();
 	transf = t;
 }
 
 bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 	Vec3 origin = transf.inv*ray.origin();
-	Vec3 dir = transf.inv*ray.dir();
+	Vec3 dir = transf.inv.transfVec(ray.dir());
 
-	Vec3 oc = origin - center;
 	double a = dir.len2();
-	double b = 2.0 * oc.dot(dir);
-	double c = oc.len2() - (radius*radius);
+	double b = 2.0 * origin.dot(dir);
+	double c = origin.len2() - 1;
 	double delta = b*b - 4*a*c;
 	if(delta > 0) {
 		double r1 = (-b - std::sqrt(delta)) / (2*a);
@@ -22,7 +23,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			mint = r1;
 			hit.t = r1;
 			hit.p = ray.at(r1);
-			hit.n = (transf.inv*(hit.p - center)).norm();
+			hit.n = (transf.mat.transfVec(hit.p - center)).norm();
 			hit.m = mat;
 			return true;
 		}
@@ -31,10 +32,10 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			mint = r2;
 			hit.t = r2;
 			hit.p = ray.at(r2);
-			hit.n = (transf.inv*(hit.p - center)).norm();
+			hit.n = (transf.mat.transfVec(hit.p - center)).norm();
 			hit.m = mat;
 			return true;
 		}
 	} 
-	return false;
+return false;
 }

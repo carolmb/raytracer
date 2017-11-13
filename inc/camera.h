@@ -9,7 +9,6 @@ class Camera {
 public:	
 	Camera() {}
 	virtual Ray getRay(double u, double v) = 0;
-	virtual Point3 getOrigin() = 0;
 };
 
 class PerspectiveCamera : public Camera {
@@ -36,28 +35,26 @@ public:
 		u = -halfHeight + 2*halfHeight*u;
 		return Ray(origin, horizontal*u + vertical*v - w*distance, aperture, fdist);
 	}
-
-	Point3 getOrigin() { return origin; }
 };
 
 class ParallelCamera : public Camera {
-	Vec3 u_, v_, w_;
+	Vec3 horizontal, vertical, llc, w;
 	Point3 e;
 	Point3 origin;
-	double b, t, l, r;
+	//double b, t, l, r;
 
 public:	
 	ParallelCamera(Vec3 u, Vec3 v, Vec3 w, Point3 e, double b, double t, double l, double r) : 
-		Camera(), u_(u), v_(v), w_(w), e(e), b(b), t(t), l(l), r(r) {}
+		Camera(), w(w), e(e)/*, b(b), t(t), l(l), r(r)*/ {
+			llc = e + Vec3(l, b, 0);
+			horizontal = Vec3(r - l, 0, 0);
+			vertical = Vec3(0, t - b, 0);
+		}
 
 	Ray getRay(double u, double v) {
-		u = l + (r - l) * u;
-		v = b + (t - b) * v;
-		origin = e + u_ * u + v_ * v;
-		return Ray(origin, -w_);
+		origin = llc + horizontal * u + vertical * v;
+		return Ray(origin, -w);
 	}
-
-	Point3 getOrigin() { return origin; }
 };
 
 #endif

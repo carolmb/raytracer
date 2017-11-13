@@ -1,7 +1,7 @@
 FILENAME = imgs/outputs/parallel
 FILETYPE = ppm
-WIDTH = 1000
-HEIGHT = 500
+WIDTH = 900
+HEIGHT = 450
 SAMPLES = 4
 REC_DEPTH = 1
 TL = 1 0 0
@@ -16,41 +16,60 @@ left = -4
 right = 4
 lookfrom = 0 0 1
 viewup = 0 1 0
+viewdir = 0 0 -1
 isoblique = 0
 
 begin_objs
 
 OBJ = SPHERE
 CENTER = 0 0 -1
-RADIUS = 0.1
-MATERIAL = blinnphong
-ka = 0.1 0.1 0.1
-kd = 1 0 0
-ks = 1 1 1
-exps = 5
-begin_transf
-null
-end_transf
-
-OBJ = SPHERE
-CENTER = 0 0 -1
 RADIUS = 0.5
 MATERIAL = blinnphong
 ka = 0.1 0.1 0.1
-kd = 0.8 0.8 0.8
+kd = 1 0 0 
 ks = 1 1 1
 exps = 5
 begin_transf
 scale 1 0.5 1
 rotate 0 0 30
+translate -1 0 0 
 end_transf
+
+
+OBJ = TRIANGLE
+P1 = 0 0 -1
+P2 = 1 0 -1
+P3 = 1 1 -1
+culling = 0
+MATERIAL = blinnphong
+ka = 0.1 0.1 0.1
+kd = 1 0 0 
+ks = 1 1 1
+exps = 5
+begin_transf
+translate 1 0 0 
+end_transf
+OBJ = TRIANGLE
+P1 = 0 0 -1
+P2 = 1 0 -1
+P3 = 1 1 -1
+culling = 0
+MATERIAL = blinnphong
+ka = 0.1 0.1 0.1
+kd = 1 0 0 
+ks = 1 1 1
+exps = 5
+begin_transf
+null 
+end_transf
+
 
 end_objs
 
 begin_lights
-LIGHT = PUNCTUAL
+LIGHT = DIRETIONAL
 i = 1 1 1
-origin = 0 0 1
+dir = 1 2 1
 LIGHT = AMBIENT  
 i = 0.4 0.4 0.4
 end_lights

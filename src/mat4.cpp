@@ -179,9 +179,16 @@ Mat4 Mat4::operator*(double a) {
 
 Vec3 Mat4::operator*(Vec3 other) {
 	return Vec3(
-		m[0][0]*other.x + m[0][1]*other.y + m[0][2]*other.z + m[0][3],
-		m[1][0]*other.x + m[1][1]*other.y + m[1][2]*other.z + m[1][3],
-		m[2][0]*other.x + m[2][1]*other.y + m[2][2]*other.z + m[2][3]);
+		(m[0][0]*other.x + m[0][1]*other.y + m[0][2]*other.z + m[0][3]),
+		(m[1][0]*other.x + m[1][1]*other.y + m[1][2]*other.z + m[1][3]),
+		(m[2][0]*other.x + m[2][1]*other.y + m[2][2]*other.z + m[2][3]));
+}
+
+Vec3 Mat4::transfVec(Vec3 other) {
+	return Vec3(
+		(m[0][0]*other.x + m[0][1]*other.y + m[0][2]*other.z),
+		(m[1][0]*other.x + m[1][1]*other.y + m[1][2]*other.z),
+		(m[2][0]*other.x + m[2][1]*other.y + m[2][2]*other.z));	
 }
 
 Mat4 Mat4::rotation(Vec3 t) {
