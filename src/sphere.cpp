@@ -4,7 +4,7 @@
 #include <iostream>
 
 void Sphere::setTransf(Transformation t) {
-	t.mat = (Mat4::scaling(Vec3(radius, radius, radius)) * Mat4::translation(center)) * t.mat; 
+	t.mat = (Mat4::translation(center)*Mat4::scaling(Vec3(radius, radius, radius))) * t.mat; 
 	t.inv = t.mat.inverse();
 	transf = t;
 }
@@ -12,6 +12,7 @@ void Sphere::setTransf(Transformation t) {
 bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 	Vec3 origin = transf.inv*ray.origin();
 	Vec3 dir = transf.inv.transfVec(ray.dir());
+	Ray newRay(origin, dir);
 
 	double a = dir.len2();
 	double b = 2.0 * origin.dot(dir);
@@ -24,7 +25,6 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			hit.t = r1;
 			hit.p = ray.at(r1);
 			hit.n = (transf.mat.transfVec(hit.p - center)).norm();
-			//hit.p = (hit.p - center).norm();
 			hit.m = mat;
 			return true;
 		}
@@ -34,7 +34,6 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			hit.t = r2;
 			hit.p = ray.at(r2);
 			hit.n = (transf.mat.transfVec(hit.p - center)).norm();
-			//hit.p = (hit.p - center).norm();
 			hit.m = mat;
 			return true;
 		}
