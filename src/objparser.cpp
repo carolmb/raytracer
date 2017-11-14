@@ -82,8 +82,8 @@ bool ObjectParser::readTransformations(std::istringstream &reader, std::shared_p
 	}
 
 	Mat4 allTransf = Mat4::identity(); 
-	for(int i = transf.size()-1; i >= 0; i--) {
-		allTransf = allTransf*transf[i];
+	for(int i = 0; i < transf.size(); i++) {
+		allTransf = transf[i]*allTransf;
 	}
 	
 	Transformation finalT;

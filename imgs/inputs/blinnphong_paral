@@ -22,7 +22,7 @@ isoblique = 0
 begin_objs
 
 OBJ = SPHERE
-CENTER = 0 0 -1
+CENTER = -1 0 0
 RADIUS = 0.5
 MATERIAL = blinnphong
 ka = 0.1 0.1 0.1
@@ -30,9 +30,8 @@ kd = 1 0 0
 ks = 1 1 1
 exps = 5
 begin_transf
-scale 1 0.7 1
+null
 end_transf
-
 
 OBJ = TRIANGLE
 P1 = 0 0 -1
