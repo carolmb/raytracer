@@ -30,46 +30,46 @@ kd = 1 0 0
 ks = 1 1 1
 exps = 5
 begin_transf
-scale 1 0.5 1
-rotate 0 0 30
-translate -1 0 0 
+scale 1 0.7 1
 end_transf
 
 
 OBJ = TRIANGLE
 P1 = 0 0 -1
 P2 = 1 0 -1
-P3 = 1 1 -1
-culling = 0
+P3 = 1 1 -0.5
+culling = 1
 MATERIAL = blinnphong
 ka = 0.1 0.1 0.1
 kd = 1 0 0 
 ks = 1 1 1
 exps = 5
 begin_transf
-translate 1 0 0 
+rotate 0 0 -45
+translate 2 1 0
 end_transf
+
 OBJ = TRIANGLE
 P1 = 0 0 -1
 P2 = 1 0 -1
-P3 = 1 1 -1
-culling = 0
+P3 = 1 1 -0.5
+culling = 1
 MATERIAL = blinnphong
 ka = 0.1 0.1 0.1
 kd = 1 0 0 
 ks = 1 1 1
 exps = 5
 begin_transf
-null 
+rotate 0 0 -45
+translate -3 1 0
 end_transf
-
 
 end_objs
 
 begin_lights
 LIGHT = DIRETIONAL
 i = 1 1 1
-dir = 1 2 1
+dir = 1 4 3
 LIGHT = AMBIENT  
 i = 0.4 0.4 0.4
 end_lights

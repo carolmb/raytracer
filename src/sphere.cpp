@@ -24,6 +24,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			hit.t = r1;
 			hit.p = ray.at(r1);
 			hit.n = (transf.mat.transfVec(hit.p - center)).norm();
+			//hit.p = (hit.p - center).norm();
 			hit.m = mat;
 			return true;
 		}
@@ -33,6 +34,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			hit.t = r2;
 			hit.p = ray.at(r2);
 			hit.n = (transf.mat.transfVec(hit.p - center)).norm();
+			//hit.p = (hit.p - center).norm();
 			hit.m = mat;
 			return true;
 		}
