@@ -16,7 +16,8 @@ bool Triangle::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 	
 	Vec3 edge1 = p2 - p1;
 	Vec3 edge2 = p3 - p1;
-	Vec3 pvec = ray.dir().cross(edge2);
+	Vec3 rayDir = ray.dir().norm();
+	Vec3 pvec = rayDir.cross(edge2);
 	double det = edge1.dot(pvec);
 	
 	double t;
@@ -34,7 +35,7 @@ bool Triangle::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 		}
 
 		Vec3 qvec = tvec.cross(edge1);
-		double v = ray.dir().dot(qvec);
+		double v = rayDir.dot(qvec);
 
 		if(v < 0 || u + v > det) {
 			return false;
@@ -62,7 +63,7 @@ bool Triangle::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 		}
 
 		Vec3 qvec = tvec.cross(edge1);
-		double v = ray.dir().dot(qvec) * inv_det;
+		double v = rayDir.dot(qvec) * inv_det;
 
 		if(v < 0 || u + v > 1) {
 			return false;

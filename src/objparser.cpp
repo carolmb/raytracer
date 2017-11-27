@@ -4,6 +4,7 @@
 #include "objs/sphere.h"
 #include "objs/triangle.h"
 #include "objs/plane.h"
+#include "objs/box.h"
 #include "util/transf.h"
 #include "util/mat4.h"
 
@@ -42,6 +43,23 @@ bool ObjectParser::readTriangle(std::istringstream &reader, std::shared_ptr<Obje
 	if(!matParser.getMaterial(reader, &mat)) return false;
 
 	o = std::shared_ptr<Triangle> (new Triangle(p1, p2, p3, mat, culling));
+	return true;
+}
+
+
+bool ObjectParser::readBox(std::istringstream &reader, std::shared_ptr<Object> &o) {
+	Point3 p1, p2;
+	if(!checkFieldName(reader, "P1")) return false;
+	readVec3(reader, p1);
+
+	if(!checkFieldName(reader, "P8")) return false;
+	readVec3(reader, p2);
+	
+	Material *mat = nullptr;
+	MaterialParser matParser;
+	if(!matParser.getMaterial(reader, &mat)) return false;
+
+	o = std::shared_ptr<Box> (new Box(p1, p2, mat));
 	return true;
 }
 
@@ -121,6 +139,8 @@ bool ObjectParser::readObj(std::istringstream &reader, std::shared_ptr<Object> &
 		if(!readTriangle(reader, o)) return false;
 	} else if(field.compare("PLANE") == 0) {
 		if(!readPlane(reader, o)) return false;
+	} else if(field.compare("BOX") == 0) {
+		if(!readBox(reader, o)) return false;
 	}
 	// TODO other objs
 	return readTransformations(reader, o);

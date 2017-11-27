@@ -1,0 +1,54 @@
+FILENAME = imgs/outputs/box_test
+FILETYPE = ppm
+WIDTH = 900
+HEIGHT = 450
+SAMPLES = 1
+REC_DEPTH = 1
+TL = 0.5 0.5 0.5
+TR = 0.5 0.5 0.5
+BL = 0 0 0
+BR = 0 0 0
+
+CAMERA = PERSPECTIVE
+lookfrom = 1.7 1.2 2.7
+lookat = 0 0 -1
+viewup = 0 1 0
+vfov = 30
+aspectratio = 2
+aperture = 0	
+fdist = 0
+isoblique = 0
+
+begin_objs
+
+OBJ = BOX 
+P1 = 0 0 0
+P8 = 1 1 -1
+MATERIAL = blinnphong
+ka = 0.1 0.1 0.1
+kd = 1 0 0
+ks = 0.2 0.2 0.2
+exps = 8
+begin_transf rotate 15 0 0 end_transf
+
+OBJ = SPHERE
+CENTER = 0 0 0
+RADIUS = 0.1
+MATERIAL = blinnphong
+ka = 0.1 0.1 0.1
+kd = 1 0 0
+ks = 1 1 1
+exps = 256
+begin_transf null end_transf
+end_objs
+
+begin_lights
+LIGHT = DIRETIONAL 
+i = 1 1 1
+dir = 1 1 1
+
+LIGHT = AMBIENT  
+i = 0.1 0.1 0.1
+end_lights
+
+SHADER = BLINN_PHONG

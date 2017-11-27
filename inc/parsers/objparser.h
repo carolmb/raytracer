@@ -17,6 +17,7 @@ private:
 	bool readSphere(std::istringstream &reader, std::shared_ptr<Object> &o);
 	bool readTriangle(std::istringstream &reader, std::shared_ptr<Object> &o);
 	bool readPlane(std::istringstream &reader, std::shared_ptr<Object> &o);
+	bool readBox(std::istringstream &reader, std::shared_ptr<Object> &o);
 	bool readTransformations(std::istringstream &reader, std::shared_ptr<Object> &o);
 	bool readTransf(std::istringstream &reader, Mat4 &m, std::string transfName);
 };
