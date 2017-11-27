@@ -3,6 +3,7 @@
 #include "parsers/matparser.h"
 #include "objs/sphere.h"
 #include "objs/triangle.h"
+#include "objs/plane.h"
 #include "util/transf.h"
 #include "util/mat4.h"
 
@@ -66,6 +67,23 @@ bool ObjectParser::readTransf(std::istringstream &reader, Mat4 &m, std::string t
 	return true;
 }
 
+
+bool ObjectParser::readPlane(std::istringstream &reader, std::shared_ptr<Object> &o) {
+	if(!checkFieldName(reader, "ORIGIN")) return false;
+	Vec3 origin; readVec3(reader, origin);
+
+	if(!checkFieldName(reader, "NORMAL")) return false;
+	Vec3 normal; readVec3(reader, normal);
+
+	Material *mat = nullptr;
+	MaterialParser matParser;
+	if(!matParser.getMaterial(reader, &mat)) return false;
+
+	o = std::shared_ptr<Plane> (new Plane(origin, normal, mat));
+	return true;
+}
+
+
 bool ObjectParser::readTransformations(std::istringstream &reader, std::shared_ptr<Object> &o) {
 	std::vector<Mat4> transf;
 	std::string begin;
@@ -101,7 +119,9 @@ bool ObjectParser::readObj(std::istringstream &reader, std::shared_ptr<Object> &
 		if(!readSphere(reader, o)) return false;
 	} else if(field.compare("TRIANGLE") == 0) {
 		if(!readTriangle(reader, o)) return false;
-	} 
+	} else if(field.compare("PLANE") == 0) {
+		if(!readPlane(reader, o)) return false;
+	}
 	// TODO other objs
 	return readTransformations(reader, o);
 }

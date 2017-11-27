@@ -37,7 +37,7 @@ public:
 				// diffuse
 				double diffuseComponent = record.n.dot(-light->getDir(record.p));
 				if (diffuseComponent > 0) {
-					c += mat->kd * light->i * diffuseComponent;
+					c += mat->kd * light->i * std::max(diffuseComponent, 0.0);
 				
 					// specular
 					Vec3 v = (ray.origin() - record.p).norm();
