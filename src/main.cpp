@@ -3,8 +3,6 @@
 #include "render.h"
 #include "input.h"
 
-#include "util/mat4.h"
-
 int main(int argc, char* argv[]) {
 	if(argc > 1) {
 		std::string inputFile = argv[1];
