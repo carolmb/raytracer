@@ -8,9 +8,12 @@ public:
 	Point3 origin;
 	Vec3 normal;
 	Plane() : Object() {}
-	Plane(Point3 o, Vec3 n, Material *mat) : origin(o), normal(n), Object(mat) {}
+	Plane(Point3 o, Vec3 n, Material *mat, Transformation *t) : 
+		origin(o), normal(n), Object(mat, t) {
+			setTransf(t);
+		}
 	bool hit(Ray ray, HitRecord &hit, double &mint, double maxt);
-	void setTransf(Transformation t);
+	void setTransf(Transformation *t);
 };
 
 

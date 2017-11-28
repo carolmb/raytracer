@@ -8,9 +8,12 @@ public:
 	Point3 center;
 	double radius;
 	Sphere() : Object() {}
-	Sphere(Point3 c, double r, Material *mat) : center(c), radius(r), Object(mat) {}
+	Sphere(Point3 c, double r, Material *mat, Transformation *t) : 
+		center(c), radius(r), Object(mat, t) {
+			setTransf(t);
+		}
 	bool hit(Ray ray, HitRecord &hit, double &mint, double maxt);
-	void setTransf(Transformation t);
+	void setTransf(Transformation *t);
 };
 
 

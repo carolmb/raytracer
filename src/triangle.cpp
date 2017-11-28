@@ -5,10 +5,10 @@
 #include <cmath>
 #include <iostream>
 
-void Triangle::setTransf(Transformation t) {
-	p1 = t.mat*p1;
-	p2 = t.mat*p2;
-	p3 = t.mat*p3;;
+void Triangle::setTransf(Transformation *t) {
+	p1 = t->mat*p1;
+	p2 = t->mat*p2;
+	p3 = t->mat*p3;;
 	transf = t;
 }
 

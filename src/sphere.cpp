@@ -3,16 +3,16 @@
 #include <cmath>
 #include <iostream>
 
-void Sphere::setTransf(Transformation t) {
-	t.mat = t.mat*(Mat4::translation(center)*Mat4::scaling(Vec3(radius, radius, radius))); 
+void Sphere::setTransf(Transformation *t) {
+	t->mat = t->mat*(Mat4::translation(center)*Mat4::scaling(Vec3(radius, radius, radius))); 
 	//t.mat = (Mat4::translation(center)*Mat4::scaling(Vec3(radius, radius, radius)))*t.mat; 
-	t.inv = t.mat.inverse();
+	t->inv = t->mat.inverse();
 	transf = t;
 }
 
 bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
-	Vec3 origin = transf.inv*ray.origin();
-	Vec3 dir = transf.inv.transfVec(ray.dir());
+	Vec3 origin = transf->inv*ray.origin();
+	Vec3 dir = transf->inv.transfVec(ray.dir());
 	Ray newRay(origin, dir);
 
 	double a = dir.len2();
@@ -26,7 +26,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			hit.t = r1;
 			hit.p = ray.at(r1);
 			Vec3 normal = newRay.at(r1).norm();
-			hit.n = transf.mat.transfVec(normal).norm();
+			hit.n = transf->mat.transfVec(normal).norm();
 			hit.m = mat;
 			return true;
 		}
@@ -36,7 +36,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			hit.t = r2;
 			hit.p = ray.at(r2);
 			Vec3 normal = newRay.at(r2).norm();
-			hit.n = transf.mat.transfVec(normal).norm();
+			hit.n = transf->mat.transfVec(normal).norm();
 			hit.m = mat;
 			return true;
 		}

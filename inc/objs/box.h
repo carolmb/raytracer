@@ -9,9 +9,9 @@ public:
 	std::vector<Triangle> triangles;
 	Vec3 normal;
 	Box() : Object() {}
-	Box(Point3 e0, Point3 e7, Material *mat);
+	Box(Point3 e0, Point3 e7, Material *mat, Transformation *t);
 	bool hit(Ray ray, HitRecord &hit, double &mint, double maxt);
-	void setTransf(Transformation t);
+	void setTransf(Transformation *t);
 };
 
 

@@ -9,11 +9,11 @@
 class Object {
 public:
 	Material *mat;
-	Transformation transf;
+	Transformation *transf;
 	virtual bool hit(Ray r, HitRecord &hit, double &mint, double maxt) = 0;
-	Object(Material *mat) : mat(mat) {}
+	Object(Material *mat, Transformation *t) : mat(mat), transf(t) {}
 	Object() { mat = new BlinnPhongMaterial(); }
-	virtual void setTransf(Transformation t) = 0;
+	virtual void setTransf(Transformation *t) = 0;
 };
 
 

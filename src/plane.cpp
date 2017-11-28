@@ -5,9 +5,9 @@
 
 #define MIN 0.00001
 
-void Plane::setTransf(Transformation t) {
-	origin = t.mat*origin;
-	normal = t.mat.transfVec(normal);
+void Plane::setTransf(Transformation *t) {
+	origin = t->mat*origin;
+	normal = t->mat.transfVec(normal);
 	normal = normal.norm();
 }
 
