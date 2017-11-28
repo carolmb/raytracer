@@ -7,13 +7,13 @@
 #include "objs/mesh.h"
 #include "util/transf.h"
 #include "util/mat4.h"
-#include "util/loader.h"
+
 bool ObjectParser::readMash(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &meshList) {
 	if(!checkFieldName(reader, "SOURCE")) return false;
 	std::string fileSource;
 	reader >> fileSource;
 
-	Loader Loader;
+	objl::Loader Loader;
 	bool loadout = Loader.LoadFile(fileSource);
 	if(loadout) {
 		for(int i = 0; i < Loader.LoadedMeshes.size(); i++) {

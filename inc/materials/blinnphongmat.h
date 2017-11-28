@@ -13,7 +13,13 @@ public:
 	double exps;
 
 	BlinnPhongMaterial(Vec3 ka, Vec3 kd, Vec3 ks, double exps) : ka(ka), kd(kd), ks(ks), exps(exps) {}
-	BlinnPhongMaterial(objl::Material meshMat) {}
+	BlinnPhongMaterial(objl::Material meshMat) {
+		ka = Vec3(meshMat.Ka.X, meshMat.Ka.Y, meshMat.Ka.Z);
+		kd = Vec3(meshMat.Kd.X, meshMat.Kd.Y, meshMat.Kd.Z);
+		ks = Vec3(meshMat.Ks.X, meshMat.Ks.Y, meshMat.Ks.Z);
+		exps = meshMat.Ns;
+	}
+
 	BlinnPhongMaterial() {}
 	bool scatter(Ray r, HitRecord &rec, Vec3 &att, Ray &scattered) { return false; }
 };
