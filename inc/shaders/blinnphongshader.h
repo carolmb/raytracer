@@ -25,14 +25,14 @@ public:
 				std::shared_ptr<Light> light = scene.lights[i];
 				
 				// shadow
-				Point3 newOrigin = record.p + record.n*0.01;
+				/*Point3 newOrigin = record.p + record.n*0.01;
 				Ray newRay(newOrigin, -light->getDir(record.p));
 				double maxt = newRay.getT(light->getOrigin());
 				bool isShadow = false;
 				HitRecord hr = scene.hitAnything(isShadow, newRay, maxt);
 				if (isShadow) {
 					continue;
-				}
+				}*/
 	
 				// diffuse
 				double diffuseComponent = record.n.dot(-light->getDir(record.p));

@@ -7,6 +7,7 @@ class Triangle : public Object {
 public:
 	Point3 p1, p2, p3;
 	bool culling;
+	Vec3 edge1, edge2, normal;
 	Triangle() : Object() {}
 	Triangle(Point3 p1, Point3 p2, Point3 p3, 
 		Material *mat, bool c, Transformation *t) : 

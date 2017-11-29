@@ -15,7 +15,7 @@ class Ray {
 	double ap; // aperture
 	static std::knuth_b randomGenerator;
 public:
-	Ray() : o_(), d_() {}
+	Ray() : o_(), d_() { d_ = d_.norm(); }
 	Ray(Point3 o, Vec3 d) : o_(o), d_(d) {}
 	Ray(Point3 o, Vec3 d, double ap, double focaldist) : o_(o), d_(d), ap(ap) {
 		if(ap > 0) {		
@@ -32,6 +32,7 @@ public:
 			o_ = o_ + v*ap;
 			d_ = (pfocus - o_).norm();
 		} 
+		d_ = d_.norm();
 	}
 
 	double getT(Point3 p) { 

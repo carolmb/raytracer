@@ -9,7 +9,7 @@ SRCS := $(shell cd $(SRC_DIR); find . -name "*.cpp")
 OBJS := $(addprefix $(BUILD_DIR)/,$(addsuffix .o,$(SRCS)))
 DEPS := $(OBJS:.o=.d)
 
-render: $(OBJS)
+main: $(OBJS)
 	g++ $(CPPFLAGS) $(OBJS) -o $@;
 
 $(BUILD_DIR)/%.cpp.o: $(SRC_DIR)/%.cpp
@@ -18,7 +18,6 @@ $(BUILD_DIR)/%.cpp.o: $(SRC_DIR)/%.cpp
 
 clean:
 	rm -r $(BUILD_DIR)
-	rm ./deathray
 
 .PHONY: clean all
 
