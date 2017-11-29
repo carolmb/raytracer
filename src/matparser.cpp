@@ -7,7 +7,7 @@
 
 #include <cmath>
 
-bool MaterialParser::getMaterial(std::istringstream &reader, Material **mat) {
+bool MaterialParser::getMaterial(std::istringstream &reader, std::shared_ptr<Material> &mat) {
 
 	if(!checkFieldName(reader, "MATERIAL")) return false;
 	std::string type; reader >> type;
@@ -15,14 +15,14 @@ bool MaterialParser::getMaterial(std::istringstream &reader, Material **mat) {
 	if(type.compare("lambertian") == 0) {
 		if(!checkFieldName(reader, "kd")) return false;
 		Vec3 kd; readVec3(reader, kd);
-		*mat = new LambertianMaterial(kd);
-	
+		mat = std::shared_ptr<LambertianMaterial>(new LambertianMaterial(kd));
+
 	} else if (type.compare("metal") == 0) {
 		if(!checkFieldName(reader, "kd")) return false;
 		Vec3 kd; readVec3(reader, kd);
 		if(!checkFieldName(reader, "fuzz")) return false;
 		double fuzz; reader >> fuzz;
-		*mat = new MetalMaterial(kd, fuzz);
+		mat = std::shared_ptr<MetalMaterial>(new MetalMaterial(kd, fuzz));
 	
 	} else if (type.compare("blinnphong") == 0) {
 		if(!checkFieldName(reader, "ka")) return false;
@@ -33,7 +33,8 @@ bool MaterialParser::getMaterial(std::istringstream &reader, Material **mat) {
 		Vec3 ks; readVec3(reader, ks);
 		if(!checkFieldName(reader, "exps")) return false;
 		double exps; reader >> exps;
-		*mat = new BlinnPhongMaterial(ka, kd, ks, exps);
+		mat = std::shared_ptr<BlinnPhongMaterial>(new BlinnPhongMaterial(ka, kd, ks, exps));
+	
 	} else if (type.compare("cartoon") == 0) {
 		std::string fieldName;
 		if(!checkFieldName(reader, "outline")) return false;
@@ -64,11 +65,10 @@ bool MaterialParser::getMaterial(std::istringstream &reader, Material **mat) {
 			double angle = std::stod (fieldName);
 			i.push_back(angle);
 		}
-		*mat = new CartoonMaterial(ol, g, i);
+		mat = std::shared_ptr<CartoonMaterial>(new CartoonMaterial(ol, g, i));
 	
 	} else if (type.compare("null") == 0) {
-		*mat = nullptr;
-	
+		
 	} else { 
 		return false; 
 	}

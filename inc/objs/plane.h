@@ -8,7 +8,7 @@ public:
 	Point3 origin;
 	Vec3 normal;
 	Plane() : Object() {}
-	Plane(Point3 o, Vec3 n, Material *mat, Transformation *t) : 
+	Plane(Point3 o, Vec3 n, std::shared_ptr<Material> mat, Transformation *t) : 
 		origin(o), normal(n), Object(mat, t) {
 			setTransf(t);
 		}

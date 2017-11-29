@@ -16,7 +16,7 @@ public:
 		HitRecord record = scene.hitAnything(isHitting, ray, std::numeric_limits<float>::max());
 		Color c;
 		if(isHitting) {
-			CartoonMaterial *mat = dynamic_cast<CartoonMaterial*>(record.m);
+			CartoonMaterial *mat = dynamic_cast<CartoonMaterial*>(record.m.get());
 
 			double cos = record.n.dot(-ray.dir().norm());
 			if (cos <= 0.16) { // outline

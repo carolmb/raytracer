@@ -8,7 +8,7 @@
 
 class MaterialParser : public Parser {
 public:
-	bool getMaterial(std::istringstream &reader, Material **mat);
+	bool getMaterial(std::istringstream &reader, std::shared_ptr<Material> &mat);
 };
 
 

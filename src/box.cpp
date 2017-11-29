@@ -3,7 +3,7 @@
 #include <cmath>
 #include <iostream>
 
-Box::Box(Point3 e0, Point3 e7, Material *mat, Transformation *t) : 
+Box::Box(Point3 e0, Point3 e7, std::shared_ptr<Material> mat, Transformation *t) : 
 	Object(mat, t) {
 	Point3 e1(e7.x, e0.y, e0.z);
 	Point3 e2(e7.x, e7.y, e0.z);

@@ -8,7 +8,7 @@ public:
 	Point3 center;
 	double radius;
 	Sphere() : Object() {}
-	Sphere(Point3 c, double r, Material *mat, Transformation *t) : 
+	Sphere(Point3 c, double r, std::shared_ptr<Material> mat, Transformation *t) : 
 		center(c), radius(r), Object(mat, t) {
 			setTransf(t);
 		}

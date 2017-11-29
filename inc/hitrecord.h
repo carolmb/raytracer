@@ -3,6 +3,7 @@
 
 #include "ray.h"
 #include "util/vec3.h"
+#include <memory>
 
 class Material;
 
@@ -10,7 +11,7 @@ class Material;
 struct HitRecord {
 	double t;
 	Point3 p;
-	Material *m;
+	std::shared_ptr<Material> m;
 	Vec3 n; // normal
 };
 
