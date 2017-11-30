@@ -3,7 +3,7 @@ INC_DIRS := ./inc
 BUILD_DIR := ./build
 
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
-CPPFLAGS := -std=c++11 -g $(INC_FLAGS) -O2 -MMD -MP
+CPPFLAGS := -std=c++11 -g $(INC_FLAGS) -O0 -MMD -MP
 
 SRCS := $(shell cd $(SRC_DIR); find . -name "*.cpp")
 OBJS := $(addprefix $(BUILD_DIR)/,$(addsuffix .o,$(SRCS)))

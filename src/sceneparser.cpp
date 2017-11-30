@@ -24,11 +24,11 @@ bool SceneParser::getScene(std::istringstream &reader, Package *p) {
 
 	// Obj list
 	ObjectParser objParser;
-	std::map<std::string, std::shared_ptr<Material> > mats;
 	std::vector<std::shared_ptr<Object> > objs;
-	if(!objParser.getObjList(reader, objs, mats)) return false;
+	if(!objParser.getObjList(reader, objs)) return false;
 
 	MaterialParser materialParser;
+	std::map<std::string, std::shared_ptr<Material> > mats;
 	if(!materialParser.getMaterialList(reader, mats)) return false;
 
 	LightParser lightParser;
