@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <memory>
+#include <map>
 
 class Scene {
 public: 
@@ -21,13 +22,15 @@ public:
 	Color bgbr;
 	std::vector<std::shared_ptr<Light> >  lights;
 	std::shared_ptr<AmbientLight> ambient;
+	std::map<std::string, std::shared_ptr<Material> > mats;
 
 	Scene() {}
 	Scene(Camera *cam, 
 		std::vector<std::shared_ptr<Object> > o, 
 		Color bgtl, Color bgtr, Color bgbl, Color bgbr, 
-		std::vector<std::shared_ptr<Light> > l, std::shared_ptr<AmbientLight> &a) : 
-		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr), lights(l), ambient(a) {}
+		std::vector<std::shared_ptr<Light> > l, std::shared_ptr<AmbientLight> &a,
+		std::map<std::string, std::shared_ptr<Material> > mats) : 
+		cam(cam), objs(o), bgtl(bgtl), bgtr(bgtr), bgbl(bgbl), bgbr(bgbr), lights(l), ambient(a), mats(mats) {}
 		
 
 	Color backgroundColor(Ray r);

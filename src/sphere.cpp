@@ -27,7 +27,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			hit.p = ray.at(r1);
 			Vec3 normal = newRay.at(r1).norm();
 			hit.n = transf->mat.transfVec(normal).norm();
-			hit.m = mat;
+			hit.m = idMat;
 			return true;
 		}
 		double r2 = (-b + std::sqrt(delta)) / (2*a);
@@ -37,7 +37,7 @@ bool Sphere::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 			hit.p = ray.at(r2);
 			Vec3 normal = newRay.at(r2).norm();
 			hit.n = transf->mat.transfVec(normal).norm();
-			hit.m = mat;
+			hit.m = idMat;
 			return true;
 		}
 	} 

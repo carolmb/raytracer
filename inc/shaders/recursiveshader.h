@@ -21,7 +21,11 @@ public:
 			for(int i = 0; i < nRays; i++) {
 				Ray scattered;
 				Vec3 att;
-				if(record.m->scatter(ray, record, att, scattered)) {
+
+				std::string idMat = record.m;
+				std::shared_ptr<Material> mat = std::dynamic_pointer_cast<Material>(scene.mats[idMat]);
+
+				if(mat->scatter(ray, record, att, scattered)) {
 					c = c + correctGama(getColorRec(scene, scattered, count - 1, 1)*att);
 				}
 			}

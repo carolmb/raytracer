@@ -23,7 +23,7 @@ bool Plane::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 				hit.p = ray.at(t);
 				hit.p += normal*MIN;
 				hit.n = normal;
-				hit.m = mat;
+				hit.m = idMat;
 				return true;
 			}
 		}

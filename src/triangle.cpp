@@ -82,7 +82,7 @@ bool Triangle::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 		hit.t = t;	
 		hit.p = ray.at(t);
 		hit.n = normal;
-		hit.m = mat;
+		hit.m = idMat;
 		return true;
 	}
 	return false;

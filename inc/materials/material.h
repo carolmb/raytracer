@@ -4,6 +4,7 @@
 #include "util/vec3.h"
 #include "hitrecord.h"
 #include <iostream>
+#include <string>
 
 class Material {
 public:

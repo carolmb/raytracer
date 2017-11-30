@@ -8,13 +8,14 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <map>
 
 class ObjectParser : public Parser {
 public:
-	bool getObjList(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objs);
+	bool getObjList(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objs, std::map<std::string, std::shared_ptr<Material> > &materials);
 private:
-	bool readMesh(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &meshList);
-	bool readObj(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objs);
+	bool readMesh(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &meshList, std::map<std::string, std::shared_ptr<Material> > &materials);
+	bool readObj(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objs, std::map<std::string, std::shared_ptr<Material> > &materials);
 	bool readSphere(std::istringstream &reader, std::shared_ptr<Object> &o);
 	bool readTriangle(std::istringstream &reader, std::shared_ptr<Object> &o);
 	bool readPlane(std::istringstream &reader, std::shared_ptr<Object> &o);

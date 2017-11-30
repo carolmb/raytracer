@@ -11,7 +11,6 @@ public:
 	Color outline;
 
 	CartoonMaterial(Color ol, std::vector<Color> g, std::vector<double> i) : outline(ol), gradient(g), intervals(i) {}
-	CartoonMaterial() {}
 	bool scatter(Ray r, HitRecord &rec, Vec3 &att, Ray &scattered) { return false; }
 	Color getOutline() { return outline; }
 	Color getColor(double cos) {

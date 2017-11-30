@@ -36,6 +36,9 @@ begin_transf null end_transf
 #begin_transf null end_transf
 end_objs
 
+begin_mat
+end_mat
+
 begin_lights
 LIGHT = DIRETIONAL 
 i = 1 1 1

@@ -29,7 +29,7 @@ bool Mesh::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 		Point3 p1 = getVerticeInMesh(mesh.Indices[j]);
 		Point3 p2 = getVerticeInMesh(mesh.Indices[j + 1]); 
 		Point3 p3 = getVerticeInMesh(mesh.Indices[j + 2]);
-		Triangle triangle(p1, p2, p3, mat, false, t);
+		Triangle triangle(p1, p2, p3, idMat, false, t);
 		if(triangle.hit(ray, hit, mint, maxt)) {
 			return true;
 		}

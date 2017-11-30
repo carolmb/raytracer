@@ -9,13 +9,13 @@
 
 class Object {
 public:
-	std::shared_ptr<Material> mat;
+	std::string idMat;
 	Transformation *transf;
 	virtual bool hit(Ray r, HitRecord &hit, double &mint, double maxt) = 0;
 	//Object(Material *mat, Transformation *t) : mat(mat), transf(t) {}
-	Object(std::shared_ptr<Material> mat, Transformation *t) : mat(mat), transf(t) {}
+	Object(std::string mat, Transformation *t) : idMat(mat), transf(t) {}
 	
-	Object() { mat = std::shared_ptr<Material>(new BlinnPhongMaterial()); }
+	Object() { idMat = "default"; transf = nullptr; }
 	virtual void setTransf(Transformation *t) = 0;
 };
 

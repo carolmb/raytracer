@@ -8,7 +8,7 @@
 #include "util/transf.h"
 #include "util/mat4.h"
 
-bool ObjectParser::readMesh(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &meshList) {
+bool ObjectParser::readMesh(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &meshList, std::map<std::string, std::shared_ptr<Material> > &materials) {
 	if(!checkFieldName(reader, "SOURCE")) return false;
 	std::string fileSource;
 	reader >> fileSource;
@@ -18,10 +18,11 @@ bool ObjectParser::readMesh(std::istringstream &reader, std::vector<std::shared_
 	if(loadout) {
 		for(int i = 0; i < Loader.LoadedMeshes.size(); i++) {
 			objl::Mesh curMesh = Loader.LoadedMeshes[i];
-			std::shared_ptr<Material> mat = 
-				std::shared_ptr<BlinnPhongMaterial>(new BlinnPhongMaterial(curMesh.MeshMaterial));
+			std::string idMat = curMesh.MeshMaterial.name;
+			std::shared_ptr<Material> mat (new BlinnPhongMaterial(curMesh.MeshMaterial));
+			materials.emplace(idMat, mat);
 			std::shared_ptr<Mesh> newMesh = 
-				std::shared_ptr<Mesh>(new Mesh(curMesh, mat, new Transformation()));
+				std::shared_ptr<Mesh>(new Mesh(curMesh, idMat, new Transformation()));
 			meshList.push_back(newMesh);
 		}
 	} else {
@@ -45,13 +46,12 @@ bool ObjectParser::readSphere(std::istringstream &reader, std::shared_ptr<Object
 	if(!checkFieldName(reader, "RADIUS")) return false;
 	double r; reader >> r;
 
-	std::shared_ptr<Material> mat = nullptr;
-	MaterialParser matParser;
-	if(!matParser.getMaterial(reader, mat)) return false;
+	if(!checkFieldName(reader, "MATERIAL")) return false; // mat id
+	std::string idMat; reader >> idMat;
 
 	Transformation *t = readTransformations(reader);
 	
-	o = std::shared_ptr<Sphere> (new Sphere(c, r, mat, t));
+	o = std::shared_ptr<Sphere> (new Sphere(c, r, idMat, t));
 	return true;
 }
 
@@ -70,13 +70,12 @@ bool ObjectParser::readTriangle(std::istringstream &reader, std::shared_ptr<Obje
 	bool culling;
 	reader >> culling;
 
-	std::shared_ptr<Material> mat = nullptr;
-	MaterialParser matParser;
-	if(!matParser.getMaterial(reader, mat)) return false;
+	if(!checkFieldName(reader, "MATERIAL")) return false; // mat id
+	std::string idMat; reader >> idMat;
 
 	Transformation *t = readTransformations(reader);
 
-	o = std::shared_ptr<Triangle> (new Triangle(p1, p2, p3, mat, culling, t));
+	o = std::shared_ptr<Triangle> (new Triangle(p1, p2, p3, idMat, culling, t));
 	return true;
 }
 
@@ -88,13 +87,12 @@ bool ObjectParser::readBox(std::istringstream &reader, std::shared_ptr<Object> &
 	if(!checkFieldName(reader, "P8")) return false;
 	readVec3(reader, p2);
 	
-	std::shared_ptr<Material> mat = nullptr;
-	MaterialParser matParser;
-	if(!matParser.getMaterial(reader, mat)) return false;
+	if(!checkFieldName(reader, "MATERIAL")) return false; // mat id
+	std::string idMat; reader >> idMat;
 
 	Transformation *t = readTransformations(reader);
 
-	o = std::shared_ptr<Box> (new Box(p1, p2, mat, t));
+	o = std::shared_ptr<Box> (new Box(p1, p2, idMat, t));
 	return true;
 }
 
@@ -105,13 +103,12 @@ bool ObjectParser::readPlane(std::istringstream &reader, std::shared_ptr<Object>
 	if(!checkFieldName(reader, "NORMAL")) return false;
 	Vec3 normal; readVec3(reader, normal);
 
-	std::shared_ptr<Material> mat = nullptr;
-	MaterialParser matParser;
-	if(!matParser.getMaterial(reader, mat)) return false;
+	if(!checkFieldName(reader, "MATERIAL")) return false; // mat id
+	std::string idMat; reader >> idMat;
 
 	Transformation *t = readTransformations(reader);
 
-	o = std::shared_ptr<Plane> (new Plane(origin, normal, mat, t));
+	o = std::shared_ptr<Plane> (new Plane(origin, normal, idMat, t));
 	return true;
 }
 
@@ -163,7 +160,7 @@ Transformation* ObjectParser::readTransformations(std::istringstream &reader) {
 	return finalT;
 }
 
-bool ObjectParser::readObj(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objs) {
+bool ObjectParser::readObj(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objs, std::map<std::string, std::shared_ptr<Material> > &materials) {
 	std::string field; reader >> field >> field;
 	if(field.compare("SPHERE") == 0) {
 		std::shared_ptr<Object> o;
@@ -187,7 +184,7 @@ bool ObjectParser::readObj(std::istringstream &reader, std::vector<std::shared_p
 
 	} else if(field.compare("MESH") == 0) {
 		std::vector<std::shared_ptr<Object> > os;
-		if(!readMesh(reader, os)) return false;
+		if(!readMesh(reader, os, materials)) return false;
 		for(int i = 0; i < os.size(); i++) {
 			objs.push_back(os[i]);
 		}
@@ -195,7 +192,7 @@ bool ObjectParser::readObj(std::istringstream &reader, std::vector<std::shared_p
 	// TODO other objs
 }
 
-bool ObjectParser::getObjList(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objs) {
+bool ObjectParser::getObjList(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objs, std::map<std::string, std::shared_ptr<Material> > &materials) {
 	std::string begin; reader >> begin;
 	if(begin.compare("begin_objs") != 0) return false;
 	while(true) {
@@ -204,7 +201,7 @@ bool ObjectParser::getObjList(std::istringstream &reader, std::vector<std::share
 		if(begin.compare("end_objs") == 0) break;
 		if(begin.compare("OBJ") != 0) break;
 
-		if(!readObj(reader, objs)) return false;
+		if(!readObj(reader, objs, materials)) return false;
 	}
 	return true;
 }

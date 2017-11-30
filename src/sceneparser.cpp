@@ -2,8 +2,11 @@
 #include "parsers/lightparser.h"
 #include "parsers/objparser.h"
 #include "parsers/camparser.h"
+#include "parsers/matparser.h"
 
 #include "lights/amblight.h"
+
+#include <map>
 
 bool SceneParser::getScene(std::istringstream &reader, Package *p) {
 	// Background Colors
@@ -21,8 +24,12 @@ bool SceneParser::getScene(std::istringstream &reader, Package *p) {
 
 	// Obj list
 	ObjectParser objParser;
+	std::map<std::string, std::shared_ptr<Material> > mats;
 	std::vector<std::shared_ptr<Object> > objs;
-	if(!objParser.getObjList(reader, objs)) return false;
+	if(!objParser.getObjList(reader, objs, mats)) return false;
+
+	MaterialParser materialParser;
+	if(!materialParser.getMaterialList(reader, mats)) return false;
 
 	LightParser lightParser;
 	std::vector<std::shared_ptr<Light> > lights;
@@ -30,6 +37,6 @@ bool SceneParser::getScene(std::istringstream &reader, Package *p) {
 	std::shared_ptr<AmbientLight> ambient = std::dynamic_pointer_cast<AmbientLight>(lights.back());
 	lights.pop_back();
 
-	p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], lights, ambient);
+	p->scene = Scene(cam, objs, colors[0], colors[1], colors[2], colors[3], lights, ambient, mats);
 	return true;
 }

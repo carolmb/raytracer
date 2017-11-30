@@ -18,7 +18,8 @@ public:
 
 		Color c;
 		if(isHitting) {
-			BlinnPhongMaterial *mat = dynamic_cast<BlinnPhongMaterial*>(record.m.get());
+			std::string idMat = record.m;
+			std::shared_ptr<BlinnPhongMaterial> mat = std::dynamic_pointer_cast<BlinnPhongMaterial>(scene.mats[idMat]);
 			c = mat->ka * scene.ambient->i;
 			
 			for(int i = 0; i < scene.lights.size(); i++) {

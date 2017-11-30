@@ -10,8 +10,8 @@ public:
 	Vec3 edge1, edge2, normal;
 	Triangle() : Object() {}
 	Triangle(Point3 p1, Point3 p2, Point3 p3, 
-		std::shared_ptr<Material> mat, bool c, Transformation *t) : 
-		p1(p1), p2(p2), p3(p3), Object(mat, t), culling(c) {
+		std::string idMat, bool c, Transformation *t) : 
+		p1(p1), p2(p2), p3(p3), Object(idMat, t), culling(c) {
 		setTransf(t);
 	}
 
