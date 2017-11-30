@@ -17,7 +17,10 @@ HitRecord Scene::hitAnything(bool &isHitting, Ray ray, double maxt) {
 	HitRecord record;
 	for(int k = 0; k < objs.size(); k++) {
 		HitRecord tempRecord;
-		if(objs[k]->hit(ray, tempRecord, mint, maxt)) { isHitting = true; record = tempRecord; }
+		if(objs[k]->hit(ray, tempRecord, mint, maxt)) { 
+			isHitting = true; 
+			record = tempRecord; 
+		}
 	}
 	return record;
 }
