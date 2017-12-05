@@ -3,12 +3,13 @@
 
 #include "materials/material.h"
 #include <random>
+#include "textures/texture.h"
 
 class LambertianMaterial : public Material {
 public:
 	std::knuth_b randomGenerator;
-	Vec3 kd;
-	LambertianMaterial(Vec3 kd) : kd(kd) {
+	Texture *texture;
+	LambertianMaterial(Texture *texture) : texture(texture) {
 		randomGenerator = std::knuth_b(3); 
 	}
 	
@@ -27,7 +28,7 @@ public:
 	bool scatter(Ray r, HitRecord &rec, Vec3 &att, Ray &scattered) {
 		Vec3 target = rec.n + randomPoint();
 		scattered = Ray(rec.p, target);
-		att = kd;
+		att = texture->value(rec.u, rec.v, rec.p);
 		return true;
 	}
 };

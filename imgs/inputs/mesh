@@ -10,7 +10,8 @@ BL = 0 0 0
 BR = 0 0 0
 
 CAMERA = PERSPECTIVE
-lookfrom = 1.7 1.2 2.7
+lookfrom = 1 1 6
+#lookfrom = 1.7 1.2 2.7
 lookat = 0 0 -1
 viewup = 0 1 0
 vfov = 30
@@ -21,10 +22,16 @@ isoblique = 0
 
 begin_objs
 
+#OBJ = MESH 
+#SOURCE = imgs/inputs/diamon.obj
+#MATERIAL = 1
+#begin_transf null end_transf
+
 OBJ = MESH 
-SOURCE = imgs/inputs/diamon.obj
+SOURCE = imgs/inputs/open_cube.obj
 MATERIAL = 1
 begin_transf null end_transf
+
 
 #OBJ = SPHERE
 #CENTER = 0 0 0
@@ -38,7 +45,7 @@ begin_transf null end_transf
 end_objs
 
 begin_mat
-MATERIAL = blinnphong
+MATERIAL = lambertian
 id = 1
 ka = 0.1 0.1 0.1
 kd = 1 0 0 

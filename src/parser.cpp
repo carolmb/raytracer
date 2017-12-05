@@ -2,6 +2,7 @@
 
 bool Parser::checkFieldName(std::istringstream &reader, std::string field) {
 	std::string f;
+	//std::cout << "field: " << field << " found: " << f << std::endl;
 	reader >> f;
 	if(field.compare(f) != 0) return false;
 	reader >> f;

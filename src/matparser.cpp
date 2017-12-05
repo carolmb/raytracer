@@ -4,6 +4,13 @@
 #include "materials/metalmat.h"
 #include "materials/lambertianmat.h"
 #include "materials/cartoonmat.h"
+#include "textures/texture.h"
+#include "textures/constant.h"
+#include "textures/checker.h"
+#include "textures/image.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "util/stb_image.h"
 
 #include <cmath>
 
@@ -29,9 +36,45 @@ bool MaterialParser::getMaterial(std::istringstream &reader, std::map<std::strin
 	std::shared_ptr<Material> mat;
 
 	if(type.compare("lambertian") == 0) {
-		if(!checkFieldName(reader, "kd")) return false;
-		Vec3 kd; readVec3(reader, kd);
-		mat = std::shared_ptr<LambertianMaterial>(new LambertianMaterial(kd));
+		if(!checkFieldName(reader, "texture")) return false;
+		std::string type;
+		reader >> type;
+		Texture *texture;
+		if(type.compare("const") == 0) {
+			if(!checkFieldName(reader, "color")) return false;
+			Vec3 kd; readVec3(reader, kd);
+			texture = new ConstantTexture(kd);
+		} else if(type.compare("checker") == 0) {
+			if(!checkFieldName(reader, "even")) return false;
+			Vec3 color1; readVec3(reader, color1);
+			Texture *t1 = new ConstantTexture(color1);
+			if(!checkFieldName(reader, "odd")) return false;
+			Vec3 color2; readVec3(reader, color2);
+			Texture *t2 = new ConstantTexture(color2);
+			texture = new CheckerTexture(t1, t2);
+		} else if(type.compare("image") == 0) {
+			if(!checkFieldName(reader, "source")) return false;
+			std::string source;
+			reader >> source;
+			
+			//if(!checkFieldName(reader, "width")) return false;
+			int x;
+			//reader >> x;
+
+			//if(!checkFieldName(reader, "height")) return false;
+			int y;
+			//reader >> y;			
+
+			int n; // channels
+			
+			
+			//FILE *f = fopen(source.c_str(), "rb");
+		    //unsigned char *data = stbi_load_from_file(f, &x, &y, &n, 3);
+			//texture = new ImageTexture(data, x, y);
+			texture = new ImageTexture(source);
+		}
+
+		mat = std::shared_ptr<LambertianMaterial>(new LambertianMaterial(texture));
 		materials.emplace(id, mat);
 	} else if (type.compare("metal") == 0) {
 		if(!checkFieldName(reader, "kd")) return false;

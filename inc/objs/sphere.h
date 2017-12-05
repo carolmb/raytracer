@@ -14,6 +14,7 @@ public:
 		}
 	bool hit(Ray ray, HitRecord &hit, double &mint, double maxt);
 	void setTransf(Transformation *t);
+	void getUV(Vec3 vec, float &u, float &v);
 };
 
 

@@ -8,7 +8,7 @@
 class BlinnPhongMaterial : public Material {
 public:
 	Vec3 ka;
-	Vec3 kd;
+	Vec3 kd; // albedo
 	Vec3 ks;
 	double exps;
 

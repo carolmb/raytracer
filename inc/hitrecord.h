@@ -14,6 +14,8 @@ struct HitRecord {
 	Point3 p;
 	std::string m;
 	Vec3 n; // normal
+	float u;
+	float v;
 };
 
 #endif
