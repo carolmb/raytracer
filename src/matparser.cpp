@@ -4,6 +4,7 @@
 #include "materials/metalmat.h"
 #include "materials/lambertianmat.h"
 #include "materials/cartoonmat.h"
+#include "materials/dieletricmat.h"
 #include "textures/texture.h"
 #include "textures/constant.h"
 #include "textures/checker.h"
@@ -56,18 +57,7 @@ bool MaterialParser::getMaterial(std::istringstream &reader, std::map<std::strin
 			if(!checkFieldName(reader, "source")) return false;
 			std::string source;
 			reader >> source;
-			
-			//if(!checkFieldName(reader, "width")) return false;
-			int x;
-			//reader >> x;
-
-			//if(!checkFieldName(reader, "height")) return false;
-			int y;
-			//reader >> y;			
-
-			int n; // channels
-			
-			
+			//int x, y, n;
 			//FILE *f = fopen(source.c_str(), "rb");
 		    //unsigned char *data = stbi_load_from_file(f, &x, &y, &n, 3);
 			//texture = new ImageTexture(data, x, y);
@@ -126,6 +116,13 @@ bool MaterialParser::getMaterial(std::istringstream &reader, std::map<std::strin
 		}
 		mat = std::shared_ptr<CartoonMaterial>(new CartoonMaterial(ol, g, i));
 		materials.emplace(id, mat);
+	} else if (type.compare("dieletric") == 0) {
+		if(!checkFieldName(reader, "n1")) return false;
+		double n1; reader >> n1;
+
+		if(!checkFieldName(reader, "n2")) return false;
+		double n2; reader >> n2;
+		mat = std::shared_ptr<DieletricMaterial>(new DieletricMaterial(n1, n2));
 	} else if (type.compare("null") == 0) {
 		
 	} else { 
