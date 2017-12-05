@@ -123,6 +123,7 @@ bool MaterialParser::getMaterial(std::istringstream &reader, std::map<std::strin
 		if(!checkFieldName(reader, "n2")) return false;
 		double n2; reader >> n2;
 		mat = std::shared_ptr<DieletricMaterial>(new DieletricMaterial(n1, n2));
+		materials.emplace(id, mat);
 	} else if (type.compare("null") == 0) {
 		
 	} else { 

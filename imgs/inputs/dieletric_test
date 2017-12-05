@@ -1,0 +1,91 @@
+FILENAME = imgs/outputs/dieletric_test
+FILETYPE = ppm
+WIDTH = 500
+HEIGHT = 250
+SAMPLES = 4
+REC_DEPTH = 4
+TL = 0.5 0.7 1.0
+TR = 0.5 0.7 1.0
+BL = 1 1 1
+BR = 1 1 1
+
+CAMERA = PERSPECTIVE
+lookfrom = 0 0.5 2.7
+lookat = 0 0 -1
+viewup = 0 1 0
+vfov = 30
+aspectratio = 2
+aperture = 0	
+fdist = 0
+isoblique = 0
+
+begin_objs
+
+	OBJ = SPHERE
+	CENTER = 0 0 -1
+	RADIUS = 0.5
+	MATERIAL = lamb1
+	begin_transf null end_transf
+
+	OBJ = SPHERE
+	CENTER = 1 -100.5 -1
+	RADIUS = 100
+	MATERIAL = lamb2
+	begin_transf null end_transf
+
+	OBJ = SPHERE
+	CENTER = 1 0.01 -1
+	RADIUS = 0.5
+	MATERIAL = met
+	begin_transf null end_transf
+
+	OBJ = SPHERE
+	CENTER = -1 0 -1
+	RADIUS = 0.5
+	MATERIAL = diel
+	begin_transf null end_transf
+
+	OBJ = SPHERE
+	CENTER = -1 0 -1
+	RADIUS = -0.45
+	MATERIAL = diel
+	begin_transf null end_transf
+
+end_objs
+
+begin_mat
+
+	MATERIAL = dieletric
+	id = diel
+	n1 = 1
+	n2 = 1.5
+
+	MATERIAL = lambertian
+	id = lamb1
+	texture = const
+	color = 0.1 0.2 0.5
+
+	MATERIAL = lambertian
+	id = lamb2
+	texture = const
+	color = 0.8 0.8 0.0
+
+	MATERIAL = metal
+	id = met
+	kd = 0.8 0.6 0.2
+	fuzz = 0
+
+end_mat
+
+begin_lights
+
+	LIGHT = DIRETIONAL 
+	i = 1 1 1
+	dir = 1 1 1
+
+	LIGHT = AMBIENT  
+	i = 0.1 0.1 0.1
+
+end_lights
+
+SHADER = RECURSIVE
