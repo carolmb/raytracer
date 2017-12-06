@@ -117,12 +117,12 @@ bool MaterialParser::getMaterial(std::istringstream &reader, std::map<std::strin
 		mat = std::shared_ptr<CartoonMaterial>(new CartoonMaterial(ol, g, i));
 		materials.emplace(id, mat);
 	} else if (type.compare("dieletric") == 0) {
-		if(!checkFieldName(reader, "n1")) return false;
-		double n1; reader >> n1;
+		if(!checkFieldName(reader, "ref")) return false;
+		double n; reader >> n;
 
-		if(!checkFieldName(reader, "n2")) return false;
-		double n2; reader >> n2;
-		mat = std::shared_ptr<DieletricMaterial>(new DieletricMaterial(n1, n2));
+		//if(!checkFieldName(reader, "n2")) return false;
+		//double n2; reader >> n2;
+		mat = std::shared_ptr<DieletricMaterial>(new DieletricMaterial(n));
 		materials.emplace(id, mat);
 	} else if (type.compare("null") == 0) {
 		
