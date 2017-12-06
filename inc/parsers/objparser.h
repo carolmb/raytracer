@@ -22,6 +22,7 @@ private:
 	bool readBox(std::istringstream &reader, std::shared_ptr<Object> &o);
 	Transformation* readTransformations(std::istringstream &reader);
 	bool readTransf(std::istringstream &reader, Mat4 &m, std::string transfName);
+	Point3 getVerticeInMesh(objl::Mesh curMesh, int index); 
 };
 
 #endif

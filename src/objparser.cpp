@@ -4,11 +4,10 @@
 #include "objs/triangle.h"
 #include "objs/plane.h"
 #include "objs/box.h"
-#include "objs/mesh.h"
 #include "util/transf.h"
 #include "util/mat4.h"
 
-bool ObjectParser::readMesh(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &meshList) {
+bool ObjectParser::readMesh(std::istringstream &reader, std::vector<std::shared_ptr<Object> > &objList) {
 	if(!checkFieldName(reader, "SOURCE")) return false;
 	std::string fileSource;
 	reader >> fileSource;
@@ -16,29 +15,35 @@ bool ObjectParser::readMesh(std::istringstream &reader, std::vector<std::shared_
 	if(!checkFieldName(reader, "MATERIAL")) return false;
 	std::string idMat;
 	reader >> idMat;
-	std::cout << "aaaaaaaaaaaaaaaaa " << idMat;
+	
+	Transformation *t = readTransformations(reader);
+	if(t == NULL) return false;
 
 	objl::Loader Loader;
 	bool loadout = Loader.LoadFile(fileSource);
 	if(loadout) {
 		for(int i = 0; i < Loader.LoadedMeshes.size(); i++) {
 			objl::Mesh curMesh = Loader.LoadedMeshes[i];
-			std::shared_ptr<Mesh> newMesh =
-				std::shared_ptr<Mesh>(new Mesh(curMesh, idMat, new Transformation()));
-			meshList.push_back(newMesh);
+			for(int j = 0; j < curMesh.Indices.size(); j+=3) {
+				Point3 p1 = getVerticeInMesh(curMesh, curMesh.Indices[j]);
+				Point3 p2 = getVerticeInMesh(curMesh, curMesh.Indices[j + 1]); 
+				Point3 p3 = getVerticeInMesh(curMesh, curMesh.Indices[j + 2]);
+				std::shared_ptr<Object> triangle = 
+					std::shared_ptr<Triangle>(new Triangle(p1, p2, p3, idMat, true, t));
+				objList.push_back(triangle);
+			}
 		}
 	} else {
 		return false;
 	}
-
-	Transformation *t = readTransformations(reader);
-	if(t == NULL) return false;
-
-	for(int i = 0; i < meshList.size(); i++) {
-		meshList[i]->setTransf(t);
-	}
-	// TODO set transformation
 	return true;
+}
+
+
+Point3 ObjectParser::getVerticeInMesh(objl::Mesh curMesh, int index) {
+	return Vec3(curMesh.Vertices[index].Position.X, 
+			curMesh.Vertices[index].Position.Y, 
+			curMesh.Vertices[index].Position.Z);
 }
 
 bool ObjectParser::readSphere(std::istringstream &reader, std::shared_ptr<Object> &o) {

@@ -46,8 +46,6 @@ bool Triangle::hit(Ray ray, HitRecord &hit, double &mint, double maxt) {
 		double inv_det = 1/det;
 
 		t *= inv_det;
-		//u *= inv_det;
-		//v *= inv_det;
 	} else {
 
 		if(det < epsilon && det > -epsilon) {
