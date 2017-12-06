@@ -10,7 +10,7 @@ BL = 1 1 1
 BR = 1 1 1
 
 CAMERA = PERSPECTIVE
-lookfrom = 0 0.3 2.7
+lookfrom = 0 0 2
 lookat = 0 0 -1
 viewup = 0 1 0
 vfov = 30
@@ -45,11 +45,11 @@ begin_objs
 	MATERIAL = diel
 	begin_transf null end_transf
 
-	OBJ = SPHERE
-	CENTER = -1 0 -1
-	RADIUS = 0.45
-	MATERIAL = diel
-	begin_transf null end_transf
+#	OBJ = SPHERE
+#	CENTER = -1 0 -1
+#	RADIUS = -0.45
+#	MATERIAL = diel
+#	begin_transf null end_transf
 
 end_objs
 

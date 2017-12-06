@@ -10,7 +10,7 @@ BL = 0 0 0
 BR = 0 0 0
 
 CAMERA = PERSPECTIVE
-lookfrom = 1.7 1.2 2.7
+lookfrom = 0 0.3 2
 lookat = 0 0 -1
 viewup = 0 1 0
 vfov = 30
