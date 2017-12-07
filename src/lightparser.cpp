@@ -7,8 +7,10 @@
 
 #include <cmath>
 
-bool LightParser::readLight(std::istringstream &reader, std::shared_ptr<Light> &light) {
+bool LightParser::readLight(std::istringstream &reader, std::vector<std::shared_ptr<Light> > &lights) {
 	std::string field; reader >> field >> field;
+	std::shared_ptr<Light> light;
+
 	if(field.compare("DIRETIONAL") == 0) {
 		if(!checkFieldName(reader, "i")) return false;
 		Vec3 i;
@@ -19,6 +21,7 @@ bool LightParser::readLight(std::istringstream &reader, std::shared_ptr<Light> &
 		if(!readVec3(reader, d)) return false;
 
 		light = std::shared_ptr<DiretionalLight> (new DiretionalLight(d.norm(), i));
+		lights.push_back(light);
 
 		return true;
 	} else if(field.compare("PUNCTUAL") == 0) {
@@ -31,6 +34,7 @@ bool LightParser::readLight(std::istringstream &reader, std::shared_ptr<Light> &
 		if(!readVec3(reader, d)) return false;
 
 		light = std::shared_ptr<PunctualLight> (new PunctualLight(i, d));
+		lights.push_back(light);
 
 		return true;
 	} else if(field.compare("SPOTLIGHT") == 0) {
@@ -50,6 +54,7 @@ bool LightParser::readLight(std::istringstream &reader, std::shared_ptr<Light> &
 		double a; reader >> a;
 
 		light = std::shared_ptr<SpotLight> (new SpotLight(i, o, d, a));
+		lights.push_back(light);
 
 		return true;
 	} else if(field.compare("AMBIENT") == 0) {
@@ -57,6 +62,52 @@ bool LightParser::readLight(std::istringstream &reader, std::shared_ptr<Light> &
 		Vec3 i;		
 		if(!readVec3(reader, i)) return false;
 		light = std::shared_ptr<AmbientLight> (new AmbientLight(i));
+		lights.push_back(light);
+
+		return true;
+	} else if(field.compare("AREA") == 0) {
+		if(!checkFieldName(reader, "i")) return false;
+		Vec3 itensity;		
+		if(!readVec3(reader, itensity)) return false;
+		
+		if(!checkFieldName(reader, "llc")) return false;
+		Vec3 llc; 		
+		if(!readVec3(reader, llc)) return false;
+		
+		if(!checkFieldName(reader, "h")) return false;
+		Vec3 h;
+		if(!readVec3(reader, h)) return false;
+		
+		if(!checkFieldName(reader, "v")) return false;
+		Vec3 v;
+		if(!readVec3(reader, v)) return false;
+		
+		if(!checkFieldName(reader, "nx")) return false;
+		int nx;	reader >> nx;
+
+		if(!checkFieldName(reader, "ny")) return false;
+		int ny;	reader >> ny;	
+		
+		if(!checkFieldName(reader, "samples")) return false;
+		int samples; reader >> samples;	
+		
+
+		double stepX = 1.0/nx;
+		double stepY = 1.0/ny;
+	
+		itensity = itensity/(nx*ny*samples);
+		for(float i = 0; i <= 1.03; i+=stepX) {
+			for(float j = 0; j <= 1.03; j+=stepY) {
+				for(float s = 0; s < samples; s++) {
+					Vec3 origin = llc + h*i + v*j;
+					std::cout << origin;
+					std::shared_ptr<Light> light =
+						std::shared_ptr<PunctualLight> (new PunctualLight(itensity, origin));
+					lights.push_back(light);
+				}
+			}
+		}
+
 		return true;
 	}
 	// TODO other objs
@@ -72,10 +123,7 @@ bool LightParser::getLightList(std::istringstream &reader, std::vector<std::shar
 		if(begin.compare("end_lights") == 0) break;
 		if(begin.compare("LIGHT") != 0) break;
 
-		std::shared_ptr<Light> light;
-		if(readLight(reader, light)) {
-			lights.push_back(light);
-		} else return false;
+		if(!readLight(reader, lights)) return false;
 	}
 	return true;
 }

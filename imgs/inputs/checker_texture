@@ -1,8 +1,8 @@
 FILENAME = imgs/outputs/checker_texture
 FILETYPE = ppm
-WIDTH = 900
-HEIGHT = 450
-SAMPLES = 1
+WIDTH = 500
+HEIGHT = 250
+SAMPLES = 4
 REC_DEPTH = 4
 TL = 0.5 0.5 0.5
 TR = 0.5 0.5 0.5
@@ -10,7 +10,7 @@ BL = 0 0 0
 BR = 0 0 0
 
 CAMERA = PERSPECTIVE
-lookfrom = 1.7 1.2 2.7
+lookfrom = 0 0.5 3
 lookat = 0 0 -1
 viewup = 0 1 0
 vfov = 30
@@ -39,6 +39,12 @@ begin_objs
 	MATERIAL = sphere_checker
 	begin_transf null end_transf
 
+	OBJ = SPHERE
+	CENTER = 0 -100.5 0
+	RADIUS = 100
+	MATERIAL = sphere_checker
+	begin_transf null end_transf
+
 end_objs
 
 begin_mat
@@ -51,7 +57,7 @@ begin_mat
 	MATERIAL = lambertian
 	id = sphere_checker
 	texture = checker
-	even = 0 1 0
+	even = 0 0 0
 	odd = 1 1 1
 
 end_mat

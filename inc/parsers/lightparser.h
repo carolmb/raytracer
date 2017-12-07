@@ -12,7 +12,7 @@ class LightParser : public Parser {
 public:
 	bool getLightList(std::istringstream &reader, std::vector<std::shared_ptr<Light> > &lights);
 private:
-	bool readLight(std::istringstream &reader, std::shared_ptr<Light> &light);
+	bool readLight(std::istringstream &reader, std::vector<std::shared_ptr<Light> > &lights);
 };
 
 #endif

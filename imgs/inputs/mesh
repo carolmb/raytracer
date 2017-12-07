@@ -2,7 +2,7 @@ FILENAME = imgs/outputs/mesh_test
 FILETYPE = ppm
 WIDTH = 900
 HEIGHT = 450
-SAMPLES = 1
+SAMPLES = 4
 REC_DEPTH = 1
 TL = 0.5 0.5 0.5
 TR = 0.5 0.5 0.5
@@ -23,11 +23,6 @@ begin_objs
 
 OBJ = MESH 
 SOURCE = imgs/inputs/dimon.obj
-MATERIAL = 1
-begin_transf null end_transf
-
-OBJ = MESH 
-SOURCE = imgs/inputs/open_cube.obj
 MATERIAL = 1
 begin_transf null end_transf
 

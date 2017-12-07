@@ -1,0 +1,64 @@
+FILENAME = imgs/outputs/img_texture2
+FILETYPE = ppm
+WIDTH = 500
+HEIGHT = 250
+SAMPLES = 4
+REC_DEPTH = 4
+TL = 0 0 0
+TR = 0 0 0
+BL = 1 1 1
+BR = 1 1 1
+
+CAMERA = PERSPECTIVE
+lookfrom = 0 0 2.7
+lookat = 0 0 -1
+viewup = 0 1 0
+vfov = 30
+aspectratio = 2
+aperture = 0	
+fdist = 0
+isoblique = 0
+
+begin_objs
+
+	OBJ = SPHERE
+	CENTER = 0 0 0
+	RADIUS = 0.5
+	MATERIAL = img_tex
+	begin_transf null end_transf
+
+	OBJ = SPHERE
+	CENTER = 1 0 0
+	RADIUS = 0.5
+	MATERIAL = img_tex
+	begin_transf null end_transf
+
+	OBJ = SPHERE
+	CENTER = -1 0 0
+	RADIUS = 0.5
+	MATERIAL = img_tex
+	begin_transf null end_transf
+
+end_objs
+
+begin_mat
+
+	MATERIAL = lambertian
+	id = img_tex
+	texture = image
+	source = cat.jpg
+
+end_mat
+
+begin_lights
+
+	LIGHT = DIRETIONAL 
+	i = 1 1 1
+	dir = 1 1 1
+
+	LIGHT = AMBIENT  
+	i = 0.1 0.1 0.1
+
+end_lights
+
+SHADER = RECURSIVE

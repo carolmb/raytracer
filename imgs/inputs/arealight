@@ -1,0 +1,58 @@
+FILENAME = imgs/outputs/area_light
+FILETYPE = ppm
+WIDTH = 500
+HEIGHT = 250
+SAMPLES = 2
+REC_DEPTH = 1
+TL = 0 0 0.5
+TR = 0 0 0.5
+BL = 0 0 0
+BR = 0 0 0
+
+CAMERA = PERSPECTIVE
+lookfrom = 0 0.5 2
+lookat = 0 0 -1
+viewup = 0 1 0
+vfov = 30
+aspectratio = 2
+aperture = 0	
+fdist = 0
+isoblique = 0
+
+begin_objs
+
+OBJ = SPHERE
+	CENTER = 0 0 -1
+	RADIUS = 0.5
+	MATERIAL = 1
+	begin_transf null end_transf
+
+
+end_objs
+
+begin_mat
+
+MATERIAL = blinnphong
+id = 1
+ka = 0.1 0.1 0.1
+kd = 1 0 0 
+ks = 1 1 1
+exps = 5
+
+end_mat
+
+begin_lights
+LIGHT = AREA 
+i = 0.5 0.5 0.5
+llc = -5 3 0
+h = 10 0 0
+v = 0 0 4
+nx = 20
+ny = 8
+samples = 2
+
+LIGHT = AMBIENT  
+i = 0.1 0.1 0.1
+end_lights
+
+SHADER = BLINN_PHONG

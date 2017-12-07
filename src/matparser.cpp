@@ -10,9 +10,6 @@
 #include "textures/checker.h"
 #include "textures/image.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "util/stb_image.h"
-
 #include <cmath>
 
 bool MaterialParser::getMaterialList(std::istringstream &reader, std::map<std::string, std::shared_ptr<Material> > &materials) {
@@ -57,10 +54,6 @@ bool MaterialParser::getMaterial(std::istringstream &reader, std::map<std::strin
 			if(!checkFieldName(reader, "source")) return false;
 			std::string source;
 			reader >> source;
-			//int x, y, n;
-			//FILE *f = fopen(source.c_str(), "rb");
-		    //unsigned char *data = stbi_load_from_file(f, &x, &y, &n, 3);
-			//texture = new ImageTexture(data, x, y);
 			texture = new ImageTexture(source);
 		}
 
@@ -120,8 +113,6 @@ bool MaterialParser::getMaterial(std::istringstream &reader, std::map<std::strin
 		if(!checkFieldName(reader, "ref")) return false;
 		double n; reader >> n;
 
-		//if(!checkFieldName(reader, "n2")) return false;
-		//double n2; reader >> n2;
 		mat = std::shared_ptr<DieletricMaterial>(new DieletricMaterial(n));
 		materials.emplace(id, mat);
 	} else if (type.compare("null") == 0) {

@@ -25,8 +25,11 @@ public:
 				std::string idMat = record.m;
 				std::shared_ptr<Material> mat = std::dynamic_pointer_cast<Material>(scene.mats[idMat]);
 
+				Vec3 emitted = mat->emitted(record.u, record.v, record.p);	
 				if(mat->scatter(ray, record, att, scattered)) {
-					c = c + correctGama(getColorRec(scene, scattered, count - 1, 1)*att);
+					c = c + emitted + correctGama(getColorRec(scene, scattered, count - 1, 1)*att);
+				} else {
+					c = c + emitted;
 				}
 			}
 			c = c/nRays;
