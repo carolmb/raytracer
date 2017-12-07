@@ -10,6 +10,8 @@ public:
 	std::vector<double> intervals;
 	Color outline;
 
+	Vec3 emitted(float u, float v, Vec3 p) { return Vec3(); }
+
 	CartoonMaterial(Color ol, std::vector<Color> g, std::vector<double> i) : outline(ol), gradient(g), intervals(i) {}
 	bool scatter(Ray r, HitRecord &rec, Vec3 &att, Ray &scattered) { return false; }
 	Color getOutline() { return outline; }

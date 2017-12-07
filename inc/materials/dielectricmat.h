@@ -14,6 +14,8 @@ public:
 
 	DielectricMaterial(double ref) : ref(ref) {}
 
+	Vec3 emitted(float u, float v, Vec3 p) { return Vec3(); }
+
 	bool scatter(Ray r, HitRecord &rec, Vec3 &att, Ray &scattered) {
 		Vec3 normalUnit = rec.n;
 		Vec3 dirUnit = r.dir();
@@ -25,7 +27,8 @@ public:
 		if (cosI > 0) {
 			outwardNormal = - rec.n;
 			n = ref;
-			cosI = cosI*n;
+			cosI = std::sqrt(1 - n*n*(1 - cosI*cosI));
+			//cosI = cosI*n;
 		} else {
 			outwardNormal = rec.n;
 			n = 1/ref;
@@ -42,13 +45,13 @@ public:
 			reflect_prob = 1.0;
 		}
 
-		Vec3 origin = rec.p + rec.n*0.01;
-		float rand = std::generate_canonical<double, std::numeric_limits<double>::digits> (randomGenerator);
+		float rand = std::generate_canonical<double, 9> (randomGenerator);
+		Vec3 origin = rec.p - outwardNormal * 0.001;
 		if(rand < reflect_prob) {
 			Vec3 reflected = reflect(rec.n, r.dir());	
 			scattered = Ray(origin, reflected);
+			// return false;
 		} else {
-			return false;
 			scattered = Ray(origin, refracted);
 		}
 		return true;
@@ -61,6 +64,7 @@ public:
 
 	bool refract(Vec3 normal, Vec3 incident, Vec3 &result, double n) {
 		incident = incident.norm();
+		normal = normal.norm();
 		double cos = normal.dot(incident);
 		double disc = 1 - n*n*(1 - cos*cos);
 		if(disc > 0) {

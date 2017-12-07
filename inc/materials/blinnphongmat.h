@@ -20,6 +20,8 @@ public:
 		exps = meshMat.Ns;
 	}
 
+	Vec3 emitted(float u, float v, Vec3 p) { return Vec3(); }
+
 	bool scatter(Ray r, HitRecord &rec, Vec3 &att, Ray &scattered) { return false; }
 };
 

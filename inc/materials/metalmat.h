@@ -12,6 +12,8 @@ public:
 	MetalMaterial(Vec3 kd, double fuzz) : kd(kd), fuzz(fuzz) {
 		randomGenerator = std::knuth_b(3); 
 	}
+
+	Vec3 emitted(float u, float v, Vec3 p) { return Vec3(); }
 	
 	Vec3 randomPoint() {
 		Vec3 p;

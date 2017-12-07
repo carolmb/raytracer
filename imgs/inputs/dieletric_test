@@ -2,12 +2,12 @@ FILENAME = imgs/outputs/dieletric_test
 FILETYPE = ppm
 WIDTH = 500
 HEIGHT = 250
-SAMPLES = 2
-REC_DEPTH = 4
-TL = 0.5 0.7 1.0
-TR = 0.5 0.7 1.0
-BL = 1 1 1
-BR = 1 1 1
+SAMPLES = 1
+REC_DEPTH = 10
+TL = 0.1 0.1 0.1
+TR = 0.1 0.1 0.1
+BL = 0 0 0
+BR = 0 0 0
 
 CAMERA = PERSPECTIVE
 lookfrom = 0 0 2
@@ -77,10 +77,6 @@ begin_mat
 end_mat
 
 begin_lights
-
-	LIGHT = DIRETIONAL 
-	i = 1 1 1
-	dir = 1 1 1
 
 	LIGHT = AMBIENT  
 	i = 0.1 0.1 0.1

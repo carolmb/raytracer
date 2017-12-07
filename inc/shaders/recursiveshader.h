@@ -23,10 +23,13 @@ public:
 				Vec3 att;
 
 				std::string idMat = record.m;
-				std::shared_ptr<Material> mat = std::dynamic_pointer_cast<Material>(scene.mats[idMat]);
+				std::shared_ptr<Material> mat = scene.mats[idMat];
 
+				Vec3 emit = mat->emitted(record.u, record.v, record.p);
 				if(mat->scatter(ray, record, att, scattered)) {
-					c = c + getColorRec(scene, scattered, count - 1, 1)*att;
+					c = c + emit + getColorRec(scene, scattered, count - 1, 1)*att;
+				} else {
+					c = c + emit;
 				}
 			}
 			c = c/nRays;

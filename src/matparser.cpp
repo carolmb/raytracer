@@ -5,6 +5,7 @@
 #include "materials/lambertianmat.h"
 #include "materials/cartoonmat.h"
 #include "materials/dielectricmat.h"
+#include "materials/diffuselightmat.h"
 #include "textures/texture.h"
 #include "textures/constant.h"
 #include "textures/checker.h"
@@ -114,6 +115,12 @@ bool MaterialParser::getMaterial(std::istringstream &reader, std::map<std::strin
 		double n; reader >> n;
 
 		mat = std::shared_ptr<DielectricMaterial>(new DielectricMaterial(n));
+		materials.emplace(id, mat);
+	} else if (type.compare("diffuselight") == 0) {
+		if(!checkFieldName(reader, "emit")) return false;
+		Vec3 emit; readVec3(reader, emit);
+		Texture *texture = new ConstantTexture(emit);
+		mat = std::shared_ptr<DiffuseLightMaterial>(new DiffuseLightMaterial(texture));
 		materials.emplace(id, mat);
 	} else if (type.compare("null") == 0) {
 		
