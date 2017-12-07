@@ -103,7 +103,6 @@ bool LightParser::readLight(std::istringstream &reader, std::vector<std::shared_
 				for(float s = 0; s < samples; s++) {
 					double deltax = std::generate_canonical<double, 9> (randomGenerator)*0.01;
 					double deltay = std::generate_canonical<double, 9> (randomGenerator)*0.01;
-					std::cout << deltax << " " << deltay << std::endl;
 					Vec3 origin = llc + (h + deltax)*i + (v + deltay)*j;
 					
 					std::shared_ptr<Light> light =

@@ -4,7 +4,7 @@
 #include "materials/metalmat.h"
 #include "materials/lambertianmat.h"
 #include "materials/cartoonmat.h"
-#include "materials/dieletricmat.h"
+#include "materials/dielectricmat.h"
 #include "textures/texture.h"
 #include "textures/constant.h"
 #include "textures/checker.h"
@@ -113,7 +113,7 @@ bool MaterialParser::getMaterial(std::istringstream &reader, std::map<std::strin
 		if(!checkFieldName(reader, "ref")) return false;
 		double n; reader >> n;
 
-		mat = std::shared_ptr<DieletricMaterial>(new DieletricMaterial(n));
+		mat = std::shared_ptr<DielectricMaterial>(new DielectricMaterial(n));
 		materials.emplace(id, mat);
 	} else if (type.compare("null") == 0) {
 		

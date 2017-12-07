@@ -1,5 +1,5 @@
-#ifndef DIELETRICMAT__
-#define DIELETRICMAT__
+#ifndef DIELECTRICMAT__
+#define DIELECTRICMAT__
 
 #include "materials/material.h"
 #include <random>
@@ -7,12 +7,12 @@
 #include <limits>
 #include "textures/texture.h"
 
-class DieletricMaterial : public Material {
+class DielectricMaterial : public Material {
 public:
 	double ref;
 	static std::knuth_b randomGenerator;
 
-	DieletricMaterial(double ref) : ref(ref) {}
+	DielectricMaterial(double ref) : ref(ref) {}
 
 	bool scatter(Ray r, HitRecord &rec, Vec3 &att, Ray &scattered) {
 		Vec3 normalUnit = rec.n;
@@ -42,19 +42,21 @@ public:
 			reflect_prob = 1.0;
 		}
 
+		Vec3 origin = rec.p + rec.n*0.01;
 		float rand = std::generate_canonical<double, std::numeric_limits<double>::digits> (randomGenerator);
 		if(rand < reflect_prob) {
 			Vec3 reflected = reflect(rec.n, r.dir());	
-			scattered = Ray(rec.p, reflected);
-			return false;
+			scattered = Ray(origin, reflected);
 		} else {
-			scattered = Ray(rec.p, refracted);
+			return false;
+			scattered = Ray(origin, refracted);
 		}
 		return true;
 	}
 
-	Vec3 reflect(Vec3 normal, Vec3 incident) {
-		return incident - normal * normal.dot(incident) * 2;
+	Vec3 reflect(Vec3 normal, Vec3 dir) {
+		dir = dir.norm();
+		return dir - normal*dir.dot(normal)*2; // reflected
 	}
 
 	bool refract(Vec3 normal, Vec3 incident, Vec3 &result, double n) {
@@ -75,6 +77,6 @@ public:
 		return r0 + (1 - r0) * x * x * x * x * x;
 	}
 };
-std::knuth_b DieletricMaterial::randomGenerator(3);
+std::knuth_b DielectricMaterial::randomGenerator(3);
 
 #endif
