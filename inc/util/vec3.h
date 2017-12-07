@@ -30,9 +30,9 @@ public:
 	Vec3 norm() { return Vec3(x/len(), y/len(), z/len()); }
 
 	Vec3 interpole(Vec3 other, double t) { 
-		number r = x*(1-t) + other.x*t;
-		number g = y*(1-t) + other.y*t;
-		number b = z*(1-t) + other.z*t;
+		number r = x*(1.0 - t) + other.x*t;
+		number g = y*(1.0 - t) + other.y*t;
+		number b = z*(1.0 - t) + other.z*t;
 		return Vec3(r, g, b); 
 	}
 

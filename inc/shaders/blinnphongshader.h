@@ -41,7 +41,6 @@ public:
 			c.x = std::min(1.0, c.x);
 			c.y = std::min(1.0, c.y);
 			c.z = std::min(1.0, c.z);
-
 		} else {
 			c = scene.backgroundColor(ray);
 		}

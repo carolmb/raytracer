@@ -4,10 +4,10 @@ WIDTH = 500
 HEIGHT = 250
 SAMPLES = 2
 REC_DEPTH = 1
-TL = 0 0 0.5
-TR = 0 0 0.5
-BL = 0 0 0
-BR = 0 0 0
+TL = 0 0 1
+TR = 1 1 1
+BL = 1 1 1
+BR = 1 1 1
 
 CAMERA = PERSPECTIVE
 lookfrom = 0 0.5 2
@@ -43,10 +43,10 @@ end_mat
 
 begin_lights
 LIGHT = AREA 
-i = 0.5 0.5 0.5
+i = 1 1 1
 llc = -5 3 0
 h = 10 0 0
-v = 0 0 4
+v = 0 0 2
 nx = 20
 ny = 8
 samples = 2

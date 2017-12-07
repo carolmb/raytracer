@@ -7,6 +7,8 @@
 
 #include <cmath>
 
+std::knuth_b LightParser::randomGenerator(3);
+
 bool LightParser::readLight(std::istringstream &reader, std::vector<std::shared_ptr<Light> > &lights) {
 	std::string field; reader >> field >> field;
 	std::shared_ptr<Light> light;
@@ -99,8 +101,11 @@ bool LightParser::readLight(std::istringstream &reader, std::vector<std::shared_
 		for(float i = 0; i <= 1.03; i+=stepX) {
 			for(float j = 0; j <= 1.03; j+=stepY) {
 				for(float s = 0; s < samples; s++) {
-					Vec3 origin = llc + h*i + v*j;
-					std::cout << origin;
+					double deltax = std::generate_canonical<double, 9> (randomGenerator)*0.01;
+					double deltay = std::generate_canonical<double, 9> (randomGenerator)*0.01;
+					std::cout << deltax << " " << deltay << std::endl;
+					Vec3 origin = llc + (h + deltax)*i + (v + deltay)*j;
+					
 					std::shared_ptr<Light> light =
 						std::shared_ptr<PunctualLight> (new PunctualLight(itensity, origin));
 					lights.push_back(light);

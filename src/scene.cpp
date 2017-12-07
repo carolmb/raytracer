@@ -4,7 +4,6 @@
 
 Color Scene::backgroundColor(Ray r) {
 	Vec3 unitDir = r.dir().norm();
-	//std::cout << unitDir;
 	double tx = 0.5*(unitDir.x + 1.0);
 	double ty = 0.5*(unitDir.y + 1.0);
 	Color top = bgtl.interpole(bgtr, tx);
