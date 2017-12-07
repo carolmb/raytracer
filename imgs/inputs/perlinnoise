@@ -1,0 +1,75 @@
+FILENAME = imgs/outputs/perlinnoise
+FILETYPE = ppm
+WIDTH = 500
+HEIGHT = 250
+SAMPLES = 12
+REC_DEPTH = 10
+TL = 0 0 0
+TR = 0 0 0
+BL = 0 0 0
+BR = 0.02 0.02 0.02
+
+CAMERA = PERSPECTIVE
+lookfrom = 0 0 2
+lookat = 0 0 -1
+viewup = 0 1 0
+vfov = 30
+aspectratio = 2
+aperture = 0	
+fdist = 0
+isoblique = 0
+
+begin_objs
+
+	OBJ = SPHERE
+	CENTER = 0 -0.25 -1
+	RADIUS = 0.25
+	MATERIAL = diff
+	begin_transf null end_transf
+
+	OBJ = SPHERE
+	CENTER = 1 0.01 -1
+	RADIUS = 0.5
+	MATERIAL = perlin_min
+	begin_transf null end_transf
+
+	OBJ = SPHERE
+	CENTER = -1 0 -1
+	RADIUS = 0.5
+	MATERIAL = perlin_min
+	begin_transf null end_transf
+
+	OBJ = SPHERE
+	CENTER = 0 -100.5 -1
+	RADIUS = 100
+	MATERIAL = perlin
+	begin_transf null end_transf
+
+end_objs
+
+begin_mat
+
+	MATERIAL = diffuselight
+	id = diff
+	emit = 1 1 1
+
+	MATERIAL = lambertian
+	id = perlin
+	texture = perlin
+	scale = 3
+
+	MATERIAL = lambertian
+	id = perlin_min
+	texture = perlin
+	scale = 1
+
+end_mat
+
+begin_lights
+
+	LIGHT = AMBIENT  
+	i = 0.1 0.1 0.1
+
+end_lights
+
+SHADER = RECURSIVE

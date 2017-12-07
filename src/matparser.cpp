@@ -10,6 +10,7 @@
 #include "textures/constant.h"
 #include "textures/checker.h"
 #include "textures/image.h"
+#include "textures/perlinnoise.h"
 
 #include <cmath>
 
@@ -56,6 +57,10 @@ bool MaterialParser::getMaterial(std::istringstream &reader, std::map<std::strin
 			std::string source;
 			reader >> source;
 			texture = new ImageTexture(source);
+		} else if(type.compare("perlin") == 0) {
+			if(!checkFieldName(reader, "scale")) return false;
+			double scale; reader >> scale;
+			texture = new PerlinNoise(scale);
 		}
 
 		mat = std::shared_ptr<LambertianMaterial>(new LambertianMaterial(texture));
